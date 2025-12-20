@@ -1,13 +1,14 @@
-import { Product, ProductCategory, ProductSize } from "../models/product.model";
+import { ProductCategory, ProductSize } from "../models/product.model";
 import { productRepository } from "../repositories/product.repository";
+import { testConnection } from "../db";
+import "dotenv/config";
 
 /**
  * Produtos iniciais com estética Neobrutalista/Streetwear
  * Inspirados na identidade visual do Zona Street
  */
-const mockProducts: Product[] = [
+const mockProducts = [
   {
-    id: "1",
     name: "Moletom Oversized Número 4",
     description:
       "Moletom oversized inspirado no icônico Número 4 do KND. Confeccionado em moletom premium de 350g/m², com corte amplo e caimento perfeito. Estampa em silk screen de alta durabilidade. Essencial para quem vive a cultura streetwear com autenticidade.",
@@ -24,11 +25,8 @@ const mockProducts: Product[] = [
     sizes: [ProductSize.M, ProductSize.G, ProductSize.GG, ProductSize.XG, ProductSize.XXG],
     isNewDrop: false,
     isFeatured: true,
-    createdAt: new Date("2024-11-15"),
-    updatedAt: new Date("2024-12-10"),
   },
   {
-    id: "2",
     name: "Camiseta Streetwear Y2K",
     description:
       "Camiseta oversized com gráficos vibrantes inspirados na estética Y2K dos anos 2000. Tecido 100% algodão penteado, gramatura 180g/m². Cores contrastantes e bordas marcadas que traduzem a essência neobrutalista. Perfeita para criar combos autênticos.",
@@ -45,11 +43,8 @@ const mockProducts: Product[] = [
     sizes: [ProductSize.P, ProductSize.M, ProductSize.G, ProductSize.GG, ProductSize.XG],
     isNewDrop: true,
     isFeatured: false,
-    createdAt: new Date("2024-12-01"),
-    updatedAt: new Date("2024-12-18"),
   },
   {
-    id: "3",
     name: "Calça Cargo Oversized Preta",
     description:
       "Calça cargo oversized com múltiplos bolsos utilitários. Tecido misto de alta resistência com elastano para conforto máximo. Ajuste na cintura e barra. Design funcional que une streetwear e praticidade urbana. Disponível em preto absoluto.",
@@ -65,11 +60,8 @@ const mockProducts: Product[] = [
     sizes: [ProductSize.P, ProductSize.M, ProductSize.G, ProductSize.GG],
     isNewDrop: true,
     isFeatured: false,
-    createdAt: new Date("2024-12-05"),
-    updatedAt: new Date("2024-12-15"),
   },
   {
-    id: "4",
     name: "Jaqueta Bomber Zona Street",
     description:
       "Jaqueta bomber com branding exclusivo Zona Street. Nylon de alta qualidade com forro interno, bolsos frontais e punhos ribana. Patches bordados com as cores laranja e azul royal da marca. Statement piece para completar qualquer look streetwear.",
@@ -86,11 +78,8 @@ const mockProducts: Product[] = [
     sizes: [ProductSize.M, ProductSize.G, ProductSize.GG, ProductSize.XG],
     isNewDrop: false,
     isFeatured: false,
-    createdAt: new Date("2024-10-20"),
-    updatedAt: new Date("2024-12-01"),
   },
   {
-    id: "5",
     name: "Camiseta Oversized Básica Off-White",
     description:
       "Camiseta oversized básica na cor off-white, perfeita para compor looks do dia a dia. Tecido premium 100% algodão penteado 200g/m², corte amplo e costuras reforçadas. Um essencial no guarda-roupa de quem curte o estilo clean e confortável.",
@@ -112,19 +101,27 @@ const mockProducts: Product[] = [
     ],
     isNewDrop: false,
     isFeatured: false,
-    createdAt: new Date("2024-09-10"),
-    updatedAt: new Date("2024-11-25"),
   },
 ];
 
 /**
- * Função de seed para popular o repositório
+ * Função de seed para popular o banco de dados
  */
 export async function seedProducts(): Promise<void> {
+  console.log("🌱 Iniciando seed do banco de dados...");
+
+  // Testa conexão
+  const connected = await testConnection();
+  if (!connected) {
+    throw new Error("Não foi possível conectar ao banco de dados");
+  }
+
   // Limpa produtos existentes (útil em desenvolvimento)
+  console.log("🗑️  Limpando produtos existentes...");
   await productRepository.clear();
 
   // Adiciona os produtos mock
+  console.log("📦 Inserindo produtos no banco...");
   await productRepository.seedProducts(mockProducts);
 
   console.log(`✨ ${mockProducts.length} produtos adicionados ao catálogo`);

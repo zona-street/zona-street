@@ -30,3 +30,7 @@ logs/
 
 # TypeScript
 *.tsbuildinfo
+
+# Drizzle
+drizzle/
+

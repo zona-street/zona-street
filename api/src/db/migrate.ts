@@ -1,0 +1,28 @@
+import { drizzle } from "drizzle-orm/postgres-js";
+import { migrate } from "drizzle-orm/postgres-js/migrator";
+import { migrationClient } from "./index";
+import * as schema from "./schema";
+
+/**
+ * Script de migração do banco de dados
+ * Execute: npm run db:migrate
+ */
+async function runMigrations() {
+  console.log("🚀 Iniciando migrações do banco de dados...");
+
+  try {
+    const db = drizzle(migrationClient, { schema });
+
+    await migrate(db, {
+      migrationsFolder: "./drizzle",
+    });
+
+    console.log("✅ Migrações executadas com sucesso!");
+    process.exit(0);
+  } catch (error) {
+    console.error("❌ Erro ao executar migrações:", error);
+    process.exit(1);
+  }
+}
+
+runMigrations();

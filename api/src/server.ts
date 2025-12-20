@@ -1,20 +1,22 @@
 import { buildApp } from "./app";
 import { config } from "./config/app.config";
-import { seedProducts } from "./utils/seed";
+import { testConnection } from "./db";
+import "dotenv/config";
 
 /**
  * Inicia o servidor
  */
 async function start() {
   try {
-    const app = await buildApp();
-
-    // Seed inicial de produtos (apenas em desenvolvimento)
-    if (config.isDevelopment) {
-      console.log("🌱 Carregando produtos iniciais...");
-      await seedProducts();
-      console.log("✅ Produtos carregados com sucesso!");
+    // Testa conexão com o banco antes de iniciar
+    console.log("🔌 Testando conexão com PostgreSQL...");
+    const connected = await testConnection();
+    
+    if (!connected) {
+      throw new Error("Não foi possível conectar ao banco de dados. Verifique o Docker e as variáveis de ambiente.");
     }
+
+    const app = await buildApp();
 
     // Inicia o servidor
     await app.listen({ port: config.port, host: config.host });
