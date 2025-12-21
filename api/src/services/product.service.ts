@@ -148,6 +148,71 @@ export class ProductService {
     // Remove o produto atual e limita o resultado
     return relatedProducts.filter((p) => p.slug !== slug).slice(0, limit);
   }
+
+  /**
+   * Cria um novo produto
+   */
+  async createProduct(productData: Omit<Product, "id" | "createdAt" | "updatedAt">): Promise<Product> {
+    // Valida se o slug já existe
+    const existingProduct = await this.repository.findBySlug(productData.slug);
+    if (existingProduct) {
+      throw new Error("Já existe um produto com este slug");
+    }
+
+    // Valida preços
+    if (productData.price <= 0) {
+      throw new Error("Preço deve ser maior que zero");
+    }
+
+    if (productData.oldPrice && productData.oldPrice <= productData.price) {
+      throw new Error("Preço antigo deve ser maior que o preço atual");
+    }
+
+    return this.repository.create(productData);
+  }
+
+  /**
+   * Atualiza um produto existente
+   */
+  async updateProduct(id: string, productData: Partial<Product>): Promise<Product | null> {
+    // Valida se o produto existe
+    const existingProduct = await this.repository.findById(id);
+    if (!existingProduct) {
+      return null;
+    }
+
+    // Se estiver atualizando o slug, valida se já existe outro produto com o mesmo slug
+    if (productData.slug && productData.slug !== existingProduct.slug) {
+      const productWithSlug = await this.repository.findBySlug(productData.slug);
+      if (productWithSlug && productWithSlug.id !== id) {
+        throw new Error("Já existe um produto com este slug");
+      }
+    }
+
+    // Valida preços
+    if (productData.price !== undefined && productData.price <= 0) {
+      throw new Error("Preço deve ser maior que zero");
+    }
+
+    if (productData.oldPrice && productData.price && productData.oldPrice <= productData.price) {
+      throw new Error("Preço antigo deve ser maior que o preço atual");
+    }
+
+    return this.repository.update(id, productData);
+  }
+
+  /**
+   * Deleta um produto
+   */
+  async deleteProduct(id: string): Promise<boolean> {
+    // Verifica se o produto existe
+    const existingProduct = await this.repository.findById(id);
+    if (!existingProduct) {
+      return false;
+    }
+
+    return this.repository.delete(id);
+  }
 }
 
 /**

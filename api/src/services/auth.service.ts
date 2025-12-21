@@ -51,7 +51,10 @@ export class AuthService {
   /**
    * Autentica um usuário
    */
-  async login(email: string, password: string): Promise<Omit<User, "password">> {
+  async login(
+    email: string,
+    password: string
+  ): Promise<Omit<User, "password">> {
     // Busca o usuário
     const user = await this.userRepository.findByEmail(email);
     if (!user) {

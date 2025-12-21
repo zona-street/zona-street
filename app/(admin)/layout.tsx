@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Admin - Zona Street",
-  description: "Painel administrativo da Zona Street",
-};
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 export default function AdminLayout({
   children,
@@ -11,13 +8,14 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* TODO: Adicionar Sidebar de navegação admin */}
-      <div className="flex">
-        {/* Sidebar */}
-        <aside className="fixed left-0 top-0 h-full w-64 border-r-2 border-gray-900 bg-gray-900 p-6 text-white">
-          <div className="mb-8">
-            <h1 className="text-2xl font-black uppercase tracking-wide">
+    <ProtectedRoute requireAdmin>
+      <div className="min-h-screen bg-gray-50">
+        {/* TODO: Adicionar Sidebar de navegação admin */}
+        <div className="flex">
+          {/* Sidebar */}
+          <aside className="fixed left-0 top-0 h-full w-64 border-r-2 border-gray-900 bg-gray-900 p-6 text-white">
+            <div className="mb-8">
+              <h1 className="text-2xl font-black uppercase tracking-wide">
               Zona Street
             </h1>
             <p className="text-sm font-medium text-gray-400">
@@ -54,8 +52,10 @@ export default function AdminLayout({
         </aside>
 
         {/* Main Content */}
+        {/* Main Content */}
         <main className="ml-64 flex-1 p-8">{children}</main>
       </div>
     </div>
+    </ProtectedRoute>
   );
 }

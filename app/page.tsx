@@ -7,58 +7,26 @@ import { FeaturedProduct } from "@/components/sections/home/FeaturedProduct";
 import { NewDrops } from "@/components/sections/home/NewDrops";
 import { Sale } from "@/components/sections/home/Sale";
 import { Newsletter } from "@/components/sections/home/Newsletter";
+import { productsApi } from "@/lib/api/products";
+import { Product } from "@/lib/types/product";
 
-export default function Home() {
-  // Mock de produtos para exemplo
-  // TODO: No futuro, buscar dados da API Fastify aqui
-  const featuredProduct = {
-    id: "1",
-    name: "Moletom Oversized Número 4",
-    price: 249.9,
-    oldPrice: 349.9,
-    image: "/products/moletom-numero-4.png",
-    category: "Moletons",
-    slug: "moletom-oversized-numero-4",
-  };
+export default async function Home() {
+  // Buscar dados reais da API (Server Component com ISR)
+  let featuredProducts: Product[] = [];
+  let newDropProducts: Product[] = [];
 
-  const products = [
-    {
-      id: "2",
-      name: "Camiseta Streetwear Y2K",
-      price: 129.9,
-      oldPrice: 179.9,
-      image: "/products/camiseta-y2k.png",
-      category: "Camisetas",
-      isNewDrop: true,
-      slug: "camiseta-streetwear-y2k",
-    },
-    {
-      id: "3",
-      name: "Calça Cargo Oversized",
-      price: 299.9,
-      image: "/products/calca-cargo.png",
-      category: "Calças",
-      isNewDrop: true,
-      slug: "calca-cargo-oversized",
-    },
-    {
-      id: "4",
-      name: "Jaqueta Bomber Zona Street",
-      price: 399.9,
-      oldPrice: 549.9,
-      image: "/products/jaqueta-bomber.png",
-      category: "Jaquetas",
-      slug: "jaqueta-bomber-zona-street",
-    },
-    {
-      id: "5",
-      name: "Camiseta Oversized Básica",
-      price: 99.9,
-      image: "/products/camiseta-oversized.png",
-      category: "Camisetas",
-      slug: "camiseta-oversized-basica",
-    },
-  ];
+  try {
+    // Buscar produtos em destaque e novos lançamentos em paralelo
+    [featuredProducts, newDropProducts] = await Promise.all([
+      productsApi.getFeatured(),
+      productsApi.getNewDrops(),
+    ]);
+  } catch (error) {
+    console.error("Erro ao buscar produtos:", error);
+  }
+
+  // Pegar o primeiro produto em destaque
+  const featuredProduct = featuredProducts[0] || null;
 
   return (
     <div className="min-h-screen">
@@ -68,8 +36,8 @@ export default function Home() {
         <Hero />
         <Promotions />
         <Categories />
-        <FeaturedProduct product={featuredProduct} />
-        <NewDrops products={products} />
+        {featuredProduct && <FeaturedProduct product={featuredProduct} />}
+        <NewDrops products={newDropProducts} />
         <Sale />
         <Newsletter />
         <Footer />

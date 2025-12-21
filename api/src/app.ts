@@ -4,6 +4,7 @@ import jwt from "@fastify/jwt";
 import { config } from "./config/app.config";
 import { productRoutes } from "./routes/product.routes";
 import { authRoutes } from "./routes/auth.routes";
+import { subscriberRoutes } from "./routes/subscriber.routes";
 
 /**
  * Cria e configura a instância do Fastify
@@ -32,7 +33,9 @@ export async function buildApp() {
 
   // Registro do JWT
   await fastify.register(jwt, {
-    secret: process.env.JWT_SECRET || "zona-street-super-secret-key-change-in-production",
+    secret:
+      process.env.JWT_SECRET ||
+      "zona-street-super-secret-key-change-in-production",
   });
 
   // Decorators de autenticação
@@ -50,7 +53,7 @@ export async function buildApp() {
   fastify.decorate("requireAdmin", async function (request: any, reply: any) {
     try {
       await request.jwtVerify();
-      
+
       if (request.user.role !== "admin") {
         return reply.status(403).send({
           success: false,
@@ -79,6 +82,9 @@ export async function buildApp() {
 
   // Registro das rotas de produtos
   fastify.register(productRoutes, { prefix: `${config.apiPrefix}/products` });
+
+  // Registro das rotas de assinantes
+  fastify.register(subscriberRoutes, { prefix: `${config.apiPrefix}/subscribers` });
 
   // Handler de erro global
   fastify.setErrorHandler((error, request, reply) => {

@@ -5,7 +5,7 @@ export function Hero() {
     <section className="relative bg-white py-20 md:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <div className="mb-6 inline-flex items-center gap-2 border border-gray-300 bg-gray-50 px-4 py-2 text-xs font-medium uppercase tracking-wider text-gray-900">
+          <div className="mb-6 inline-flex items-center gap-2 border border-gray-900 shadow-md bg-gray-50 px-4 py-2 text-xs font-medium uppercase tracking-wider text-gray-900">
             Nova Coleção disponível
           </div>
           <div className="mb-0 flex items-center justify-center">

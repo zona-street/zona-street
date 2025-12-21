@@ -27,10 +27,7 @@ export class UserRepository {
    * Cria um novo usuário
    */
   async create(userData: NewUser): Promise<User> {
-    const [newUser] = await db
-      .insert(users)
-      .values(userData)
-      .returning();
+    const [newUser] = await db.insert(users).values(userData).returning();
 
     return newUser;
   }
@@ -45,7 +42,10 @@ export class UserRepository {
   /**
    * Atualiza o role de um usuário
    */
-  async updateRole(id: string, role: "admin" | "customer"): Promise<User | null> {
+  async updateRole(
+    id: string,
+    role: "admin" | "customer"
+  ): Promise<User | null> {
     const [updatedUser] = await db
       .update(users)
       .set({ role, updatedAt: new Date() })

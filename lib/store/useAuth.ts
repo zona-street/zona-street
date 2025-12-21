@@ -7,7 +7,7 @@ interface AuthState {
   token: string | null;
   isAuthenticated: boolean;
   isAdmin: boolean;
-  
+
   // Actions
   login: (user: User, token: string) => void;
   logout: () => void;

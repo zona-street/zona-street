@@ -251,6 +251,66 @@ export class ProductRepository {
   }
 
   /**
+   * Cria um novo produto
+   */
+  async create(productData: Omit<Product, "id" | "createdAt" | "updatedAt">): Promise<Product> {
+    const newProduct: NewProduct = {
+      name: productData.name,
+      description: productData.description,
+      price: productData.price.toString(),
+      oldPrice: productData.oldPrice?.toString(),
+      images: productData.images,
+      category: productData.category,
+      stock: productData.stock.toString(),
+      slug: productData.slug,
+      sizes: productData.sizes as string[],
+      isNewDrop: productData.isNewDrop,
+      isFeatured: productData.isFeatured,
+    };
+
+    const [createdProduct] = await db.insert(products).values(newProduct).returning();
+    return this.toModel(createdProduct);
+  }
+
+  /**
+   * Atualiza um produto existente
+   */
+  async update(id: string, productData: Partial<Product>): Promise<Product | null> {
+    const updateData: Partial<NewProduct> = {};
+
+    if (productData.name !== undefined) updateData.name = productData.name;
+    if (productData.description !== undefined) updateData.description = productData.description;
+    if (productData.price !== undefined) updateData.price = productData.price.toString();
+    if (productData.oldPrice !== undefined) updateData.oldPrice = productData.oldPrice?.toString();
+    if (productData.images !== undefined) updateData.images = productData.images;
+    if (productData.category !== undefined) updateData.category = productData.category;
+    if (productData.stock !== undefined) updateData.stock = productData.stock.toString();
+    if (productData.slug !== undefined) updateData.slug = productData.slug;
+    if (productData.sizes !== undefined) updateData.sizes = productData.sizes as string[];
+    if (productData.isNewDrop !== undefined) updateData.isNewDrop = productData.isNewDrop;
+    if (productData.isFeatured !== undefined) updateData.isFeatured = productData.isFeatured;
+
+    // Atualiza o updatedAt
+    updateData.updatedAt = new Date();
+
+    const [updatedProduct] = await db
+      .update(products)
+      .set(updateData)
+      .where(eq(products.id, id))
+      .returning();
+
+    return updatedProduct ? this.toModel(updatedProduct) : null;
+  }
+
+  /**
+   * Deleta um produto
+   */
+  async delete(id: string): Promise<boolean> {
+    const result = await db.delete(products).where(eq(products.id, id)).returning();
+    return result.length > 0;
+  }
+
+  /**
    * Adiciona múltiplos produtos (seed)
    */
   async seedProducts(

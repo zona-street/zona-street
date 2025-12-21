@@ -83,7 +83,15 @@ export async function productRoutes(fastify: FastifyInstance) {
       security: [{ bearerAuth: [] }],
       body: {
         type: "object",
-        required: ["name", "description", "price", "category", "slug", "images", "sizes"],
+        required: [
+          "name",
+          "description",
+          "price",
+          "category",
+          "slug",
+          "images",
+          "sizes",
+        ],
         properties: {
           name: { type: "string" },
           description: { type: "string" },
@@ -109,13 +117,7 @@ export async function productRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    handler: async (request, reply) => {
-      // TODO: Implementar createProduct no controller
-      return reply.status(501).send({
-        success: false,
-        error: "Funcionalidade em desenvolvimento",
-      });
-    },
+    handler: productController.createProduct.bind(productController),
   });
 
   // Rota parametrizada (deve vir por último)
@@ -197,13 +199,7 @@ export async function productRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    handler: async (request, reply) => {
-      // TODO: Implementar updateProduct no controller
-      return reply.status(501).send({
-        success: false,
-        error: "Funcionalidade em desenvolvimento",
-      });
-    },
+    handler: productController.updateProduct.bind(productController),
   });
 
   // DELETE /products/:id - Deletar produto (apenas admins)
@@ -235,12 +231,6 @@ export async function productRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    handler: async (request, reply) => {
-      // TODO: Implementar deleteProduct no controller
-      return reply.status(501).send({
-        success: false,
-        error: "Funcionalidade em desenvolvimento",
-      });
-    },
+    handler: productController.deleteProduct.bind(productController),
   });
 }

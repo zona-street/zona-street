@@ -78,6 +78,17 @@ export const users = pgTable("users", {
 });
 
 /**
+ * Tabela de assinantes da newsletter
+ */
+export const subscribers = pgTable("subscribers", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  email: text("email").notNull().unique(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
+/**
  * Type inference para TypeScript
  */
 export type Product = typeof products.$inferSelect;
@@ -85,3 +96,6 @@ export type NewProduct = typeof products.$inferInsert;
 
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
+
+export type Subscriber = typeof subscribers.$inferSelect;
+export type NewSubscriber = typeof subscribers.$inferInsert;

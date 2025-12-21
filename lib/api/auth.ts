@@ -5,7 +5,8 @@ import type {
   RegisterCredentials,
 } from "@/lib/types/auth";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/v1";
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/v1";
 
 /**
  * API de Autenticação

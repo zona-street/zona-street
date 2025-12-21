@@ -31,7 +31,7 @@ const newDrops = [
 
 export function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white">
+    <nav className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white shadow-sm">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
@@ -131,9 +131,12 @@ export function Navbar() {
               variant="ghost"
               size="icon"
               className="text-gray-900 hover:bg-gray-100 mr-2"
+              asChild
             >
-              <User className="h-5 w-5" />
-              <span className="sr-only">Conta</span>
+              <Link href="/admin/login">
+                <User className="h-5 w-5" />
+                <span className="sr-only">Conta</span>
+              </Link>
             </Button>
             <CartSheet />
           </div>
@@ -162,8 +165,11 @@ export function Navbar() {
             variant="ghost"
             size="icon"
             className="text-gray-900 hover:bg-gray-100"
+            asChild
           >
-            <User className="h-5 w-5" />
+            <Link href="/admin/login">
+              <User className="h-5 w-5" />
+            </Link>
           </Button>
           <CartSheet />
           <Sheet>

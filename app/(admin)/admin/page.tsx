@@ -3,6 +3,10 @@
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { ShoppingBag, Users, Package, TrendingUp } from "lucide-react";
+import { productsApi } from "@/lib/api/products";
+import { subscribersApi } from "@/lib/api/subscribers";
+import { useAuth } from "@/lib/store/useAuth";
+import { toast } from "sonner";
 
 interface DashboardStats {
   totalOrders: number;
@@ -12,22 +16,44 @@ interface DashboardStats {
 }
 
 export default function AdminDashboard() {
+  const { token } = useAuth();
   const [stats, setStats] = useState<DashboardStats>({
     totalOrders: 0,
     totalCustomers: 0,
-    totalProducts: 5, // Temos 5 produtos no seed
+    totalProducts: 0,
     revenue: 0,
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // TODO: Buscar estatísticas reais da API
-    setStats({
-      totalOrders: 127,
-      totalCustomers: 89,
-      totalProducts: 5,
-      revenue: 45890.5,
-    });
-  }, []);
+    async function fetchStats() {
+      if (!token) return;
+
+      try {
+        setLoading(true);
+
+        // Buscar dados reais em paralelo
+        const [products, subscribersCount] = await Promise.all([
+          productsApi.getAll(),
+          subscribersApi.count(token),
+        ]);
+
+        setStats({
+          totalOrders: 127, // TODO: Implementar contagem de pedidos
+          totalCustomers: subscribersCount,
+          totalProducts: products.length,
+          revenue: 45890.5, // TODO: Implementar cálculo de faturamento
+        });
+      } catch (error) {
+        console.error("Erro ao buscar estatísticas:", error);
+        toast.error("Erro ao carregar estatísticas do dashboard");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchStats();
+  }, [token]);
 
   return (
     <div className="space-y-8">
@@ -51,7 +77,11 @@ export default function AdminDashboard() {
                 Faturamento
               </p>
               <p className="mt-2 text-3xl font-black text-gray-900">
-                R$ {stats.revenue.toLocaleString("pt-BR")}
+                {loading ? (
+                  <span className="animate-pulse">...</span>
+                ) : (
+                  `R$ ${stats.revenue.toLocaleString("pt-BR")}`
+                )}
               </p>
             </div>
             <div className="rounded-full border-2 border-gray-900 bg-orange-street p-3">
@@ -68,7 +98,7 @@ export default function AdminDashboard() {
                 Pedidos
               </p>
               <p className="mt-2 text-3xl font-black text-gray-900">
-                {stats.totalOrders}
+                {loading ? <span className="animate-pulse">...</span> : stats.totalOrders}
               </p>
             </div>
             <div className="rounded-full border-2 border-gray-900 bg-blue-street p-3">
@@ -82,10 +112,10 @@ export default function AdminDashboard() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-bold uppercase tracking-wide text-gray-600">
-                Clientes
+                Assinantes
               </p>
               <p className="mt-2 text-3xl font-black text-gray-900">
-                {stats.totalCustomers}
+                {loading ? <span className="animate-pulse">...</span> : stats.totalCustomers}
               </p>
             </div>
             <div className="rounded-full border-2 border-gray-900 bg-green-600 p-3">
@@ -102,7 +132,7 @@ export default function AdminDashboard() {
                 Produtos
               </p>
               <p className="mt-2 text-3xl font-black text-gray-900">
-                {stats.totalProducts}
+                {loading ? <span className="animate-pulse">...</span> : stats.totalProducts}
               </p>
             </div>
             <div className="rounded-full border-2 border-gray-900 bg-purple-600 p-3">

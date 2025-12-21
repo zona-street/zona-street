@@ -1,6 +1,47 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
+import { toast } from "sonner";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/v1";
 
 export function Newsletter() {
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(`${API_URL}/subscribers`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Erro ao cadastrar");
+      }
+
+      toast.success("Cadastro realizado!", {
+        description: "Você receberá em primeira mão nossos novos lançamentos!",
+      });
+
+      setEmail("");
+    } catch (error) {
+      toast.error("Erro ao cadastrar", {
+        description: error instanceof Error ? error.message : "Tente novamente mais tarde",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <section className="border-y border-gray-200 bg-white py-20">
       <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
@@ -17,47 +58,55 @@ export function Newsletter() {
           Newsletter Zona Street
         </span>
         <h2 className="mb-4 text-4xl font-black uppercase text-gray-900 md:text-6xl">
-          10% OFF
+          Novos Drops
         </h2>
         <p className="mb-8 text-lg font-medium text-gray-600 md:text-xl">
-          Cadastre-se e receba vantagens exclusivas
+          Receba notificações sobre nossos lançamentos
         </p>
         <div className="mb-10 grid gap-4 text-left sm:grid-cols-3">
           <div className="border border-gray-200 bg-gray-50 p-6">
             <h3 className="mb-2 text-sm font-bold uppercase tracking-wide text-gray-900">
-              10% OFF
+              Novos Produtos
             </h3>
             <p className="text-sm font-medium text-gray-600">
-              Na sua primeira compra
+              Seja o primeiro a saber
             </p>
           </div>
           <div className="border border-gray-200 bg-gray-50 p-6">
             <h3 className="mb-2 text-sm font-bold uppercase tracking-wide text-gray-900">
-              Acesso VIP
+              Lançamentos
             </h3>
             <p className="text-sm font-medium text-gray-600">
-              Aos lançamentos antes de todos
+              Acesso exclusivo às novidades
             </p>
           </div>
           <div className="border border-gray-200 bg-gray-50 p-6">
             <h3 className="mb-2 text-sm font-bold uppercase tracking-wide text-gray-900">
-              Promos Exclusivas
+              Coleções
             </h3>
             <p className="text-sm font-medium text-gray-600">
-              Ofertas só para assinantes
+              Novidades direto no seu email
             </p>
           </div>
         </div>
-        <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 sm:flex-row sm:justify-center">
           <input
             type="email"
             placeholder="Digite seu melhor e-mail"
-            className="border border-gray-300 bg-white px-8 py-4 text-base font-medium text-gray-900 focus:border-gray-900 focus:outline-none"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            disabled={isLoading}
+            className="border border-gray-300 bg-white px-8 py-4 text-base font-medium text-gray-900 focus:border-gray-900 focus:outline-none disabled:opacity-50"
           />
-          <button className="border-2 border-gray-900 bg-gray-900 px-10 py-4 text-base font-bold uppercase tracking-wide text-white transition-colors hover:bg-orange-600 hover:border-orange-600">
-            Cadastrar
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="border-2 border-gray-900 bg-gray-900 px-10 py-4 text-base font-bold uppercase tracking-wide text-white transition-colors hover:bg-orange-street hover:border-orange-street disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? "Cadastrando..." : "Cadastrar"}
           </button>
-        </div>
+        </form>
         <p className="mt-4 text-xs font-medium uppercase tracking-wide text-gray-500">
           Seus dados estão seguros conosco
         </p>
