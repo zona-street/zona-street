@@ -141,7 +141,7 @@ export function ProductCard({
 
       <CardFooter className="flex-col gap-2 p-4 pt-0">
         <Select value={selectedSize} onValueChange={setSelectedSize}>
-          <SelectTrigger className="w-full border-2 border-gray-300 font-medium">
+          <SelectTrigger className="w-full border-2 border-gray-300 bg-white font-medium hover:border-gray-900">
             <SelectValue placeholder="Selecione o tamanho" />
           </SelectTrigger>
           <SelectContent>
@@ -248,7 +248,7 @@ export function ProductCardFeatured({
 
       <CardFooter className="flex-col gap-3 p-8 pt-0">
         <Select value={selectedSize} onValueChange={setSelectedSize}>
-          <SelectTrigger className="w-full border-2 border-gray-300 py-6 text-base font-medium">
+          <SelectTrigger className="w-full border-2 border-gray-300 bg-white py-6 text-base font-medium hover:border-gray-900">
             <SelectValue placeholder="Selecione o tamanho" />
           </SelectTrigger>
           <SelectContent>

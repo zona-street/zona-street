@@ -48,116 +48,116 @@
 
 :root {
   /* Zona Street Theme - Light Mode */
-  --radius: 0.375rem; /* Bordas mais marcadas, menos arredondadas */
+  --radius: 0.375rem; /* Bordas sutilmente arredondadas */
 
   /* Base colors - Off-white background com contraste forte */
-  --background: 0 0% 96%; /* #F5F5F5 */
-  --foreground: 0 0% 5%; /* Preto quase puro para texto */
+  --background: 0 0% 96%; /* #F5F5F5 - Off-white */
+  --foreground: 0 0% 9%; /* #171717 - Gray-900 quase puro */
 
   /* Card com bordas marcadas */
-  --card: 0 0% 100%; /* Branco puro */
-  --card-foreground: 0 0% 5%;
+  --card: 0 0% 100%; /* #FFFFFF - Branco puro */
+  --card-foreground: 0 0% 9%; /* #171717 - Gray-900 */
 
-  /* Popover */
-  --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 5%;
+  /* Popover - destaque do card com leve diferença */
+  --popover: 0 0% 100%; /* #FFFFFF */
+  --popover-foreground: 0 0% 9%; /* #171717 */
 
-  /* Primary - Laranja Zona Street */
-  --primary: 32 100% 48%; /* #F57C00 */
-  --primary-foreground: 0 0% 100%;
+  /* Primary - Laranja Zona Street (#F57C00) */
+  --primary: 32 100% 48%; /* #F57C00 - Cor principal da marca */
+  --primary-foreground: 0 0% 100%; /* Branco para contraste máximo */
 
-  /* Secondary - Azul Royal Zona Street */
+  /* Secondary - Azul Royal Zona Street (#2962FF) */
   --secondary: 223 100% 58%; /* #2962FF */
   --secondary-foreground: 0 0% 100%;
 
-  /* Muted - tons neutros suaves */
-  --muted: 0 0% 92%;
-  --muted-foreground: 0 0% 35%;
+  /* Muted - tons neutros com melhor contraste */
+  --muted: 0 0% 90%; /* #E6E6E6 - Cinza claro para fundos secundários */
+  --muted-foreground: 0 0% 30%; /* #4D4D4D - Cinza médio-escuro para texto secundário */
 
-  /* Accent - Laranja mais suave */
-  --accent: 32 100% 48%;
-  --accent-foreground: 0 0% 100%;
+  /* Accent - Laranja vibrante para destaques */
+  --accent: 32 100% 55%; /* #FF8C1A - Laranja mais claro para hover/destaque */
+  --accent-foreground: 0 0% 9%; /* Gray-900 */
 
-  /* Destructive */
-  --destructive: 0 84% 60%;
+  /* Destructive - vermelho para ações destrutivas */
+  --destructive: 0 85% 55%; /* #EE4444 - Vermelho vibrante */
   --destructive-foreground: 0 0% 100%;
 
-  /* Borders - marcadas e escuras */
-  --border: 0 0% 10%; /* Borda preta para neobrutalismo */
-  --input: 0 0% 10%;
-  --ring: 32 100% 48%; /* Ring laranja */
+  /* Borders - hierarquia visual clara */
+  --border: 0 0% 89%; /* #E3E3E3 - Cinza claro para bordas padrão */
+  --input: 0 0% 85%; /* #D9D9D9 - Cinza médio para inputs */
+  --ring: 32 100% 48%; /* #F57C00 - Ring laranja para focus */
 
   /* Charts - paleta vibrante streetwear */
-  --chart-1: 32 100% 48%; /* Laranja */
-  --chart-2: 223 100% 58%; /* Azul Royal */
-  --chart-3: 280 100% 50%; /* Roxo */
-  --chart-4: 160 100% 45%; /* Verde */
-  --chart-5: 340 80% 50%; /* Rosa */
+  --chart-1: 32 100% 48%; /* #F57C00 - Laranja */
+  --chart-2: 223 100% 58%; /* #2962FF - Azul Royal */
+  --chart-3: 280 100% 50%; /* #BF00FF - Roxo */
+  --chart-4: 160 100% 45%; /* #00E673 - Verde */
+  --chart-5: 340 80% 50%; /* #E6004D - Rosa */
 
-  /* Sidebar */
-  --sidebar: 0 0% 100%;
-  --sidebar-foreground: 0 0% 5%;
-  --sidebar-primary: 32 100% 48%;
+  /* Sidebar - consistência com tema principal */
+  --sidebar: 0 0% 100%; /* Branco */
+  --sidebar-foreground: 0 0% 9%; /* Gray-900 */
+  --sidebar-primary: 32 100% 48%; /* Laranja */
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 0 0% 92%;
-  --sidebar-accent-foreground: 0 0% 5%;
-  --sidebar-border: 0 0% 10%;
-  --sidebar-ring: 32 100% 48%;
+  --sidebar-accent: 0 0% 90%; /* Muted */
+  --sidebar-accent-foreground: 0 0% 9%;
+  --sidebar-border: 0 0% 89%; /* Border padrão */
+  --sidebar-ring: 32 100% 48%; /* Laranja */
 }
 
 .dark {
   /* Zona Street Theme - Dark Mode */
-  --background: 0 0% 8%; /* Preto profundo */
-  --foreground: 0 0% 98%; /* Off-white para texto */
+  --background: 0 0% 9%; /* #171717 - Gray-900 consistente */
+  --foreground: 0 0% 98%; /* #FAFAFA - Off-white para texto */
 
   /* Cards escuros com contraste */
-  --card: 0 0% 12%;
+  --card: 0 0% 13%; /* #212121 - Cinza escuro */
   --card-foreground: 0 0% 98%;
 
   /* Popover */
-  --popover: 0 0% 12%;
+  --popover: 0 0% 13%;
   --popover-foreground: 0 0% 98%;
 
-  /* Primary - Laranja mantém destaque no dark */
-  --primary: 32 100% 48%; /* #F57C00 */
-  --primary-foreground: 0 0% 5%;
+  /* Primary - Laranja mantém identidade no dark */
+  --primary: 32 100% 48%; /* #F57C00 - Mantém vibrância */
+  --primary-foreground: 0 0% 9%; /* Gray-900 para contraste */
 
   /* Secondary - Azul Royal mais vibrante no dark */
-  --secondary: 223 100% 65%; /* Azul mais claro para contraste */
+  --secondary: 223 100% 65%; /* #5284FF - Azul mais claro */
   --secondary-foreground: 0 0% 100%;
 
-  /* Muted */
-  --muted: 0 0% 18%;
-  --muted-foreground: 0 0% 65%;
+  /* Muted - melhor contraste no dark */
+  --muted: 0 0% 20%; /* #333333 - Cinza médio */
+  --muted-foreground: 0 0% 70%; /* #B3B3B3 - Cinza claro */
 
-  /* Accent - Laranja */
-  --accent: 32 100% 48%;
-  --accent-foreground: 0 0% 5%;
+  /* Accent - Laranja vibrante para hover */
+  --accent: 32 100% 55%; /* #FF8C1A - Laranja mais claro */
+  --accent-foreground: 0 0% 9%;
 
   /* Destructive */
-  --destructive: 0 84% 60%;
+  --destructive: 0 85% 60%; /* #F55555 - Vermelho mais claro */
   --destructive-foreground: 0 0% 100%;
 
-  /* Borders - mais suaves no dark mas ainda presentes */
-  --border: 0 0% 85%; /* Bordas claras para neobrutalismo no dark */
-  --input: 0 0% 85%;
-  --ring: 32 100% 48%;
+  /* Borders - sutis mas visíveis no dark */
+  --border: 0 0% 25%; /* #404040 - Cinza médio */
+  --input: 0 0% 30%; /* #4D4D4D - Cinza médio-claro */
+  --ring: 32 100% 48%; /* #F57C00 - Ring laranja */
 
-  /* Charts */
-  --chart-1: 32 100% 55%;
-  --chart-2: 223 100% 65%;
-  --chart-3: 280 100% 60%;
-  --chart-4: 160 100% 50%;
-  --chart-5: 340 80% 60%;
+  /* Charts - mais vibrantes no dark */
+  --chart-1: 32 100% 55%; /* Laranja mais claro */
+  --chart-2: 223 100% 65%; /* Azul mais claro */
+  --chart-3: 280 100% 60%; /* Roxo mais claro */
+  --chart-4: 160 100% 50%; /* Verde mais vibrante */
+  --chart-5: 340 80% 60%; /* Rosa mais claro */
 
   /* Sidebar */
-  --sidebar: 0 0% 12%;
+  --sidebar: 0 0% 13%;
   --sidebar-foreground: 0 0% 98%;
   --sidebar-primary: 32 100% 48%;
-  --sidebar-primary-foreground: 0 0% 5%;
-  --sidebar-accent: 0 0% 18%;
+  --sidebar-primary-foreground: 0 0% 9%;
+  --sidebar-accent: 0 0% 20%;
   --sidebar-accent-foreground: 0 0% 98%;
-  --sidebar-border: 0 0% 85%;
+  --sidebar-border: 0 0% 25%;
   --sidebar-ring: 32 100% 48%;
 }
 
