@@ -91,7 +91,7 @@ export function ProductCard({
   };
 
   return (
-    <Card className="group relative overflow-hidden border border-gray-200 bg-white transition-all hover:border-gray-900 py-0">
+    <Card className="group relative overflow-hidden border border-gray-200 bg-white transition-all hover:border-gray-900 py-0 gap-0 rounded-md">
       <CardHeader className="p-0">
         <Link
           href={`/produtos/${slug}`}
@@ -234,7 +234,7 @@ export function ProductCardFeatured({
     setTimeout(() => openCart(), 300);
   };
   return (
-    <Card className="group relative overflow-hidden border-2 border-gray-900 bg-white transition-all hover:shadow-xl">
+    <Card className="group relative overflow-hidden border hover:border-gray-900/10 bg-white transition-all hover:shadow-xl gap-0 rounded-md">
       <CardHeader className="p-0">
         <Link
           href={`/produtos/${slug}`}
@@ -263,7 +263,7 @@ export function ProductCardFeatured({
         </Link>
       </CardHeader>
 
-      <CardContent className="p-8 pb-6">
+      <CardContent className="p-8 pb-6 pt-2">
         <p className="mb-3 text-sm font-medium uppercase tracking-wider text-gray-500">
           {category}
         </p>
@@ -286,7 +286,7 @@ export function ProductCardFeatured({
         </div>
       </CardContent>
 
-      <CardFooter className="flex-col gap-3 p-8 pt-0">
+      <CardFooter className="flex-col gap-3 p-8 pt-0 pb-2">
         <Select value={selectedSize} onValueChange={setSelectedSize}>
           <SelectTrigger className="w-full border-2 border-gray-300 bg-white py-6 text-base font-medium hover:border-gray-900">
             <SelectValue placeholder="Selecione o tamanho" />

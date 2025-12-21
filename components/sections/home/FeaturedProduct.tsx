@@ -32,7 +32,7 @@ export function FeaturedProduct({ product }: FeaturedProductProps) {
               Lançamento Exclusivo
             </h2>
             <p className="mt-2 text-sm font-medium text-gray-600">
-              Edição Limitada - Apenas 50 unidades
+              Edição Limitada - Apenas 20 unidades
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
@@ -46,7 +46,7 @@ export function FeaturedProduct({ product }: FeaturedProductProps) {
             )}
           </div>
         </div>
-        <div className="mx-auto max-w-3xl">
+        <div className="mx-auto max-w-xl">
           <ProductCardFeatured {...product} />
         </div>
       </div>
