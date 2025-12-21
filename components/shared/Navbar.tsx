@@ -18,16 +18,13 @@ import Image from "next/image";
 import { CartSheet } from "@/components/shared/CartSheet";
 
 const categories = [
-  { name: "Camisetas", href: "/categoria/camisetas" },
-  { name: "Moletons", href: "/categoria/moletons" },
-  { name: "Calças", href: "/categoria/calcas" },
-  { name: "Acessórios", href: "/categoria/acessorios" },
+  { name: "Camisetas", href: "/categorias/camisetas" },
+  { name: "Moletons", href: "/categorias/moletons" },
+  { name: "Calças", href: "/categorias/calcas" },
+  { name: "Acessórios", href: "/categorias/acessorios" },
 ];
 
-const newDrops = [
-  { name: "Nova Coleção Y2K", href: "/colecao/y2k" },
-  { name: "Oversized Especial", href: "/colecao/oversized" },
-];
+const newDrops = [{ name: "Ver Todos os Lançamentos", href: "/lancamentos" }];
 
 export function Navbar() {
   return (

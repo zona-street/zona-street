@@ -7,6 +7,8 @@ import {
   productSlugParamsSchema,
   ListProductsQuery,
   ProductSlugParams,
+  ProductCategory,
+  ProductSize,
 } from "../models/product.model";
 import { z } from "zod";
 
@@ -198,16 +200,12 @@ export class ProductController {
           .min(10, "Descrição deve ter no mínimo 10 caracteres"),
         price: z.coerce.number().positive("Preço deve ser positivo"),
         oldPrice: z.coerce.number().positive().optional(),
-        category: z.enum([
-          "camisetas",
-          "moletons",
-          "calcas",
-          "jaquetas",
-          "acessorios",
-        ]),
+        category: z.nativeEnum(ProductCategory),
         slug: z.string().min(3, "Slug inválido"),
         images: z.array(z.string()).min(1, "Adicione pelo menos uma imagem"),
-        sizes: z.array(z.string()).min(1, "Adicione pelo menos um tamanho"),
+        sizes: z
+          .array(z.nativeEnum(ProductSize))
+          .min(1, "Adicione pelo menos um tamanho"),
         stock: z.coerce.number().int().nonnegative().default(0),
         isNewDrop: z.coerce.boolean().default(false),
         isFeatured: z.coerce.boolean().default(false),
@@ -280,13 +278,11 @@ export class ProductController {
         name: z.string().min(3).optional(),
         description: z.string().min(10).optional(),
         price: z.number().positive().optional(),
-        oldPrice: z.number().positive().optional().nullable(),
-        category: z
-          .enum(["camisetas", "moletons", "calcas", "jaquetas", "acessorios"])
-          .optional(),
+        oldPrice: z.number().positive().optional(),
+        category: z.nativeEnum(ProductCategory).optional(),
         slug: z.string().min(3).optional(),
         images: z.array(z.string()).min(1).optional(),
-        sizes: z.array(z.string()).min(1).optional(),
+        sizes: z.array(z.nativeEnum(ProductSize)).min(1).optional(),
         stock: z.number().int().nonnegative().optional(),
         isNewDrop: z.boolean().optional(),
         isFeatured: z.boolean().optional(),

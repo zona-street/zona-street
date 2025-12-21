@@ -11,8 +11,8 @@ export function Hero() {
           </div>
           <div className="mb-0 flex items-center justify-center">
             <Image
-              src="/wallabee-bordado.png"
-              alt="Wallabee Bordado - Identidade Zona Street"
+              src="/wallabee.png"
+              alt="Wallabee - Identidade Zona Street"
               width={550}
               height={454}
               className="h-24 w-auto md:h-32"

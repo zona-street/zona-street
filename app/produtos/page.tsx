@@ -2,6 +2,7 @@ import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
 import { ProductCard } from "@/components/shared/ProductCard";
 import { productsApi } from "@/lib/api/products";
+import { Product } from "@/lib/types/product";
 
 interface SearchParams {
   categoria?: string;
@@ -15,7 +16,7 @@ export default async function ProdutosPage({
   const categoria = searchParams.categoria;
 
   // Buscar produtos da API
-  let products = [];
+  let products: Product[] = [];
   try {
     products = await productsApi.getAll(
       categoria ? { category: categoria } : {}

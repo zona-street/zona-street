@@ -1,5 +1,6 @@
 import { FaInstagram } from "react-icons/fa";
 import Image from "next/image";
+import Link from "next/link";
 
 export function Footer() {
   return (
@@ -7,13 +8,15 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 md:grid-cols-4">
           <div>
-            <Image
-              src="/logo-branca.png"
-              alt="Zona Street Logo"
-              width={500}
-              height={500}
-              className="mb-4 h-auto w-25"
-            />
+            <Link href="/">
+              <Image
+                src="/logo-branca.png"
+                alt="Zona Street Logo"
+                width={500}
+                height={500}
+                className="mb-4 h-auto w-25 cursor-pointer transition-opacity hover:opacity-80"
+              />
+            </Link>
             <p className="text-sm font-medium text-gray-400">
               Streetwear oversized com a atitude do bairro.
             </p>
@@ -22,24 +25,36 @@ export function Footer() {
             <h4 className="mb-4 font-bold">CATEGORIAS</h4>
             <ul className="space-y-2 text-sm font-medium text-gray-400">
               <li>
-                <a href="#" className="hover:text-orange-street">
+                <Link
+                  href="/categorias/camisetas"
+                  className="hover:text-orange-street transition-colors"
+                >
                   Camisetas
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-orange-street">
+                <Link
+                  href="/categorias/moletons"
+                  className="hover:text-orange-street transition-colors"
+                >
                   Moletons
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-orange-street">
+                <Link
+                  href="/categorias/calcas"
+                  className="hover:text-orange-street transition-colors"
+                >
                   Calças
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-orange-street">
+                <Link
+                  href="/categorias/acessorios"
+                  className="hover:text-orange-street transition-colors"
+                >
                   Acessórios
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -47,24 +62,20 @@ export function Footer() {
             <h4 className="mb-4 font-bold">AJUDA</h4>
             <ul className="space-y-2 text-sm font-medium text-gray-400">
               <li>
-                <a href="#" className="hover:text-orange-street">
+                <span className="cursor-not-allowed opacity-60">
                   Trocas e Devoluções
-                </a>
+                </span>
               </li>
               <li>
-                <a href="#" className="hover:text-orange-street">
-                  Entregas
-                </a>
+                <span className="cursor-not-allowed opacity-60">Entregas</span>
               </li>
               <li>
-                <a href="#" className="hover:text-orange-street">
+                <span className="cursor-not-allowed opacity-60">
                   Tabela de Medidas
-                </a>
+                </span>
               </li>
               <li>
-                <a href="#" className="hover:text-orange-street">
-                  Contato
-                </a>
+                <span className="cursor-not-allowed opacity-60">Contato</span>
               </li>
             </ul>
           </div>
@@ -72,7 +83,12 @@ export function Footer() {
             <h4 className="mb-4 font-bold">REDES SOCIAIS</h4>
             <ul className="space-y-2 text-sm font-medium text-gray-400">
               <li>
-                <a href="#" className="hover:text-orange-street text-center ">
+                <a
+                  href="https://instagram.com/zonastreet"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-orange-street text-center transition-colors"
+                >
                   <FaInstagram className="inline mr-1" />
                   Instagram
                 </a>

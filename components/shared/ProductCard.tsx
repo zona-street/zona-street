@@ -91,7 +91,7 @@ export function ProductCard({
   };
 
   return (
-    <Card className="group relative overflow-hidden border border-gray-200 bg-white transition-all hover:border-gray-900 py-0 gap-0 rounded-md">
+    <Card className="group relative overflow-hidden border-2 border-gray-900 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none py-0 gap-0 rounded-none">
       <CardHeader className="p-0">
         <Link
           href={`/produtos/${slug}`}
@@ -114,14 +114,14 @@ export function ProductCard({
 
           {/* Badge de novidade */}
           {isNewDrop && (
-            <Badge className="absolute left-3 top-3 border border-orange-600 bg-orange-600 px-3 py-1 text-xs font-medium uppercase tracking-wide text-white hover:bg-orange-700">
+            <Badge className="absolute left-3 top-3 border-2 border-orange-600 bg-orange-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
               New
             </Badge>
           )}
 
           {/* Badge de desconto */}
           {discountPercentage > 0 && (
-            <Badge className="absolute right-3 top-3 border border-gray-900 bg-gray-900 px-3 py-1 text-xs font-medium uppercase tracking-wide text-white hover:bg-gray-800">
+            <Badge className="absolute right-3 top-3 border-2 border-red-600 bg-red-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
               -{discountPercentage}%
             </Badge>
           )}
@@ -165,7 +165,7 @@ export function ProductCard({
 
       <CardFooter className="flex-col gap-2 p-4 pt-0">
         <Select value={selectedSize} onValueChange={setSelectedSize}>
-          <SelectTrigger className="w-full border-2 border-gray-300 bg-white font-medium hover:border-gray-900">
+          <SelectTrigger className="w-full border-2 border-gray-900 bg-white font-bold hover:border-gray-900">
             <SelectValue placeholder="Selecione o tamanho" />
           </SelectTrigger>
           <SelectContent>
@@ -178,7 +178,7 @@ export function ProductCard({
         </Select>
 
         <Button
-          className="w-full border-2 border-gray-900 bg-gray-900 py-2 text-xs font-bold uppercase tracking-wide text-white transition-colors hover:bg-transparent hover:text-gray-900"
+          className="w-full border-2 border-gray-900 bg-gray-900 py-2 text-xs font-bold uppercase tracking-wide text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
           onClick={handleAddToCart}
         >
           <ShoppingCart className="mr-2 h-4 w-4" />
@@ -234,7 +234,7 @@ export function ProductCardFeatured({
     setTimeout(() => openCart(), 300);
   };
   return (
-    <Card className="group relative overflow-hidden border hover:border-gray-900/10 bg-white transition-all hover:shadow-xl gap-0 rounded-md">
+    <Card className="group relative overflow-hidden border-2 border-gray-900 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[6px] hover:translate-y-[6px] hover:shadow-none gap-0 rounded-none">
       <CardHeader className="p-0">
         <Link
           href={`/produtos/${slug}`}
@@ -257,14 +257,14 @@ export function ProductCardFeatured({
           )}
 
           {/* Badge especial para featured */}
-          <Badge className="absolute left-4 top-4 border border-gray-900 bg-gray-900 px-4 py-2 text-sm font-bold uppercase tracking-wide text-white">
+          <Badge className="absolute left-4 top-4 border-2 border-gray-900 bg-gray-900 px-4 py-2 text-sm font-bold uppercase tracking-wide text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
             Destaque
           </Badge>
         </Link>
       </CardHeader>
 
       <CardContent className="p-8 pb-6 pt-2">
-        <p className="mb-3 text-sm font-medium uppercase tracking-wider text-gray-500">
+        <p className="mb-3 text-sm font-bold uppercase tracking-wider text-gray-500">
           {category}
         </p>
 
@@ -288,7 +288,7 @@ export function ProductCardFeatured({
 
       <CardFooter className="flex-col gap-3 p-8 pt-0 pb-2">
         <Select value={selectedSize} onValueChange={setSelectedSize}>
-          <SelectTrigger className="w-full border-2 border-gray-300 bg-white py-6 text-base font-medium hover:border-gray-900">
+          <SelectTrigger className="w-full border-2 border-gray-900 bg-white py-6 text-base font-bold hover:border-gray-900">
             <SelectValue placeholder="Selecione o tamanho" />
           </SelectTrigger>
           <SelectContent>
@@ -301,7 +301,7 @@ export function ProductCardFeatured({
         </Select>
 
         <Button
-          className="w-full border-2 border-gray-900 bg-gray-900 py-6 text-base font-bold uppercase tracking-wide text-white transition-colors hover:bg-orange-600 hover:border-orange-600"
+          className="w-full border-2 border-gray-900 bg-gray-900 py-6 text-base font-bold uppercase tracking-wide text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none"
           onClick={handleAddToCart}
         >
           <ShoppingCart className="mr-3 h-6 w-6" />

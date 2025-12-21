@@ -57,6 +57,5 @@ export async function testConnection(): Promise<boolean> {
  * Fecha as conexões (útil para testes e shutdown graceful)
  */
 export async function closeConnection(): Promise<void> {
-  await queryClient.end();
-  await migrationClient.end();
+  await pool.end();
 }

@@ -26,8 +26,8 @@ export function Categories() {
           {categories.map((category) => (
             <Link
               key={category.name}
-              href={`/produtos?categoria=${category.slug}`}
-              className="group relative flex h-64 items-end overflow-hidden border border-gray-200 bg-gray-50 p-6 transition-all hover:border-gray-900 hover:shadow-lg"
+              href={`/categorias/${category.slug}`}
+              className="group relative flex h-64 items-end overflow-hidden border-2 border-gray-900 bg-gray-50 p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none"
               style={{
                 backgroundImage: `url(${category.image})`,
                 backgroundSize: "cover",
