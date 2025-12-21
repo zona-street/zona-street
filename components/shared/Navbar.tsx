@@ -51,7 +51,7 @@ export function Navbar() {
                 <NavigationMenuTrigger className="text-sm font-medium uppercase tracking-wide text-gray-900">
                   Categorias
                 </NavigationMenuTrigger>
-                <NavigationMenuContent>
+                <NavigationMenuContent className="border border-gray-200 bg-white/40 shadow-lg">
                   <ul className="grid w-100 gap-3 p-4 md:w-125 md:grid-cols-2">
                     {categories.map((category) => (
                       <li key={category.name}>
@@ -79,7 +79,7 @@ export function Navbar() {
                   </Badge>
                   Drops
                 </NavigationMenuTrigger>
-                <NavigationMenuContent>
+                <NavigationMenuContent className="border border-gray-200 bg-white/40 shadow-lg">
                   <ul className="grid w-75 gap-3 p-4">
                     {newDrops.map((drop) => (
                       <li key={drop.name}>

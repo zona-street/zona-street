@@ -1,5 +1,6 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
+import { drizzle } from "drizzle-orm/neon-serverless";
+import { Pool, neonConfig } from "@neondatabase/serverless";
+import ws from "ws";
 import * as schema from "./schema";
 import "dotenv/config";
 
@@ -8,44 +9,46 @@ import "dotenv/config";
  */
 if (!process.env.DATABASE_URL) {
   throw new Error(
-    "DATABASE_URL não está definida. Configure o arquivo .env com a URL de conexão do PostgreSQL."
+    "DATABASE_URL não está definida. Configure o arquivo .env com a URL de conexão do Neon PostgreSQL."
   );
 }
 
 /**
- * Cliente PostgreSQL
- * Configuração otimizada para conexões em desenvolvimento e produção
+ * Configuração do Neon para desenvolvimento local
+ * Em produção (Vercel/Cloudflare), o WebSocket nativo é usado automaticamente
  */
-const connectionString = process.env.DATABASE_URL;
+if (process.env.NODE_ENV === "development") {
+  neonConfig.webSocketConstructor = ws;
+}
 
-// Cliente de query (para operações normais)
-const queryClient = postgres(connectionString, {
-  max: 10, // Máximo de conexões no pool
-  idle_timeout: 20, // Timeout de conexões ociosas (segundos)
-  connect_timeout: 10, // Timeout de conexão (segundos)
-});
-
-// Cliente de migração (para operações DDL)
-export const migrationClient = postgres(connectionString, {
-  max: 1,
-});
+/**
+ * Pool de conexões Neon Serverless
+ * Otimizado para serverless environments com conexões efêmeras
+ */
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 /**
  * Instância do Drizzle ORM
  * Configurada com o schema para type-safety completo
  */
-export const db = drizzle(queryClient, { schema });
+export const db = drizzle(pool, { schema });
+
+/**
+ * Pool de conexões para migrações
+ * Utiliza a mesma pool principal
+ */
+export const migrationClient = pool;
 
 /**
  * Teste de conexão
  */
 export async function testConnection(): Promise<boolean> {
   try {
-    await queryClient`SELECT 1`;
-    console.log("✅ Conexão com PostgreSQL estabelecida!");
+    const result = await pool.query("SELECT 1");
+    console.log("✅ Conexão com Neon PostgreSQL estabelecida!");
     return true;
   } catch (error) {
-    console.error("❌ Erro ao conectar ao PostgreSQL:", error);
+    console.error("❌ Erro ao conectar ao Neon PostgreSQL:", error);
     return false;
   }
 }
