@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Menu, ShoppingCart, User } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -13,6 +14,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
 
 const categories = [
   { name: "Camisetas", href: "/categoria/camisetas" },
@@ -28,18 +30,17 @@ const newDrops = [
 
 export function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 w-full border-b-3 border-black bg-background shadow-brutal">
+    <nav className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
-          {/* TODO: Substituir por logo SVG/PNG da marca */}
-          {/* Placeholder: Logo Zona Street (substituir por imagem em /public/logo.png) */}
-          <div className="flex h-10 w-10 items-center justify-center rounded-sm border-3 border-black bg-orange-street font-black text-white shadow-brutal-sm">
-            ZS
-          </div>
-          <span className="hidden text-xl font-black tracking-tight sm:inline-block">
-            ZONA STREET
-          </span>
+          <Image
+            src="/zona-street-header.png"
+            alt="Zona Street Logo"
+            width={500}
+            height={500}
+            className="h-25 w-auto  "
+          />
         </Link>
 
         {/* Desktop Navigation */}
@@ -47,17 +48,17 @@ export function Navbar() {
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="font-bold">
-                  CATEGORIAS
+                <NavigationMenuTrigger className="text-sm font-medium uppercase tracking-wide text-gray-900">
+                  Categorias
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
+                  <ul className="grid w-100 gap-3 p-4 md:w-125 md:grid-cols-2">
                     {categories.map((category) => (
                       <li key={category.name}>
                         <NavigationMenuLink asChild>
                           <Link
                             href={category.href}
-                            className="block select-none space-y-1 rounded-sm border-2 border-black bg-card p-3 font-bold leading-none transition-all hover:bg-orange-street hover:text-white hover:shadow-brutal-sm"
+                            className="block select-none border border-gray-200 bg-white p-3 text-sm font-medium uppercase tracking-wide leading-none text-gray-900 transition-colors hover:border-gray-900 hover:bg-gray-50"
                           >
                             {category.name}
                           </Link>
@@ -69,23 +70,23 @@ export function Navbar() {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="font-bold">
+                <NavigationMenuTrigger className="text-sm font-medium uppercase tracking-wide text-gray-900">
                   <Badge
                     variant="default"
-                    className="mr-1 border-2 border-black bg-orange-street shadow-brutal-sm"
+                    className="mr-1 border border-orange-600 bg-orange-600 px-2 py-0.5 text-xs uppercase text-white hover:bg-orange-700"
                   >
-                    NEW
+                    New
                   </Badge>
-                  DROPS
+                  Drops
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[300px] gap-3 p-4">
+                  <ul className="grid w-75 gap-3 p-4">
                     {newDrops.map((drop) => (
                       <li key={drop.name}>
                         <NavigationMenuLink asChild>
                           <Link
                             href={drop.href}
-                            className="block select-none space-y-1 rounded-sm border-2 border-black bg-card p-3 font-bold leading-none transition-all hover:bg-blue-street hover:text-white hover:shadow-brutal-sm"
+                            className="block select-none border border-gray-200 bg-white p-3 text-sm font-medium uppercase tracking-wide leading-none text-gray-900 transition-colors hover:border-gray-900 hover:bg-gray-50"
                           >
                             {drop.name}
                           </Link>
@@ -99,20 +100,36 @@ export function Navbar() {
               <NavigationMenuItem>
                 <Link
                   href="/sobre"
-                  className="group inline-flex h-10 w-max items-center justify-center rounded-sm px-4 py-2 font-bold transition-colors hover:text-orange-street"
+                  className="group inline-flex h-10 w-max items-center justify-center px-4 py-2 text-sm font-medium uppercase tracking-wide text-gray-900 transition-colors hover:text-orange-600"
                 >
-                  SOBRE
+                  Sobre
                 </Link>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
 
           {/* User Actions */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1">
+            {/* WhatsApp Button */}
             <Button
               variant="ghost"
               size="icon"
-              className="border-2 border-transparent hover:border-black hover:shadow-brutal-sm"
+              className="text-gray-900 hover:bg-gray-100"
+              asChild
+            >
+              <Link
+                href="https://wa.me/5524992060913"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaWhatsapp className="h-5 w-5" />
+                <span className="sr-only">WhatsApp</span>
+              </Link>
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-gray-900 hover:bg-gray-100 mr-2"
             >
               <User className="h-5 w-5" />
               <span className="sr-only">Conta</span>
@@ -120,7 +137,7 @@ export function Navbar() {
             <Button
               variant="default"
               size="icon"
-              className="border-3 border-black bg-orange-street font-bold hover:bg-orange-street/90 hover:shadow-brutal"
+              className="border-2 border-gray-900 bg-gray-900 font-bold text-white hover:bg-transparent hover:text-gray-900"
             >
               <ShoppingCart className="h-5 w-5" />
               <span className="sr-only">Carrinho</span>
@@ -130,17 +147,34 @@ export function Navbar() {
 
         {/* Mobile Navigation */}
         <div className="flex items-center space-x-2 md:hidden">
+          {/* WhatsApp Button */}
           <Button
             variant="ghost"
             size="icon"
-            className="border-2 border-transparent hover:border-black"
+            className="text-gray-900 hover:bg-gray-100"
+            asChild
+          >
+            <Link
+              href="https://wa.me/5524992060913"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaWhatsapp className="h-5 w-5" />
+              <span className="sr-only">WhatsApp</span>
+            </Link>
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-gray-900 hover:bg-gray-100"
           >
             <User className="h-5 w-5" />
           </Button>
           <Button
             variant="default"
             size="icon"
-            className="border-3 border-black bg-orange-street hover:bg-orange-street/90"
+            className="border-2 text-white border-gray-900 bg-gray-900 hover:bg-transparent hover:text-muted"
           >
             <ShoppingCart className="h-5 w-5" />
           </Button>
@@ -149,7 +183,7 @@ export function Navbar() {
               <Button
                 variant="outline"
                 size="icon"
-                className="border-3 border-black shadow-brutal-sm"
+                className="border-gray-300 text-gray-900 hover:bg-gray-100"
               >
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Menu</span>
@@ -157,34 +191,36 @@ export function Navbar() {
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-[300px] border-l-3 border-black"
+              className="w-75 border-l border-gray-200"
             >
               <div className="flex flex-col space-y-4 pt-6">
-                <h2 className="text-lg font-black">CATEGORIAS</h2>
+                <h2 className="text-sm font-bold uppercase tracking-wide text-gray-900">
+                  Categorias
+                </h2>
                 <div className="flex flex-col space-y-2">
                   {categories.map((category) => (
                     <Link
                       key={category.name}
                       href={category.href}
-                      className="rounded-sm border-2 border-black bg-card p-3 font-bold transition-all hover:bg-orange-street hover:text-white hover:shadow-brutal-sm"
+                      className="border border-gray-200 bg-white p-3 text-sm font-medium uppercase tracking-wide text-gray-900 transition-colors hover:border-gray-900 hover:bg-gray-50"
                     >
                       {category.name}
                     </Link>
                   ))}
                 </div>
 
-                <h2 className="flex items-center gap-2 text-lg font-black">
-                  <Badge className="border-2 border-black bg-orange-street shadow-brutal-sm">
-                    NEW
+                <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-gray-900">
+                  <Badge className="border border-orange-600 bg-orange-600 text-xs uppercase text-white">
+                    New
                   </Badge>
-                  DROPS
+                  Drops
                 </h2>
                 <div className="flex flex-col space-y-2">
                   {newDrops.map((drop) => (
                     <Link
                       key={drop.name}
                       href={drop.href}
-                      className="rounded-sm border-2 border-black bg-card p-3 font-bold transition-all hover:bg-blue-street hover:text-white hover:shadow-brutal-sm"
+                      className="border border-gray-200 bg-white p-3 text-sm font-medium uppercase tracking-wide text-gray-900 transition-colors hover:border-gray-900 hover:bg-gray-50"
                     >
                       {drop.name}
                     </Link>
@@ -193,9 +229,9 @@ export function Navbar() {
 
                 <Link
                   href="/sobre"
-                  className="rounded-sm border-2 border-black bg-card p-3 font-bold transition-all hover:bg-muted"
+                  className="border border-gray-200 bg-white p-3 text-sm font-medium uppercase tracking-wide text-gray-900 transition-colors hover:border-gray-900 hover:bg-gray-50"
                 >
-                  SOBRE
+                  Sobre
                 </Link>
               </div>
             </SheetContent>

@@ -3,38 +3,45 @@
 ## Setup Completo em 5 Minutos
 
 ### 1. Instalar dependências
+
 ```powershell
 cd api
 npm install
 ```
 
 ### 2. Criar arquivo .env
+
 ```powershell
 cp .env.example .env
 ```
 
 ### 3. Iniciar PostgreSQL
+
 ```powershell
 docker-compose up -d
 ```
 
 ### 4. Aguardar inicialização (10 segundos)
+
 ```powershell
 Start-Sleep -Seconds 10
 ```
 
 ### 5. Gerar e aplicar migrations
+
 ```powershell
 npm run db:generate
 npm run db:migrate
 ```
 
 ### 6. Popular banco com produtos
+
 ```powershell
 npm run seed
 ```
 
 ### 7. Iniciar servidor
+
 ```powershell
 npm run dev
 ```
@@ -73,6 +80,7 @@ npm run seed
 ## Troubleshooting
 
 ❌ **Erro de conexão?**
+
 ```powershell
 # Verificar se PostgreSQL está rodando
 docker ps
@@ -82,6 +90,7 @@ docker-compose up -d
 ```
 
 ❌ **Porta 5432 em uso?**
+
 ```yaml
 # Alterar porta no docker-compose.yml
 ports:

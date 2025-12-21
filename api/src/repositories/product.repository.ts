@@ -1,14 +1,22 @@
 import { eq, and, gte, lte, desc } from "drizzle-orm";
 import { db } from "../db";
-import { products, type Product as DbProduct, type NewProduct } from "../db/schema";
-import { Product, ProductCategory, ListProductsQuery } from "../models/product.model";
+import {
+  products,
+  type Product as DbProduct,
+  type NewProduct,
+} from "../db/schema";
+import {
+  Product,
+  ProductCategory,
+  ListProductsQuery,
+} from "../models/product.model";
 
 /**
  * ProductRepository - Refatorado com Drizzle ORM
- * 
+ *
  * Camada de acesso a dados utilizando Repository Pattern.
  * Implementado com Drizzle ORM para PostgreSQL.
- * 
+ *
  * Todas as operações são assíncronas e utilizam queries SQL
  * type-safe através do Drizzle.
  */
@@ -61,9 +69,14 @@ export class ProductRepository {
       conditions.push(lte(products.price, filters.maxPrice.toString()));
     }
 
-    const query = conditions.length > 0
-      ? db.select().from(products).where(and(...conditions)).orderBy(desc(products.createdAt))
-      : db.select().from(products).orderBy(desc(products.createdAt));
+    const query =
+      conditions.length > 0
+        ? db
+            .select()
+            .from(products)
+            .where(and(...conditions))
+            .orderBy(desc(products.createdAt))
+        : db.select().from(products).orderBy(desc(products.createdAt));
 
     const results = await query;
     return results.map(this.toModel);
@@ -98,7 +111,9 @@ export class ProductRepository {
   /**
    * Cria um novo produto
    */
-  async create(product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>): Promise<Product> {
+  async create(
+    product: Omit<Product, "id" | "createdAt" | "updatedAt">
+  ): Promise<Product> {
     const newProduct: NewProduct = {
       name: product.name,
       description: product.description,
@@ -113,10 +128,7 @@ export class ProductRepository {
       isFeatured: product.isFeatured,
     };
 
-    const result = await db
-      .insert(products)
-      .values(newProduct)
-      .returning();
+    const result = await db.insert(products).values(newProduct).returning();
 
     return this.toModel(result[0]);
   }
@@ -129,15 +141,20 @@ export class ProductRepository {
 
     if (updates.name) updateData.name = updates.name;
     if (updates.description) updateData.description = updates.description;
-    if (updates.price !== undefined) updateData.price = updates.price.toString();
-    if (updates.oldPrice !== undefined) updateData.oldPrice = updates.oldPrice?.toString();
+    if (updates.price !== undefined)
+      updateData.price = updates.price.toString();
+    if (updates.oldPrice !== undefined)
+      updateData.oldPrice = updates.oldPrice?.toString();
     if (updates.images) updateData.images = updates.images;
     if (updates.category) updateData.category = updates.category;
-    if (updates.stock !== undefined) updateData.stock = updates.stock.toString();
+    if (updates.stock !== undefined)
+      updateData.stock = updates.stock.toString();
     if (updates.slug) updateData.slug = updates.slug;
     if (updates.sizes) updateData.sizes = updates.sizes as string[];
-    if (updates.isNewDrop !== undefined) updateData.isNewDrop = updates.isNewDrop;
-    if (updates.isFeatured !== undefined) updateData.isFeatured = updates.isFeatured;
+    if (updates.isNewDrop !== undefined)
+      updateData.isNewDrop = updates.isNewDrop;
+    if (updates.isFeatured !== undefined)
+      updateData.isFeatured = updates.isFeatured;
 
     const result = await db
       .update(products)
@@ -236,10 +253,12 @@ export class ProductRepository {
   /**
    * Adiciona múltiplos produtos (seed)
    */
-  async seedProducts(productsData: Array<Omit<Product, 'id' | 'createdAt' | 'updatedAt'>>): Promise<void> {
+  async seedProducts(
+    productsData: Array<Omit<Product, "id" | "createdAt" | "updatedAt">>
+  ): Promise<void> {
     if (productsData.length === 0) return;
 
-    const newProducts: NewProduct[] = productsData.map(p => ({
+    const newProducts: NewProduct[] = productsData.map((p) => ({
       name: p.name,
       description: p.description,
       price: p.price.toString(),

@@ -11,9 +11,11 @@ async function start() {
     // Testa conexão com o banco antes de iniciar
     console.log("🔌 Testando conexão com PostgreSQL...");
     const connected = await testConnection();
-    
+
     if (!connected) {
-      throw new Error("Não foi possível conectar ao banco de dados. Verifique o Docker e as variáveis de ambiente.");
+      throw new Error(
+        "Não foi possível conectar ao banco de dados. Verifique o Docker e as variáveis de ambiente."
+      );
     }
 
     const app = await buildApp();

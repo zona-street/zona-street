@@ -52,11 +52,20 @@ export const createProductSchema = z.object({
   description: z.string().min(10, "Descrição deve ter no mínimo 10 caracteres"),
   price: z.number().positive("Preço deve ser positivo"),
   oldPrice: z.number().positive().optional(),
-  images: z.array(z.string().url()).min(1, "Produto deve ter ao menos 1 imagem"),
+  images: z
+    .array(z.string().url())
+    .min(1, "Produto deve ter ao menos 1 imagem"),
   category: z.nativeEnum(ProductCategory),
   stock: z.number().int().nonnegative("Estoque não pode ser negativo"),
-  slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug deve estar em formato kebab-case"),
-  sizes: z.array(z.nativeEnum(ProductSize)).min(1, "Produto deve ter ao menos 1 tamanho"),
+  slug: z
+    .string()
+    .regex(
+      /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+      "Slug deve estar em formato kebab-case"
+    ),
+  sizes: z
+    .array(z.nativeEnum(ProductSize))
+    .min(1, "Produto deve ter ao menos 1 tamanho"),
   isNewDrop: z.boolean().default(false),
   isFeatured: z.boolean().default(false),
 });

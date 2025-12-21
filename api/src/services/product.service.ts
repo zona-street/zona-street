@@ -3,7 +3,7 @@ import { ProductRepository } from "../repositories/product.repository";
 
 /**
  * ProductService
- * 
+ *
  * Camada de lógica de negócio.
  * Responsável por orquestrar operações, aplicar regras de negócio
  * e validações antes de delegar ao Repository.
@@ -96,13 +96,17 @@ export class ProductService {
       return null;
     }
 
-    return Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100);
+    return Math.round(
+      ((product.oldPrice - product.price) / product.oldPrice) * 100
+    );
   }
 
   /**
    * Formata produto para resposta (pode incluir campos calculados)
    */
-  formatProductResponse(product: Product): Product & { discount?: number | null } {
+  formatProductResponse(
+    product: Product
+  ): Product & { discount?: number | null } {
     return {
       ...product,
       discount: this.calculateDiscount(product),
@@ -127,19 +131,22 @@ export class ProductService {
   /**
    * Verifica se há produtos relacionados (mesma categoria)
    */
-  async getRelatedProducts(slug: string, limit: number = 4): Promise<Product[]> {
+  async getRelatedProducts(
+    slug: string,
+    limit: number = 4
+  ): Promise<Product[]> {
     const product = await this.repository.findBySlug(slug);
 
     if (!product) {
       return [];
     }
 
-    const relatedProducts = await this.repository.findByCategory(product.category);
+    const relatedProducts = await this.repository.findByCategory(
+      product.category
+    );
 
     // Remove o produto atual e limita o resultado
-    return relatedProducts
-      .filter((p) => p.slug !== slug)
-      .slice(0, limit);
+    return relatedProducts.filter((p) => p.slug !== slug).slice(0, limit);
   }
 }
 

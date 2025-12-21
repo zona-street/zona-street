@@ -9,7 +9,7 @@ import {
 
 /**
  * ProductController
- * 
+ *
  * Camada de apresentação (Controllers/Handlers).
  * Responsável por lidar com requisições HTTP, validar inputs,
  * chamar services e formatar respostas.

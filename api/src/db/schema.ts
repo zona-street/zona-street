@@ -1,4 +1,12 @@
-import { pgTable, text, numeric, boolean, timestamp, uuid, pgEnum } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  numeric,
+  boolean,
+  timestamp,
+  uuid,
+  pgEnum,
+} from "drizzle-orm/pg-core";
 
 /**
  * Enum para categorias de produtos
@@ -14,7 +22,15 @@ export const categoryEnum = pgEnum("category", [
 /**
  * Enum para tamanhos
  */
-export const sizeEnum = pgEnum("size", ["PP", "P", "M", "G", "GG", "XG", "XXG"]);
+export const sizeEnum = pgEnum("size", [
+  "PP",
+  "P",
+  "M",
+  "G",
+  "GG",
+  "XG",
+  "XXG",
+]);
 
 /**
  * Tabela de produtos
@@ -32,8 +48,12 @@ export const products = pgTable("products", {
   sizes: text("sizes").array().notNull(), // Array de strings para tamanhos
   isNewDrop: boolean("is_new_drop").notNull().default(false),
   isFeatured: boolean("is_featured").notNull().default(false),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
 });
 
 /**
