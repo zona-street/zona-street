@@ -1,9 +1,11 @@
+import Link from "next/link";
+
 export function Categories() {
   const categories = [
-    { name: "Camisetas", href: "#" },
-    { name: "Moletons", href: "#" },
-    { name: "Calças", href: "#" },
-    { name: "Acessórios", href: "#" },
+    { name: "Camisetas", slug: "camisetas" },
+    { name: "Moletons", slug: "moletons" },
+    { name: "Calças", slug: "calcas" },
+    { name: "Acessórios", slug: "acessorios" },
   ];
 
   return (
@@ -14,15 +16,15 @@ export function Categories() {
         </h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {categories.map((category) => (
-            <a
+            <Link
               key={category.name}
-              href={category.href}
+              href={`/produtos?categoria=${category.slug}`}
               className="group relative flex h-64 items-end overflow-hidden border border-gray-200 bg-gray-50 p-6 transition-colors hover:border-gray-900"
             >
               <span className="text-xl font-bold uppercase tracking-tight text-gray-900">
                 {category.name}
               </span>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

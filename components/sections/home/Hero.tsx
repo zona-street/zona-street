@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export function Hero() {
   return (
@@ -26,12 +27,18 @@ export function Hero() {
           />
 
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <button className="border-2 border-gray-900 bg-gray-900 px-8 py-4 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-transparent hover:text-gray-900">
+            <Link
+              href="/lancamentos"
+              className="border-2 border-gray-900 bg-gray-900 px-8 py-4 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-transparent hover:text-gray-900"
+            >
               Ver Lançamentos
-            </button>
-            <button className="border-2 border-gray-300 bg-transparent px-8 py-4 text-sm font-bold uppercase tracking-wide text-gray-900 transition-colors hover:border-gray-900">
+            </Link>
+            <Link
+              href="/produtos"
+              className="border-2 border-gray-300 bg-transparent px-8 py-4 text-sm font-bold uppercase tracking-wide text-gray-900 transition-colors hover:border-gray-900"
+            >
               Explorar Tudo
-            </button>
+            </Link>
           </div>
         </div>
       </div>

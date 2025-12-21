@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ProductCard } from "@/components/shared/ProductCard";
 
 interface Product {
@@ -9,6 +10,7 @@ interface Product {
   category: string;
   isNewDrop?: boolean;
   slug: string;
+  sizes?: string[];
 }
 
 interface NewDropsProps {
@@ -26,9 +28,12 @@ export function NewDrops({ products }: NewDropsProps) {
           <h2 className="text-3xl font-bold uppercase tracking-tight text-gray-900 md:text-4xl">
             Novos Drops
           </h2>
-          <button className="border-2 border-gray-900 bg-transparent px-6 py-3 text-xs font-bold uppercase tracking-wide text-gray-900 transition-colors hover:bg-gray-900 hover:text-white">
+          <Link
+            href="/lancamentos"
+            className="border-2 border-gray-900 bg-transparent px-6 py-3 text-xs font-bold uppercase tracking-wide text-gray-900 transition-colors hover:bg-gray-900 hover:text-white"
+          >
             Ver Todos
-          </button>
+          </Link>
         </div>
         <div className="mb-8 border border-gray-900 bg-gray-900 p-4 text-center">
           <p className="text-sm font-medium uppercase tracking-wide text-white">

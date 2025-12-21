@@ -40,6 +40,11 @@ export class ProductController {
 
       const result = await this.service.listProductsFormatted(filters);
 
+      console.log("📋 Listagem de produtos:", {
+        total: result.total,
+        quantidade: result.products.length,
+      });
+
       reply.status(200).send({
         success: true,
         data: result.products,
@@ -191,8 +196,8 @@ export class ProductController {
         description: z
           .string()
           .min(10, "Descrição deve ter no mínimo 10 caracteres"),
-        price: z.number().positive("Preço deve ser positivo"),
-        oldPrice: z.number().positive().optional(),
+        price: z.coerce.number().positive("Preço deve ser positivo"),
+        oldPrice: z.coerce.number().positive().optional(),
         category: z.enum([
           "camisetas",
           "moletons",
@@ -203,9 +208,9 @@ export class ProductController {
         slug: z.string().min(3, "Slug inválido"),
         images: z.array(z.string()).min(1, "Adicione pelo menos uma imagem"),
         sizes: z.array(z.string()).min(1, "Adicione pelo menos um tamanho"),
-        stock: z.number().int().nonnegative().default(0),
-        isNewDrop: z.boolean().default(false),
-        isFeatured: z.boolean().default(false),
+        stock: z.coerce.number().int().nonnegative().default(0),
+        isNewDrop: z.coerce.boolean().default(false),
+        isFeatured: z.coerce.boolean().default(false),
       });
 
       const data = createProductSchema.parse(request.body);
@@ -240,6 +245,7 @@ export class ProductController {
         message: "Produto criado com sucesso",
       });
     } catch (error) {
+      console.error("❌ Erro ao criar produto:", error);
       if (error instanceof z.ZodError) {
         reply.status(400).send({
           success: false,

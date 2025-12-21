@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function Sale() {
   return (
     <section className="bg-gray-900 py-20 text-white">
@@ -12,9 +14,12 @@ export function Sale() {
           <p className="mb-10 text-lg font-medium text-gray-300">
             Em peças selecionadas + Frete Grátis
           </p>
-          <button className="border-2 border-white bg-white px-12 py-4 text-sm font-bold uppercase tracking-wide text-gray-900 transition-colors hover:bg-transparent hover:text-white">
+          <Link
+            href="/produtos"
+            className="inline-block border-2 border-white bg-white px-12 py-4 text-sm font-bold uppercase tracking-wide text-gray-900 transition-colors hover:bg-transparent hover:text-white"
+          >
             Aproveitar Agora
-          </button>
+          </Link>
         </div>
       </div>
     </section>

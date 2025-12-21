@@ -47,7 +47,7 @@ export const productsApi = {
       }
 
       const data = await response.json();
-      return Array.isArray(data?.data?.products) ? data.data.products : [];
+      return Array.isArray(data?.data) ? data.data : [];
     } catch (error) {
       console.error("Erro ao buscar produtos:", error);
       return [];

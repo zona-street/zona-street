@@ -39,6 +39,32 @@ export default async function Home() {
       ? featuredProducts[0]
       : null;
 
+  // Transformar produtos para o formato esperado pelos componentes
+  const formattedNewDrops = newDropProducts.map((product) => ({
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    oldPrice: product.oldPrice,
+    image: product.images?.[0] || "/placeholder.jpg",
+    category: product.category,
+    isNewDrop: product.isNewDrop,
+    slug: product.slug,
+    sizes: product.sizes,
+  }));
+
+  const formattedFeaturedProduct = featuredProduct
+    ? {
+        id: featuredProduct.id,
+        name: featuredProduct.name,
+        price: featuredProduct.price,
+        oldPrice: featuredProduct.oldPrice,
+        image: featuredProduct.images?.[0] || "/placeholder.jpg",
+        category: featuredProduct.category,
+        slug: featuredProduct.slug,
+        sizes: featuredProduct.sizes,
+      }
+    : null;
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -47,8 +73,10 @@ export default async function Home() {
         <Hero />
         <Promotions />
         <Categories />
-        {featuredProduct && <FeaturedProduct product={featuredProduct} />}
-        <NewDrops products={newDropProducts} />
+        {formattedFeaturedProduct && (
+          <FeaturedProduct product={formattedFeaturedProduct} />
+        )}
+        <NewDrops products={formattedNewDrops} />
         <Sale />
         <Newsletter />
         <Footer />

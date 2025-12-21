@@ -32,6 +32,7 @@ interface ProductCardProps {
   category: string;
   isNewDrop?: boolean;
   slug: string;
+  sizes?: string[];
 }
 
 export function ProductCard({
@@ -43,6 +44,7 @@ export function ProductCard({
   category,
   isNewDrop = false,
   slug,
+  sizes = [],
 }: ProductCardProps) {
   const [selectedSize, setSelectedSize] = useState<string>("");
   const addItem = useCart((state) => state.addItem);
@@ -53,6 +55,8 @@ export function ProductCard({
   const safeName = name || "Produto sem nome";
   const safePrice = typeof price === "number" ? price : 0;
   const safeOldPrice = typeof oldPrice === "number" ? oldPrice : undefined;
+  const safeSizes =
+    Array.isArray(sizes) && sizes.length > 0 ? sizes : ["P", "M", "G"];
 
   const discountPercentage = safeOldPrice
     ? Math.round(((safeOldPrice - safePrice) / safeOldPrice) * 100)
@@ -87,17 +91,26 @@ export function ProductCard({
   };
 
   return (
-    <Card className="group relative overflow-hidden border border-gray-200 bg-white transition-all hover:border-gray-900">
+    <Card className="group relative overflow-hidden border border-gray-200 bg-white transition-all hover:border-gray-900 py-0">
       <CardHeader className="p-0">
         <Link
-          href={`/produto/${slug}`}
+          href={`/produtos/${slug}`}
           className="relative block aspect-square"
         >
-          {/* TODO: Substituir placeholder por imagens reais dos produtos */}
-          {/* Placeholder: Imagem do produto (substituir por imagens em /public/products/) */}
-          <div className="flex h-full w-full items-center justify-center bg-gray-50 text-6xl font-black text-gray-200">
-            {safeName.charAt(0)}
-          </div>
+          {/* Imagem do produto */}
+          {safeImage ? (
+            <Image
+              src={safeImage}
+              alt={safeName}
+              fill
+              className="object-cover transition-transform group-hover:scale-105"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-gray-50 text-6xl font-black text-gray-200">
+              {safeName.charAt(0)}
+            </div>
+          )}
 
           {/* Badge de novidade */}
           {isNewDrop && (
@@ -131,7 +144,7 @@ export function ProductCard({
         </p>
 
         {/* Nome do produto */}
-        <Link href={`/produto/${slug || ""}`}>
+        <Link href={`/produtos/${slug || ""}`}>
           <h3 className="mb-3 line-clamp-2 text-base font-bold leading-tight text-gray-900 transition-colors hover:text-orange-600">
             {safeName}
           </h3>
@@ -156,12 +169,11 @@ export function ProductCard({
             <SelectValue placeholder="Selecione o tamanho" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="PP">PP</SelectItem>
-            <SelectItem value="P">P</SelectItem>
-            <SelectItem value="M">M</SelectItem>
-            <SelectItem value="G">G</SelectItem>
-            <SelectItem value="GG">GG</SelectItem>
-            <SelectItem value="XG">XG</SelectItem>
+            {safeSizes.map((size) => (
+              <SelectItem key={size} value={size}>
+                {size}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
 
@@ -186,10 +198,13 @@ export function ProductCardFeatured({
   image,
   category,
   slug,
+  sizes = [],
 }: ProductCardProps) {
   const [selectedSize, setSelectedSize] = useState<string>("");
   const addItem = useCart((state) => state.addItem);
   const openCart = useCartSheet((state) => state.openCart);
+  const safeSizes =
+    Array.isArray(sizes) && sizes.length > 0 ? sizes : ["P", "M", "G"];
 
   const handleAddToCart = () => {
     if (!selectedSize) {
@@ -222,14 +237,24 @@ export function ProductCardFeatured({
     <Card className="group relative overflow-hidden border-2 border-gray-900 bg-white transition-all hover:shadow-xl">
       <CardHeader className="p-0">
         <Link
-          href={`/produto/${slug}`}
+          href={`/produtos/${slug}`}
           className="relative block aspect-square"
         >
-          {/* TODO: Substituir placeholder por imagens reais dos produtos featured */}
-          {/* Placeholder: Imagem do produto em destaque (substituir por imagens em /public/products/featured/) */}
-          <div className="flex h-full w-full items-center justify-center bg-gray-50 text-8xl font-black text-gray-200">
-            {name.charAt(0)}
-          </div>
+          {/* Imagem do produto em destaque */}
+          {image ? (
+            <Image
+              src={image}
+              alt={name}
+              fill
+              className="object-cover transition-transform group-hover:scale-105"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-gray-50 text-8xl font-black text-gray-200">
+              {name.charAt(0)}
+            </div>
+          )}
 
           {/* Badge especial para featured */}
           <Badge className="absolute left-4 top-4 border border-gray-900 bg-gray-900 px-4 py-2 text-sm font-bold uppercase tracking-wide text-white">
@@ -243,7 +268,7 @@ export function ProductCardFeatured({
           {category}
         </p>
 
-        <Link href={`/produto/${slug}`}>
+        <Link href={`/produtos/${slug}`}>
           <h3 className="mb-4 text-3xl font-bold leading-tight text-gray-900 transition-colors hover:text-orange-600">
             {name}
           </h3>
@@ -267,12 +292,11 @@ export function ProductCardFeatured({
             <SelectValue placeholder="Selecione o tamanho" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="PP">PP</SelectItem>
-            <SelectItem value="P">P</SelectItem>
-            <SelectItem value="M">M</SelectItem>
-            <SelectItem value="G">G</SelectItem>
-            <SelectItem value="GG">GG</SelectItem>
-            <SelectItem value="XG">XG</SelectItem>
+            {safeSizes.map((size) => (
+              <SelectItem key={size} value={size}>
+                {size}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
 

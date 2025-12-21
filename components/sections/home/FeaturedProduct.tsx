@@ -9,6 +9,7 @@ interface FeaturedProductProps {
     image: string;
     category: string;
     slug: string;
+    sizes?: string[];
   } | null;
 }
 
