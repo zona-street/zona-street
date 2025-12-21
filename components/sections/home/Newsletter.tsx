@@ -1,7 +1,18 @@
+import Image from "next/image";
+
 export function Newsletter() {
   return (
     <section className="border-y border-gray-200 bg-white py-20">
       <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+        <div className="mb-6 flex justify-center">
+          <Image
+            src="/logo-cinza.png"
+            alt="Zona Street"
+            width={500}
+            height={500}
+            className="h-auto w-48"
+          />
+        </div>
         <span className="mb-6 inline-block border border-gray-900 bg-gray-900 px-6 py-2 text-sm font-bold uppercase tracking-wider text-white">
           Newsletter Zona Street
         </span>

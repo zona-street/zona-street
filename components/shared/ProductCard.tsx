@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCart } from "@/lib/store/useCart";
+import { useCartSheet } from "@/lib/store/useCartSheet";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -45,6 +46,7 @@ export function ProductCard({
 }: ProductCardProps) {
   const [selectedSize, setSelectedSize] = useState<string>("");
   const addItem = useCart((state) => state.addItem);
+  const openCart = useCartSheet((state) => state.openCart);
 
   const discountPercentage = oldPrice
     ? Math.round(((oldPrice - price) / oldPrice) * 100)
@@ -73,6 +75,9 @@ export function ProductCard({
     });
 
     setSelectedSize("");
+
+    // Abre o carrinho automaticamente
+    setTimeout(() => openCart(), 300);
   };
 
   return (
@@ -178,6 +183,7 @@ export function ProductCardFeatured({
 }: ProductCardProps) {
   const [selectedSize, setSelectedSize] = useState<string>("");
   const addItem = useCart((state) => state.addItem);
+  const openCart = useCartSheet((state) => state.openCart);
 
   const handleAddToCart = () => {
     if (!selectedSize) {
@@ -202,6 +208,9 @@ export function ProductCardFeatured({
     });
 
     setSelectedSize("");
+
+    // Abre o carrinho automaticamente
+    setTimeout(() => openCart(), 300);
   };
   return (
     <Card className="group relative overflow-hidden border-2 border-gray-900 bg-white transition-all hover:shadow-xl">
