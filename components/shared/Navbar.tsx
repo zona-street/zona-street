@@ -36,11 +36,11 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
           <Image
-            src="/zona-street-header.png"
+            src="/logo.png"
             alt="Zona Street Logo"
             width={500}
             height={500}
-            className="h-25 w-auto  "
+            className="h-28 w-auto  "
           />
         </Link>
 

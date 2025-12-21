@@ -33,6 +33,11 @@ export const sizeEnum = pgEnum("size", [
 ]);
 
 /**
+ * Enum para roles de usuários
+ */
+export const roleEnum = pgEnum("role", ["admin", "customer"]);
+
+/**
  * Tabela de produtos
  */
 export const products = pgTable("products", {
@@ -57,7 +62,26 @@ export const products = pgTable("products", {
 });
 
 /**
+ * Tabela de usuários
+ */
+export const users = pgTable("users", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  email: text("email").notNull().unique(),
+  password: text("password").notNull(), // Hashed com bcrypt
+  role: roleEnum("role").notNull().default("customer"),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
+/**
  * Type inference para TypeScript
  */
 export type Product = typeof products.$inferSelect;
 export type NewProduct = typeof products.$inferInsert;
+
+export type User = typeof users.$inferSelect;
+export type NewUser = typeof users.$inferInsert;

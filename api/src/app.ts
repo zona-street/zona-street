@@ -1,7 +1,9 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
+import jwt from "@fastify/jwt";
 import { config } from "./config/app.config";
 import { productRoutes } from "./routes/product.routes";
+import { authRoutes } from "./routes/auth.routes";
 
 /**
  * Cria e configura a instância do Fastify
@@ -28,6 +30,41 @@ export async function buildApp() {
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   });
 
+  // Registro do JWT
+  await fastify.register(jwt, {
+    secret: process.env.JWT_SECRET || "zona-street-super-secret-key-change-in-production",
+  });
+
+  // Decorators de autenticação
+  fastify.decorate("authenticate", async function (request: any, reply: any) {
+    try {
+      await request.jwtVerify();
+    } catch (err) {
+      reply.status(401).send({
+        success: false,
+        error: "Token inválido ou expirado",
+      });
+    }
+  });
+
+  fastify.decorate("requireAdmin", async function (request: any, reply: any) {
+    try {
+      await request.jwtVerify();
+      
+      if (request.user.role !== "admin") {
+        return reply.status(403).send({
+          success: false,
+          error: "Acesso negado: apenas administradores",
+        });
+      }
+    } catch (err) {
+      reply.status(401).send({
+        success: false,
+        error: "Token inválido ou expirado",
+      });
+    }
+  });
+
   // Health check
   fastify.get("/health", async () => {
     return {
@@ -36,6 +73,9 @@ export async function buildApp() {
       environment: config.env,
     };
   });
+
+  // Registro das rotas de autenticação
+  fastify.register(authRoutes, { prefix: `${config.apiPrefix}/auth` });
 
   // Registro das rotas de produtos
   fastify.register(productRoutes, { prefix: `${config.apiPrefix}/products` });

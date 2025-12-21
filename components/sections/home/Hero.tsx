@@ -6,7 +6,7 @@ export function Hero() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <div className="mb-6 inline-flex items-center gap-2 border border-gray-300 bg-gray-50 px-4 py-2 text-xs font-medium uppercase tracking-wider text-gray-900">
-            Nova Coleção Verão 2025
+            Nova Coleção disponível
           </div>
           <div className="mb-0 flex items-center justify-center">
             <Image
@@ -14,7 +14,7 @@ export function Hero() {
               alt="Wallabee Bordado - Identidade Zona Street"
               width={550}
               height={454}
-              className="h-24 w-auto md:h-32 opacity-90"
+              className="h-24 w-auto md:h-32"
             />
           </div>
           <Image

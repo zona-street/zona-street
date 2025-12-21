@@ -74,6 +74,50 @@ export async function productRoutes(fastify: FastifyInstance) {
     handler: productController.listProducts.bind(productController),
   });
 
+  // POST /products - Criar produto (apenas admins)
+  fastify.post("/", {
+    onRequest: [fastify.requireAdmin],
+    schema: {
+      description: "Cria um novo produto (apenas admins)",
+      tags: ["products", "admin"],
+      security: [{ bearerAuth: [] }],
+      body: {
+        type: "object",
+        required: ["name", "description", "price", "category", "slug", "images", "sizes"],
+        properties: {
+          name: { type: "string" },
+          description: { type: "string" },
+          price: { type: "number" },
+          oldPrice: { type: "number" },
+          category: { type: "string" },
+          slug: { type: "string" },
+          images: { type: "array", items: { type: "string" } },
+          sizes: { type: "array", items: { type: "string" } },
+          stock: { type: "number" },
+          isNewDrop: { type: "boolean" },
+          isFeatured: { type: "boolean" },
+        },
+      },
+      response: {
+        201: {
+          description: "Produto criado com sucesso",
+          type: "object",
+        },
+        403: {
+          description: "Acesso negado",
+          type: "object",
+        },
+      },
+    },
+    handler: async (request, reply) => {
+      // TODO: Implementar createProduct no controller
+      return reply.status(501).send({
+        success: false,
+        error: "Funcionalidade em desenvolvimento",
+      });
+    },
+  });
+
   // Rota parametrizada (deve vir por último)
   fastify.get("/:slug", {
     schema: {
@@ -106,5 +150,97 @@ export async function productRoutes(fastify: FastifyInstance) {
       },
     },
     handler: productController.getProductBySlug.bind(productController),
+  });
+
+  // PUT /products/:id - Atualizar produto (apenas admins)
+  fastify.put("/:id", {
+    onRequest: [fastify.requireAdmin],
+    schema: {
+      description: "Atualiza um produto existente (apenas admins)",
+      tags: ["products", "admin"],
+      security: [{ bearerAuth: [] }],
+      params: {
+        type: "object",
+        properties: {
+          id: { type: "string", format: "uuid" },
+        },
+        required: ["id"],
+      },
+      body: {
+        type: "object",
+        properties: {
+          name: { type: "string" },
+          description: { type: "string" },
+          price: { type: "number" },
+          oldPrice: { type: "number" },
+          category: { type: "string" },
+          slug: { type: "string" },
+          images: { type: "array", items: { type: "string" } },
+          sizes: { type: "array", items: { type: "string" } },
+          stock: { type: "number" },
+          isNewDrop: { type: "boolean" },
+          isFeatured: { type: "boolean" },
+        },
+      },
+      response: {
+        200: {
+          description: "Produto atualizado com sucesso",
+          type: "object",
+        },
+        403: {
+          description: "Acesso negado",
+          type: "object",
+        },
+        404: {
+          description: "Produto não encontrado",
+          type: "object",
+        },
+      },
+    },
+    handler: async (request, reply) => {
+      // TODO: Implementar updateProduct no controller
+      return reply.status(501).send({
+        success: false,
+        error: "Funcionalidade em desenvolvimento",
+      });
+    },
+  });
+
+  // DELETE /products/:id - Deletar produto (apenas admins)
+  fastify.delete("/:id", {
+    onRequest: [fastify.requireAdmin],
+    schema: {
+      description: "Deleta um produto (apenas admins)",
+      tags: ["products", "admin"],
+      security: [{ bearerAuth: [] }],
+      params: {
+        type: "object",
+        properties: {
+          id: { type: "string", format: "uuid" },
+        },
+        required: ["id"],
+      },
+      response: {
+        200: {
+          description: "Produto deletado com sucesso",
+          type: "object",
+        },
+        403: {
+          description: "Acesso negado",
+          type: "object",
+        },
+        404: {
+          description: "Produto não encontrado",
+          type: "object",
+        },
+      },
+    },
+    handler: async (request, reply) => {
+      // TODO: Implementar deleteProduct no controller
+      return reply.status(501).send({
+        success: false,
+        error: "Funcionalidade em desenvolvimento",
+      });
+    },
   });
 }

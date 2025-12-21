@@ -95,7 +95,7 @@ export function CartSheet() {
           <SheetTitle className="flex items-center justify-between text-xl font-bold uppercase tracking-wide">
             <span>Carrinho</span>
             {items.length > 0 && (
-              <Badge className="border-2 border-orange-street bg-orange-street text-white font-bold">
+              <Badge className="border-2 border-orange-street bg-orange-street text-white font-bold mr-7">
                 {getTotalItems()} {getTotalItems() === 1 ? "item" : "itens"}
               </Badge>
             )}
@@ -193,7 +193,7 @@ export function CartSheet() {
               ))}
             </div>
 
-            <div className="space-y-4 border-t-2 border-gray-200 pt-4">
+            <div className="space-y-4 border-t-2 border-gray-200 pt-4 px-4 pb-6">
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="font-medium text-gray-600">Subtotal</span>
