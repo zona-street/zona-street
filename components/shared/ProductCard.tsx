@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { ShoppingCart, Heart } from "lucide-react";
@@ -9,6 +11,16 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useCart } from "@/lib/store/useCart";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface ProductCardProps {
   id: string;
@@ -31,9 +43,37 @@ export function ProductCard({
   isNewDrop = false,
   slug,
 }: ProductCardProps) {
+  const [selectedSize, setSelectedSize] = useState<string>("");
+  const addItem = useCart((state) => state.addItem);
+
   const discountPercentage = oldPrice
     ? Math.round(((oldPrice - price) / oldPrice) * 100)
     : 0;
+
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      toast.error("Selecione um tamanho", {
+        description:
+          "Por favor, escolha o tamanho desejado antes de adicionar ao carrinho.",
+      });
+      return;
+    }
+
+    addItem({
+      id,
+      name,
+      price,
+      size: selectedSize,
+      image,
+      slug,
+    });
+
+    toast.success("Adicionado ao carrinho!", {
+      description: `${name} - Tamanho ${selectedSize}`,
+    });
+
+    setSelectedSize("");
+  };
 
   return (
     <Card className="group relative overflow-hidden border border-gray-200 bg-white transition-all hover:border-gray-900">
@@ -99,8 +139,25 @@ export function ProductCard({
         </div>
       </CardContent>
 
-      <CardFooter className="p-4 pt-0">
-        <Button className="w-full border-2 border-gray-900 bg-gray-900 py-2 text-xs font-bold uppercase tracking-wide text-white transition-colors hover:bg-transparent hover:text-gray-900">
+      <CardFooter className="flex-col gap-2 p-4 pt-0">
+        <Select value={selectedSize} onValueChange={setSelectedSize}>
+          <SelectTrigger className="w-full border-2 border-gray-300 font-medium">
+            <SelectValue placeholder="Selecione o tamanho" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="PP">PP</SelectItem>
+            <SelectItem value="P">P</SelectItem>
+            <SelectItem value="M">M</SelectItem>
+            <SelectItem value="G">G</SelectItem>
+            <SelectItem value="GG">GG</SelectItem>
+            <SelectItem value="XG">XG</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Button
+          className="w-full border-2 border-gray-900 bg-gray-900 py-2 text-xs font-bold uppercase tracking-wide text-white transition-colors hover:bg-transparent hover:text-gray-900"
+          onClick={handleAddToCart}
+        >
           <ShoppingCart className="mr-2 h-4 w-4" />
           Adicionar
         </Button>
@@ -119,6 +176,33 @@ export function ProductCardFeatured({
   category,
   slug,
 }: ProductCardProps) {
+  const [selectedSize, setSelectedSize] = useState<string>("");
+  const addItem = useCart((state) => state.addItem);
+
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      toast.error("Selecione um tamanho", {
+        description:
+          "Por favor, escolha o tamanho desejado antes de adicionar ao carrinho.",
+      });
+      return;
+    }
+
+    addItem({
+      id,
+      name,
+      price,
+      size: selectedSize,
+      image,
+      slug,
+    });
+
+    toast.success("Adicionado ao carrinho!", {
+      description: `${name} - Tamanho ${selectedSize}`,
+    });
+
+    setSelectedSize("");
+  };
   return (
     <Card className="group relative overflow-hidden border-2 border-gray-900 bg-white transition-all hover:shadow-xl">
       <CardHeader className="p-0">
@@ -162,8 +246,25 @@ export function ProductCardFeatured({
         </div>
       </CardContent>
 
-      <CardFooter className="p-8 pt-0">
-        <Button className="w-full border-2 border-gray-900 bg-gray-900 py-6 text-base font-bold uppercase tracking-wide text-white transition-colors hover:bg-orange-600 hover:border-orange-600">
+      <CardFooter className="flex-col gap-3 p-8 pt-0">
+        <Select value={selectedSize} onValueChange={setSelectedSize}>
+          <SelectTrigger className="w-full border-2 border-gray-300 py-6 text-base font-medium">
+            <SelectValue placeholder="Selecione o tamanho" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="PP">PP</SelectItem>
+            <SelectItem value="P">P</SelectItem>
+            <SelectItem value="M">M</SelectItem>
+            <SelectItem value="G">G</SelectItem>
+            <SelectItem value="GG">GG</SelectItem>
+            <SelectItem value="XG">XG</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Button
+          className="w-full border-2 border-gray-900 bg-gray-900 py-6 text-base font-bold uppercase tracking-wide text-white transition-colors hover:bg-orange-600 hover:border-orange-600"
+          onClick={handleAddToCart}
+        >
           <ShoppingCart className="mr-3 h-6 w-6" />
           Comprar Agora
         </Button>

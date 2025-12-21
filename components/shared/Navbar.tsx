@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, ShoppingCart, User } from "lucide-react";
+import { Menu, User } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
+import { CartSheet } from "@/components/shared/CartSheet";
 
 const categories = [
   { name: "Camisetas", href: "/categoria/camisetas" },
@@ -134,14 +135,7 @@ export function Navbar() {
               <User className="h-5 w-5" />
               <span className="sr-only">Conta</span>
             </Button>
-            <Button
-              variant="default"
-              size="icon"
-              className="border-2 border-gray-900 bg-gray-900 font-bold text-white hover:bg-transparent hover:text-gray-900"
-            >
-              <ShoppingCart className="h-5 w-5" />
-              <span className="sr-only">Carrinho</span>
-            </Button>
+            <CartSheet />
           </div>
         </div>
 
@@ -171,13 +165,7 @@ export function Navbar() {
           >
             <User className="h-5 w-5" />
           </Button>
-          <Button
-            variant="default"
-            size="icon"
-            className="border-2 text-white border-gray-900 bg-gray-900 hover:bg-transparent hover:text-muted"
-          >
-            <ShoppingCart className="h-5 w-5" />
-          </Button>
+          <CartSheet />
           <Sheet>
             <SheetTrigger asChild>
               <Button
