@@ -2,6 +2,7 @@
 
 import { ShoppingCart, Trash2, Plus, Minus } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -124,9 +125,21 @@ export function CartSheet() {
                   key={`${item.id}-${item.size}`}
                   className="group relative flex gap-4 border-2 border-gray-900 bg-white p-4 transition-all hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                 >
-                  {/* TODO: Adicionar imagens reais dos produtos em /public/products/{slug}.jpg */}
-                  <div className="flex h-24 w-24 shrink-0 items-center justify-center border-2 border-gray-900 bg-gray-50 text-2xl font-black text-gray-300">
-                    {item.name.charAt(0)}
+                  {/* Imagem do produto */}
+                  <div className="flex h-24 w-24 shrink-0 items-center justify-center border-2 border-gray-900 bg-gray-50 overflow-hidden">
+                    {item.image ? (
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        width={96}
+                        height={96}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-2xl font-black text-gray-300">
+                        {item.name.charAt(0)}
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex flex-1 flex-col justify-between">

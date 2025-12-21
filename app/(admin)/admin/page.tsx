@@ -50,7 +50,7 @@ export default function AdminDashboard() {
           totalOrders: 127, // TODO: Implementar contagem de pedidos
           totalCustomers: subscribersCount || 0,
           totalProducts: Array.isArray(products) ? products.length : 0,
-          revenue: 45890.5, // TODO: Implementar cálculo de faturamento
+          revenue: 10890.5, // TODO: Implementar cálculo de faturamento
         });
       } catch (error) {
         console.error("Erro ao buscar estatísticas:", error);
