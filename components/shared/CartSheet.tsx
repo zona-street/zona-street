@@ -46,7 +46,7 @@ export function CartSheet() {
       })
       .join("");
 
-    const total = `${divider}\n💰 *TOTAL: R$ ${getTotalPrice().toFixed(2)}*`;
+    const total = `${divider}\n *TOTAL: R$ ${getTotalPrice().toFixed(2)}*`;
 
     const footer = "\n\n_Gostaria de finalizar este pedido.";
 
@@ -213,7 +213,7 @@ export function CartSheet() {
               </div>
 
               <Button
-                className="w-full border-2 border-gray-900 bg-green-600 py-6 text-base font-bold uppercase tracking-wide text-white hover:text-green-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-none active:translate-x-0 active:translate-y-0"
+                className="w-full border-2 border-gray-900 bg-green-600 py-6 text-base font-bold uppercase tracking-wide text-white  shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-none active:translate-x-0 active:translate-y-0"
                 onClick={handleCheckout}
               >
                 <FaWhatsapp className="mr-2 h-5 w-5" />
