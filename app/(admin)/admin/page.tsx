@@ -27,21 +27,29 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     async function fetchStats() {
-      if (!token) return;
+      if (!token) {
+        setLoading(false);
+        return;
+      }
 
       try {
         setLoading(true);
 
         // Buscar dados reais em paralelo
-        const [products, subscribersCount] = await Promise.all([
+        const results = await Promise.allSettled([
           productsApi.getAll(),
           subscribersApi.count(token),
         ]);
 
+        const products =
+          results[0].status === "fulfilled" ? results[0].value : [];
+        const subscribersCount =
+          results[1].status === "fulfilled" ? results[1].value : 0;
+
         setStats({
           totalOrders: 127, // TODO: Implementar contagem de pedidos
-          totalCustomers: subscribersCount,
-          totalProducts: products.length,
+          totalCustomers: subscribersCount || 0,
+          totalProducts: Array.isArray(products) ? products.length : 0,
           revenue: 45890.5, // TODO: Implementar cálculo de faturamento
         });
       } catch (error) {
@@ -98,7 +106,11 @@ export default function AdminDashboard() {
                 Pedidos
               </p>
               <p className="mt-2 text-3xl font-black text-gray-900">
-                {loading ? <span className="animate-pulse">...</span> : stats.totalOrders}
+                {loading ? (
+                  <span className="animate-pulse">...</span>
+                ) : (
+                  stats.totalOrders
+                )}
               </p>
             </div>
             <div className="rounded-full border-2 border-gray-900 bg-blue-street p-3">
@@ -115,7 +127,11 @@ export default function AdminDashboard() {
                 Assinantes
               </p>
               <p className="mt-2 text-3xl font-black text-gray-900">
-                {loading ? <span className="animate-pulse">...</span> : stats.totalCustomers}
+                {loading ? (
+                  <span className="animate-pulse">...</span>
+                ) : (
+                  stats.totalCustomers
+                )}
               </p>
             </div>
             <div className="rounded-full border-2 border-gray-900 bg-green-600 p-3">
@@ -132,7 +148,11 @@ export default function AdminDashboard() {
                 Produtos
               </p>
               <p className="mt-2 text-3xl font-black text-gray-900">
-                {loading ? <span className="animate-pulse">...</span> : stats.totalProducts}
+                {loading ? (
+                  <span className="animate-pulse">...</span>
+                ) : (
+                  stats.totalProducts
+                )}
               </p>
             </div>
             <div className="rounded-full border-2 border-gray-900 bg-purple-600 p-3">

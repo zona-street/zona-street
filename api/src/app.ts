@@ -84,7 +84,9 @@ export async function buildApp() {
   fastify.register(productRoutes, { prefix: `${config.apiPrefix}/products` });
 
   // Registro das rotas de assinantes
-  fastify.register(subscriberRoutes, { prefix: `${config.apiPrefix}/subscribers` });
+  fastify.register(subscriberRoutes, {
+    prefix: `${config.apiPrefix}/subscribers`,
+  });
 
   // Handler de erro global
   fastify.setErrorHandler((error, request, reply) => {

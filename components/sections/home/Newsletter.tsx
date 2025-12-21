@@ -4,7 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/v1";
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/v1";
 
 export function Newsletter() {
   const [email, setEmail] = useState("");
@@ -36,7 +37,8 @@ export function Newsletter() {
       setEmail("");
     } catch (error) {
       toast.error("Erro ao cadastrar", {
-        description: error instanceof Error ? error.message : "Tente novamente mais tarde",
+        description:
+          error instanceof Error ? error.message : "Tente novamente mais tarde",
       });
     } finally {
       setIsLoading(false);
@@ -89,7 +91,10 @@ export function Newsletter() {
             </p>
           </div>
         </div>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-4 sm:flex-row sm:justify-center"
+        >
           <input
             type="email"
             placeholder="Digite seu melhor e-mail"

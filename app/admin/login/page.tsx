@@ -42,9 +42,7 @@ export default function AdminLoginPage() {
     } catch (error) {
       toast.error("Erro ao fazer login", {
         description:
-          error instanceof Error
-            ? error.message
-            : "Verifique suas credenciais",
+          error instanceof Error ? error.message : "Verifique suas credenciais",
       });
     } finally {
       setIsLoading(false);

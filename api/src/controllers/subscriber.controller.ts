@@ -31,7 +31,8 @@ export class SubscriberController {
       return reply.status(201).send({
         success: true,
         data: subscriber,
-        message: "Cadastro realizado com sucesso! Você receberá novidades sobre nossos produtos.",
+        message:
+          "Cadastro realizado com sucesso! Você receberá novidades sobre nossos produtos.",
       });
     } catch (error) {
       if (error instanceof z.ZodError) {

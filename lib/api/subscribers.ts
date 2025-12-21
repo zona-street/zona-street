@@ -1,4 +1,5 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/v1";
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/v1";
 
 export interface Subscriber {
   id: string;
@@ -9,24 +10,40 @@ export interface Subscriber {
 export const subscribersApi = {
   // Buscar todos os assinantes (Admin)
   async getAll(token: string): Promise<Subscriber[]> {
-    const response = await fetch(`${API_URL}/subscribers`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      cache: "no-store", // Sempre buscar dados atualizados
-    });
+    try {
+      if (!token) {
+        console.error("Token não fornecido");
+        return [];
+      }
 
-    if (!response.ok) {
-      throw new Error("Erro ao buscar assinantes");
+      const response = await fetch(`${API_URL}/subscribers`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store", // Sempre buscar dados atualizados
+      });
+
+      if (!response.ok) {
+        console.error("Erro ao buscar assinantes:", response.statusText);
+        return [];
+      }
+
+      const data = await response.json();
+      return Array.isArray(data?.data) ? data.data : [];
+    } catch (error) {
+      console.error("Erro ao buscar assinantes:", error);
+      return [];
     }
-
-    const data = await response.json();
-    return data.data;
   },
 
   // Contar total de assinantes (Admin)
   async count(token: string): Promise<number> {
-    const subscribers = await this.getAll(token);
-    return subscribers.length;
+    try {
+      const subscribers = await this.getAll(token);
+      return Array.isArray(subscribers) ? subscribers.length : 0;
+    } catch (error) {
+      console.error("Erro ao contar assinantes:", error);
+      return 0;
+    }
   },
 };

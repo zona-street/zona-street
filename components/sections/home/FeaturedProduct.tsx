@@ -9,10 +9,15 @@ interface FeaturedProductProps {
     image: string;
     category: string;
     slug: string;
-  };
+  } | null;
 }
 
 export function FeaturedProduct({ product }: FeaturedProductProps) {
+  // Verificar se o produto existe
+  if (!product) {
+    return null;
+  }
+
   const discountPercentage = product.oldPrice
     ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
     : 0;

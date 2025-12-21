@@ -16,6 +16,9 @@ interface NewDropsProps {
 }
 
 export function NewDrops({ products }: NewDropsProps) {
+  // Verificar se products existe e é um array
+  const safeProducts = Array.isArray(products) ? products : [];
+
   return (
     <section className="bg-white py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -32,11 +35,23 @@ export function NewDrops({ products }: NewDropsProps) {
             10% OFF no PIX + Parcelamento em até 10x sem juros
           </p>
         </div>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {products.map((product) => (
-            <ProductCard key={product.id} {...product} />
-          ))}
-        </div>
+
+        {safeProducts.length === 0 ? (
+          <div className="border-2 border-gray-200 bg-gray-50 p-12 text-center">
+            <p className="text-lg font-bold uppercase text-gray-500">
+              Em breve novos produtos
+            </p>
+            <p className="mt-2 text-sm text-gray-400">
+              Cadastre-se na newsletter para ser avisado!
+            </p>
+          </div>
+        ) : (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {safeProducts.map((product) => (
+              <ProductCard key={product.id} {...product} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

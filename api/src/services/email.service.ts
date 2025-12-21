@@ -21,7 +21,13 @@ export class EmailService {
     to: string,
     productData: NewProductEmailData
   ): Promise<void> {
-    const { productName, productDescription, productPrice, productImage, productSlug } = productData;
+    const {
+      productName,
+      productDescription,
+      productPrice,
+      productImage,
+      productSlug,
+    } = productData;
 
     try {
       await resend.emails.send({
@@ -134,7 +140,9 @@ export class EmailService {
                 <div class="content">
                   <img src="${productImage}" alt="${productName}" class="product-image" />
                   <h2 class="product-name">${productName}</h2>
-                  <div class="product-price">R$ ${productPrice.toFixed(2).replace('.', ',')}</div>
+                  <div class="product-price">R$ ${productPrice
+                    .toFixed(2)
+                    .replace(".", ",")}</div>
                   <p class="product-description">${productDescription}</p>
                   <center>
                     <a href="https://zonastreet.com/produto/${productSlug}" class="cta-button">

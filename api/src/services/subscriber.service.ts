@@ -22,7 +22,9 @@ export class SubscriberService {
     }
 
     // Verifica se já existe
-    const existingSubscriber = await this.subscriberRepository.findByEmail(email);
+    const existingSubscriber = await this.subscriberRepository.findByEmail(
+      email
+    );
     if (existingSubscriber) {
       throw new Error("Email já cadastrado na newsletter");
     }

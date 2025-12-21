@@ -1,6 +1,7 @@
 import { Product } from "@/lib/types/product";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/v1";
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/v1";
 
 export interface CreateProductData {
   name: string;
@@ -27,50 +28,73 @@ export interface ProductFilters {
 export const productsApi = {
   // Buscar todos os produtos (com filtros opcionais)
   async getAll(filters?: ProductFilters): Promise<Product[]> {
-    const params = new URLSearchParams();
-    if (filters?.category) params.append("category", filters.category);
-    if (filters?.page) params.append("page", filters.page.toString());
-    if (filters?.limit) params.append("limit", filters.limit.toString());
+    try {
+      const params = new URLSearchParams();
+      if (filters?.category) params.append("category", filters.category);
+      if (filters?.page) params.append("page", filters.page.toString());
+      if (filters?.limit) params.append("limit", filters.limit.toString());
 
-    const url = `${API_URL}/products${params.toString() ? `?${params.toString()}` : ""}`;
-    const response = await fetch(url, {
-      next: { revalidate: 3600 }, // ISR: revalidar a cada 1 hora
-    });
+      const url = `${API_URL}/products${
+        params.toString() ? `?${params.toString()}` : ""
+      }`;
+      const response = await fetch(url, {
+        next: { revalidate: 3600 }, // ISR: revalidar a cada 1 hora
+      });
 
-    if (!response.ok) {
-      throw new Error("Erro ao buscar produtos");
+      if (!response.ok) {
+        console.error("Erro ao buscar produtos:", response.statusText);
+        return [];
+      }
+
+      const data = await response.json();
+      return Array.isArray(data?.data?.products) ? data.data.products : [];
+    } catch (error) {
+      console.error("Erro ao buscar produtos:", error);
+      return [];
     }
-
-    const data = await response.json();
-    return data.data.products;
   },
 
   // Buscar produtos em destaque
   async getFeatured(): Promise<Product[]> {
-    const response = await fetch(`${API_URL}/products/featured`, {
-      next: { revalidate: 3600 },
-    });
+    try {
+      const response = await fetch(`${API_URL}/products/featured`, {
+        next: { revalidate: 3600 },
+      });
 
-    if (!response.ok) {
-      throw new Error("Erro ao buscar produtos em destaque");
+      if (!response.ok) {
+        console.error(
+          "Erro ao buscar produtos em destaque:",
+          response.statusText
+        );
+        return [];
+      }
+
+      const data = await response.json();
+      return Array.isArray(data?.data) ? data.data : [];
+    } catch (error) {
+      console.error("Erro ao buscar produtos em destaque:", error);
+      return [];
     }
-
-    const data = await response.json();
-    return data.data;
   },
 
   // Buscar novos lançamentos
   async getNewDrops(): Promise<Product[]> {
-    const response = await fetch(`${API_URL}/products/new-drops`, {
-      next: { revalidate: 3600 },
-    });
+    try {
+      const response = await fetch(`${API_URL}/products/new-drops`, {
+        next: { revalidate: 3600 },
+      });
 
-    if (!response.ok) {
-      throw new Error("Erro ao buscar novos lançamentos");
+      if (!response.ok) {
+        console.error("Erro ao buscar novos lançamentos:", response.statusText);
+        return [];
+      }
+
+      const data = await response.json();
+      return Array.isArray(data?.data) ? data.data : [];
+    } catch (error) {
+      console.error("Erro ao buscar novos lançamentos:", error);
+      return [];
     }
-
-    const data = await response.json();
-    return data.data;
   },
 
   // Buscar produto por slug
@@ -88,7 +112,10 @@ export const productsApi = {
   },
 
   // Criar produto (Admin)
-  async create(productData: CreateProductData, token: string): Promise<Product> {
+  async create(
+    productData: CreateProductData,
+    token: string
+  ): Promise<Product> {
     const response = await fetch(`${API_URL}/products`, {
       method: "POST",
       headers: {

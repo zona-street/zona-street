@@ -188,10 +188,18 @@ export class ProductController {
     try {
       const createProductSchema = z.object({
         name: z.string().min(3, "Nome deve ter no mínimo 3 caracteres"),
-        description: z.string().min(10, "Descrição deve ter no mínimo 10 caracteres"),
+        description: z
+          .string()
+          .min(10, "Descrição deve ter no mínimo 10 caracteres"),
         price: z.number().positive("Preço deve ser positivo"),
         oldPrice: z.number().positive().optional(),
-        category: z.enum(["camisetas", "moletons", "calcas", "jaquetas", "acessorios"]),
+        category: z.enum([
+          "camisetas",
+          "moletons",
+          "calcas",
+          "jaquetas",
+          "acessorios",
+        ]),
         slug: z.string().min(3, "Slug inválido"),
         images: z.array(z.string()).min(1, "Adicione pelo menos uma imagem"),
         sizes: z.array(z.string()).min(1, "Adicione pelo menos um tamanho"),
@@ -207,20 +215,22 @@ export class ProductController {
       // Se for um novo lançamento, dispara emails para assinantes
       if (data.isNewDrop) {
         const subscribers = await this.subscriberService.getAllSubscribers();
-        
+
         if (subscribers.length > 0) {
-          const emails = subscribers.map(sub => sub.email);
-          
+          const emails = subscribers.map((sub) => sub.email);
+
           // Dispara emails de forma assíncrona (não bloqueia a resposta)
-          this.emailService.sendBulkNewProductEmails(emails, {
-            productName: product.name,
-            productDescription: product.description,
-            productPrice: Number(product.price),
-            productImage: product.images[0],
-            productSlug: product.slug,
-          }).catch(error => {
-            console.error("Erro ao enviar emails:", error);
-          });
+          this.emailService
+            .sendBulkNewProductEmails(emails, {
+              productName: product.name,
+              productDescription: product.description,
+              productPrice: Number(product.price),
+              productImage: product.images[0],
+              productSlug: product.slug,
+            })
+            .catch((error) => {
+              console.error("Erro ao enviar emails:", error);
+            });
         }
       }
 
@@ -265,7 +275,9 @@ export class ProductController {
         description: z.string().min(10).optional(),
         price: z.number().positive().optional(),
         oldPrice: z.number().positive().optional().nullable(),
-        category: z.enum(["camisetas", "moletons", "calcas", "jaquetas", "acessorios"]).optional(),
+        category: z
+          .enum(["camisetas", "moletons", "calcas", "jaquetas", "acessorios"])
+          .optional(),
         slug: z.string().min(3).optional(),
         images: z.array(z.string()).min(1).optional(),
         sizes: z.array(z.string()).min(1).optional(),

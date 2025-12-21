@@ -35,7 +35,13 @@ const productSchema = z.object({
   description: z.string().min(10, "Descrição deve ter no mínimo 10 caracteres"),
   price: z.number().min(0.01, "Preço deve ser maior que 0"),
   oldPrice: z.number().optional(),
-  category: z.enum(["camisetas", "moletons", "calcas", "acessorios", "calcados"]),
+  category: z.enum([
+    "camisetas",
+    "moletons",
+    "calcas",
+    "acessorios",
+    "calcados",
+  ]),
   stock: z.number().min(0, "Estoque não pode ser negativo"),
   slug: z.string().min(3, "Slug deve ter no mínimo 3 caracteres"),
   sizes: z.array(z.string()).min(1, "Selecione pelo menos um tamanho"),
@@ -240,7 +246,7 @@ export default function AdminProductsPage() {
               Novo Produto
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto border-2 border-gray-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <DialogContent className=" max-w-3xl max-h-[90vh] overflow-y-auto border-2 border-gray-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <DialogHeader>
               <DialogTitle className="text-2xl font-black uppercase">
                 {editingProduct ? "Editar Produto" : "Novo Produto"}
@@ -265,13 +271,18 @@ export default function AdminProductsPage() {
                   placeholder="Ex: Camiseta Oversized Básica"
                 />
                 {errors.name && (
-                  <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>
+                  <p className="mt-1 text-xs text-red-600">
+                    {errors.name.message}
+                  </p>
                 )}
               </div>
 
               {/* Descrição */}
               <div>
-                <Label htmlFor="description" className="font-bold uppercase text-xs">
+                <Label
+                  htmlFor="description"
+                  className="font-bold uppercase text-xs"
+                >
                   Descrição *
                 </Label>
                 <textarea
@@ -281,14 +292,19 @@ export default function AdminProductsPage() {
                   placeholder="Descrição detalhada do produto..."
                 />
                 {errors.description && (
-                  <p className="mt-1 text-xs text-red-600">{errors.description.message}</p>
+                  <p className="mt-1 text-xs text-red-600">
+                    {errors.description.message}
+                  </p>
                 )}
               </div>
 
               {/* Preço e Preço Antigo */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="price" className="font-bold uppercase text-xs">
+                  <Label
+                    htmlFor="price"
+                    className="font-bold uppercase text-xs"
+                  >
                     Preço (R$) *
                   </Label>
                   <Input
@@ -300,12 +316,17 @@ export default function AdminProductsPage() {
                     placeholder="149.90"
                   />
                   {errors.price && (
-                    <p className="mt-1 text-xs text-red-600">{errors.price.message}</p>
+                    <p className="mt-1 text-xs text-red-600">
+                      {errors.price.message}
+                    </p>
                   )}
                 </div>
 
                 <div>
-                  <Label htmlFor="oldPrice" className="font-bold uppercase text-xs">
+                  <Label
+                    htmlFor="oldPrice"
+                    className="font-bold uppercase text-xs"
+                  >
                     Preço Antigo (R$)
                   </Label>
                   <Input
@@ -317,7 +338,9 @@ export default function AdminProductsPage() {
                     placeholder="199.90"
                   />
                   {errors.oldPrice && (
-                    <p className="mt-1 text-xs text-red-600">{errors.oldPrice.message}</p>
+                    <p className="mt-1 text-xs text-red-600">
+                      {errors.oldPrice.message}
+                    </p>
                   )}
                 </div>
               </div>
@@ -325,12 +348,17 @@ export default function AdminProductsPage() {
               {/* Categoria e Estoque */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="category" className="font-bold uppercase text-xs">
+                  <Label
+                    htmlFor="category"
+                    className="font-bold uppercase text-xs"
+                  >
                     Categoria *
                   </Label>
                   <Select
                     value={selectedCategory}
-                    onValueChange={(value) => setValue("category", value as any)}
+                    onValueChange={(value) =>
+                      setValue("category", value as any)
+                    }
                   >
                     <SelectTrigger className="mt-1 border-2 border-gray-900">
                       <SelectValue placeholder="Selecione..." />
@@ -344,12 +372,17 @@ export default function AdminProductsPage() {
                     </SelectContent>
                   </Select>
                   {errors.category && (
-                    <p className="mt-1 text-xs text-red-600">{errors.category.message}</p>
+                    <p className="mt-1 text-xs text-red-600">
+                      {errors.category.message}
+                    </p>
                   )}
                 </div>
 
                 <div>
-                  <Label htmlFor="stock" className="font-bold uppercase text-xs">
+                  <Label
+                    htmlFor="stock"
+                    className="font-bold uppercase text-xs"
+                  >
                     Estoque *
                   </Label>
                   <Input
@@ -360,7 +393,9 @@ export default function AdminProductsPage() {
                     placeholder="100"
                   />
                   {errors.stock && (
-                    <p className="mt-1 text-xs text-red-600">{errors.stock.message}</p>
+                    <p className="mt-1 text-xs text-red-600">
+                      {errors.stock.message}
+                    </p>
                   )}
                 </div>
               </div>
@@ -380,13 +415,17 @@ export default function AdminProductsPage() {
                   Use apenas letras minúsculas, números e hífens
                 </p>
                 {errors.slug && (
-                  <p className="mt-1 text-xs text-red-600">{errors.slug.message}</p>
+                  <p className="mt-1 text-xs text-red-600">
+                    {errors.slug.message}
+                  </p>
                 )}
               </div>
 
               {/* Tamanhos */}
               <div>
-                <Label className="font-bold uppercase text-xs">Tamanhos Disponíveis *</Label>
+                <Label className="font-bold uppercase text-xs">
+                  Tamanhos Disponíveis *
+                </Label>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {availableSizes.map((size) => (
                     <button
@@ -404,7 +443,9 @@ export default function AdminProductsPage() {
                   ))}
                 </div>
                 {errors.sizes && (
-                  <p className="mt-1 text-xs text-red-600">{errors.sizes.message}</p>
+                  <p className="mt-1 text-xs text-red-600">
+                    {errors.sizes.message}
+                  </p>
                 )}
               </div>
 
@@ -444,7 +485,8 @@ export default function AdminProductsPage() {
                     </Button>
                   </div>
                   <p className="text-xs text-gray-500">
-                    Cole a URL da imagem e pressione Enter ou clique em Adicionar
+                    Cole a URL da imagem e pressione Enter ou clique em
+                    Adicionar
                   </p>
 
                   {/* Lista de imagens */}
@@ -471,7 +513,9 @@ export default function AdminProductsPage() {
                   )}
                 </div>
                 {errors.images && (
-                  <p className="mt-1 text-xs text-red-600">{errors.images.message}</p>
+                  <p className="mt-1 text-xs text-red-600">
+                    {errors.images.message}
+                  </p>
                 )}
               </div>
 
@@ -484,7 +528,9 @@ export default function AdminProductsPage() {
                     onChange={(e) => setValue("isNewDrop", e.target.checked)}
                     className="h-4 w-4 border-2 border-gray-900"
                   />
-                  <span className="font-bold uppercase text-xs">Novo Lançamento</span>
+                  <span className="font-bold uppercase text-xs">
+                    Novo Lançamento
+                  </span>
                 </label>
 
                 <label className="flex items-center gap-2 cursor-pointer">
@@ -494,7 +540,9 @@ export default function AdminProductsPage() {
                     onChange={(e) => setValue("isFeatured", e.target.checked)}
                     className="h-4 w-4 border-2 border-gray-900"
                   />
-                  <span className="font-bold uppercase text-xs">Produto em Destaque</span>
+                  <span className="font-bold uppercase text-xs">
+                    Produto em Destaque
+                  </span>
                 </label>
               </div>
 
@@ -583,8 +631,12 @@ export default function AdminProductsPage() {
                           className="h-12 w-12 border border-gray-200 object-cover"
                         />
                         <div>
-                          <p className="font-bold text-sm text-gray-900">{product.name}</p>
-                          <p className="text-xs text-gray-500">{product.slug}</p>
+                          <p className="font-bold text-sm text-gray-900">
+                            {product.name}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {product.slug}
+                          </p>
                         </div>
                       </div>
                     </td>

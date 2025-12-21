@@ -48,8 +48,14 @@ export function ProductCard({
   const addItem = useCart((state) => state.addItem);
   const openCart = useCartSheet((state) => state.openCart);
 
-  const discountPercentage = oldPrice
-    ? Math.round(((oldPrice - price) / oldPrice) * 100)
+  // Verificações de segurança
+  const safeImage = image || "/placeholder-product.png";
+  const safeName = name || "Produto sem nome";
+  const safePrice = typeof price === "number" ? price : 0;
+  const safeOldPrice = typeof oldPrice === "number" ? oldPrice : undefined;
+
+  const discountPercentage = safeOldPrice
+    ? Math.round(((safeOldPrice - safePrice) / safeOldPrice) * 100)
     : 0;
 
   const handleAddToCart = () => {
@@ -90,7 +96,7 @@ export function ProductCard({
           {/* TODO: Substituir placeholder por imagens reais dos produtos */}
           {/* Placeholder: Imagem do produto (substituir por imagens em /public/products/) */}
           <div className="flex h-full w-full items-center justify-center bg-gray-50 text-6xl font-black text-gray-200">
-            {name.charAt(0)}
+            {safeName.charAt(0)}
           </div>
 
           {/* Badge de novidade */}
@@ -121,24 +127,24 @@ export function ProductCard({
       <CardContent className="p-4">
         {/* Categoria */}
         <p className="mb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
-          {category}
+          {category || "Categoria"}
         </p>
 
         {/* Nome do produto */}
-        <Link href={`/produto/${slug}`}>
+        <Link href={`/produto/${slug || ""}`}>
           <h3 className="mb-3 line-clamp-2 text-base font-bold leading-tight text-gray-900 transition-colors hover:text-orange-600">
-            {name}
+            {safeName}
           </h3>
         </Link>
 
         {/* Preços */}
         <div className="flex items-baseline gap-2">
           <span className="text-xl font-bold text-gray-900">
-            R$ {price.toFixed(2)}
+            R$ {safePrice.toFixed(2)}
           </span>
-          {oldPrice && (
+          {safeOldPrice && (
             <span className="text-sm font-medium text-gray-400 line-through">
-              R$ {oldPrice.toFixed(2)}
+              R$ {safeOldPrice.toFixed(2)}
             </span>
           )}
         </div>

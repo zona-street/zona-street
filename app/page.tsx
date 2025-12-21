@@ -17,16 +17,27 @@ export default async function Home() {
 
   try {
     // Buscar produtos em destaque e novos lançamentos em paralelo
-    [featuredProducts, newDropProducts] = await Promise.all([
+    const results = await Promise.allSettled([
       productsApi.getFeatured(),
       productsApi.getNewDrops(),
     ]);
+
+    if (results[0].status === "fulfilled") {
+      featuredProducts = results[0].value || [];
+    }
+    if (results[1].status === "fulfilled") {
+      newDropProducts = results[1].value || [];
+    }
   } catch (error) {
     console.error("Erro ao buscar produtos:", error);
+    // Continuar com arrays vazios
   }
 
-  // Pegar o primeiro produto em destaque
-  const featuredProduct = featuredProducts[0] || null;
+  // Pegar o primeiro produto em destaque (com verificação)
+  const featuredProduct =
+    Array.isArray(featuredProducts) && featuredProducts.length > 0
+      ? featuredProducts[0]
+      : null;
 
   return (
     <div className="min-h-screen">
