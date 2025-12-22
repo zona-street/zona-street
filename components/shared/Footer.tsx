@@ -84,7 +84,7 @@ export function Footer() {
             <ul className="space-y-2 text-sm font-medium text-gray-400">
               <li>
                 <a
-                  href="https://instagram.com/zonastreet"
+                  href="https://instagram.com/zonastreet01"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-orange-street text-center transition-colors"

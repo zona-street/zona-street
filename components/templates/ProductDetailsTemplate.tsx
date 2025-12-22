@@ -145,7 +145,7 @@ export function ProductDetailsTemplate({
                 </Badge>
               )}
               {discount > 0 && (
-                <Badge className="absolute right-4 top-4 border-2 border-red-600 bg-red-600 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                <Badge className="absolute right-4 top-4 border-2 border-gray-900 bg-gray-900 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                   -{discount}%
                 </Badge>
               )}

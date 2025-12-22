@@ -108,7 +108,20 @@ export class ProductService {
     product: Product
   ): Product & { discount?: number | null } {
     return {
-      ...product,
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      oldPrice: product.oldPrice,
+      images: product.images,
+      category: product.category,
+      stock: product.stock,
+      slug: product.slug,
+      sizes: product.sizes,
+      isNewDrop: product.isNewDrop,
+      isFeatured: product.isFeatured,
+      createdAt: product.createdAt,
+      updatedAt: product.updatedAt,
       discount: this.calculateDiscount(product),
     };
   }

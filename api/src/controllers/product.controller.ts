@@ -42,11 +42,6 @@ export class ProductController {
 
       const result = await this.service.listProductsFormatted(filters);
 
-      console.log("📋 Listagem de produtos:", {
-        total: result.total,
-        quantidade: result.products.length,
-      });
-
       reply.status(200).send({
         success: true,
         data: result.products,
@@ -93,10 +88,12 @@ export class ProductController {
       }
 
       // Retornar apenas o produto (frontend busca relacionados separadamente)
-      reply.status(200).send({
+      const responseData = {
         success: true,
         data: this.service.formatProductResponse(product),
-      });
+      };
+      const json = JSON.stringify(responseData);
+      reply.status(200).send(json);
     } catch (error) {
       if (error instanceof Error) {
         reply.status(400).send({

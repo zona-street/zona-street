@@ -100,8 +100,9 @@ export const productsApi = {
   // Buscar produto por slug
   async getBySlug(slug: string): Promise<Product | null> {
     try {
-      const response = await fetch(`${API_URL}/products/${slug}`, {
-        next: { revalidate: 60 }, // Revalidar a cada 1 minuto para melhor responsividade
+      const url = `${API_URL}/products/${slug}`;
+      const response = await fetch(url, {
+        next: { revalidate: 60 }, // Revalidar a cada 1 minuto
       });
 
       if (!response.ok) {
@@ -109,10 +110,11 @@ export const productsApi = {
         return null;
       }
 
-      const data = await response.json();
+      const text = await response.text();
+      const data = JSON.parse(text);
       return data.data || null;
     } catch (error) {
-      console.error('Erro ao buscar produto:', error);
+      console.error("Erro ao buscar produto:", error);
       return null;
     }
   },
