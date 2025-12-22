@@ -490,7 +490,7 @@ export function AdminProductsTemplate() {
 
                   {/* Lista de imagens */}
                   {imageUrls && imageUrls.length > 0 && (
-                    <div className="space-y-2 border-2 border-gray-200 p-4 max-w-full box-border overflow-hidden">
+                    <div className="space-y-2 border-2 border-gray-200 p-4 max-w-114 box-border overflow-hidden">
                       {imageUrls.map((url, index) => (
                         <div
                           key={index}

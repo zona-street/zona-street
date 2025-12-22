@@ -27,6 +27,26 @@ export function ProductDetailsTemplate({
   const addItem = useCart((state) => state.addItem);
   const { openCart } = useCartSheet();
 
+  // Verificar se o produto tem dados essenciais
+  if (!product || !product.id) {
+    return (
+      <div className="min-h-screen bg-white">
+        <Navbar />
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">
+              Produto não encontrado
+            </h1>
+            <p className="text-gray-600">
+              O produto que você está procurando não existe ou foi removido.
+            </p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   // Gerenciar favoritos no localStorage
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
@@ -42,13 +62,22 @@ export function ProductDetailsTemplate({
       return;
     }
 
+    const itemPrice =
+      typeof product.price === "string"
+        ? parseFloat(product.price)
+        : product.price || 0;
+
+    if (itemPrice <= 0) {
+      toast.error("Produto indisponível", {
+        description: "Este produto não possui preço definido.",
+      });
+      return;
+    }
+
     addItem({
       id: product.id,
       name: product.name,
-      price:
-        typeof product.price === "string"
-          ? parseFloat(product.price)
-          : product.price,
+      price: itemPrice,
       size: selectedSize,
       image: product.images?.[0] || "/placeholder.jpg",
       slug: product.slug,
@@ -80,11 +109,15 @@ export function ProductDetailsTemplate({
   const price =
     typeof product.price === "string"
       ? parseFloat(product.price)
-      : product.price;
+      : typeof product.price === "number"
+      ? product.price
+      : 0;
   const oldPrice =
     product.oldPrice && typeof product.oldPrice === "string"
       ? parseFloat(product.oldPrice)
-      : product.oldPrice;
+      : typeof product.oldPrice === "number"
+      ? product.oldPrice
+      : undefined;
 
   const discount = oldPrice
     ? Math.round(((oldPrice - price) / oldPrice) * 100)
@@ -143,9 +176,9 @@ export function ProductDetailsTemplate({
 
             <div className="mb-6 flex items-center gap-3">
               <span className="text-3xl font-bold text-gray-900">
-                R$ {price.toFixed(2)}
+                R$ {price > 0 ? price.toFixed(2) : "Preço não disponível"}
               </span>
-              {oldPrice && (
+              {oldPrice && oldPrice > 0 && (
                 <span className="text-xl text-gray-400 line-through">
                   R$ {oldPrice.toFixed(2)}
                 </span>
@@ -183,11 +216,15 @@ export function ProductDetailsTemplate({
 
             <Button
               onClick={handleAddToCart}
-              disabled={!selectedSize}
+              disabled={!selectedSize || price <= 0}
               className="w-full border-2 border-gray-900 bg-gray-900 py-6 text-sm font-bold uppercase tracking-wide text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none disabled:opacity-50 disabled:cursor-not-allowed"
               size="lg"
             >
-              {selectedSize ? "Adicionar ao Carrinho" : "Selecione um tamanho"}
+              {!selectedSize
+                ? "Selecione um tamanho"
+                : price <= 0
+                ? "Produto indisponível"
+                : "Adicionar ao Carrinho"}
             </Button>
 
             <div className="mt-8 border-t-2 border-gray-200 pt-8">

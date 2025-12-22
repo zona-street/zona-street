@@ -24,8 +24,9 @@ export function CategoriasTemplate({
   products,
   loading = false,
 }: CategoriasTemplateProps) {
-  const categoryName =
-    categoryNames[slug] || slug.charAt(0).toUpperCase() + slug.slice(1);
+  const categoryName = slug
+    ? categoryNames[slug] || slug.charAt(0).toUpperCase() + slug.slice(1)
+    : "Categoria";
 
   return (
     <div className="min-h-screen bg-gray-50">

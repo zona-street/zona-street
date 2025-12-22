@@ -249,7 +249,7 @@ export function ProductCardFeatured({
     setTimeout(() => openCart(), 300);
   };
   return (
-    <Card className="group relative overflow-hidden border-2 border-gray-900 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[6px] hover:translate-y-[6px] hover:shadow-none gap-0 rounded-none">
+    <Card className="group pt-0 relative overflow-hidden border-2 border-gray-900 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[6px] hover:translate-y-[6px] hover:shadow-none gap-0 rounded-none">
       <CardHeader className="p-0">
         <Link
           href={`/produtos/${slug}`}

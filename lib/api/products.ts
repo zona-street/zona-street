@@ -98,17 +98,23 @@ export const productsApi = {
   },
 
   // Buscar produto por slug
-  async getBySlug(slug: string): Promise<Product> {
-    const response = await fetch(`${API_URL}/products/${slug}`, {
-      next: { revalidate: 3600 },
-    });
+  async getBySlug(slug: string): Promise<Product | null> {
+    try {
+      const response = await fetch(`${API_URL}/products/${slug}`, {
+        next: { revalidate: 60 }, // Revalidar a cada 1 minuto para melhor responsividade
+      });
 
-    if (!response.ok) {
-      throw new Error("Erro ao buscar produto");
+      if (!response.ok) {
+        console.error(`API error ${response.status}:`, await response.text());
+        return null;
+      }
+
+      const data = await response.json();
+      return data.data || null;
+    } catch (error) {
+      console.error('Erro ao buscar produto:', error);
+      return null;
     }
-
-    const data = await response.json();
-    return data.data;
   },
 
   // Criar produto (Admin)

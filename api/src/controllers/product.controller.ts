@@ -92,17 +92,10 @@ export class ProductController {
         return;
       }
 
-      // Buscar produtos relacionados
-      const relatedProducts = await this.service.getRelatedProducts(slug);
-
+      // Retornar apenas o produto (frontend busca relacionados separadamente)
       reply.status(200).send({
         success: true,
-        data: {
-          ...this.service.formatProductResponse(product),
-          relatedProducts: relatedProducts.map((p) =>
-            this.service.formatProductResponse(p)
-          ),
-        },
+        data: this.service.formatProductResponse(product),
       });
     } catch (error) {
       if (error instanceof Error) {

@@ -14,6 +14,7 @@ export default async function ProdutoDetalhePage({
 
   try {
     product = await productsApi.getBySlug(slug);
+    
     if (!product) {
       notFound();
     }

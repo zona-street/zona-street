@@ -5,17 +5,18 @@ import { Product } from "@/lib/types/product";
 export default async function CategoriaPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
   let products: Product[] = [];
 
   try {
     products = await productsApi.getAll({
-      category: params.slug,
+      category: slug,
     });
   } catch (error) {
     console.error("Erro ao buscar produtos:", error);
   }
 
-  return <CategoriasTemplate slug={params.slug} products={products} />;
+  return <CategoriasTemplate slug={slug} products={products} />;
 }
