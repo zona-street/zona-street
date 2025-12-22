@@ -88,7 +88,7 @@
   --popover-foreground: hsl(0 0% 9%); /* #171717 */
 
   /* Primary - Laranja Zona Street (#F57C00) */
-  --primary: hsl(32 100% 48%); /* #F57C00 - Cor principal da marca */
+  --primary: hsl(32 100% 48%); /* #F57C00 - Cor principal Zona Street */
   --primary-foreground: hsl(0 0% 100%); /* Branco para contraste máximo */
 
   /* Secondary - Azul Royal Zona Street (#2962FF) */
@@ -97,10 +97,14 @@
 
   /* Muted - tons neutros com melhor contraste */
   --muted: hsl(0 0% 90%); /* #E6E6E6 - Cinza claro para fundos secundários */
-  --muted-foreground: hsl(0 0% 30%); /* #4D4D4D - Cinza médio-escuro para texto secundário */
+  --muted-foreground: hsl(
+    0 0% 30%
+  ); /* #4D4D4D - Cinza médio-escuro para texto secundário */
 
   /* Accent - Laranja vibrante para destaques */
-  --accent: hsl(32 100% 55%); /* #FF8C1A - Laranja mais claro para hover/destaque */
+  --accent: hsl(
+    32 100% 55%
+  ); /* #FF8C1A - Laranja mais claro para hover/destaque */
   --accent-foreground: hsl(0 0% 9%); /* Gray-900 */
 
   /* Destructive - vermelho para ações destrutivas */
@@ -192,5 +196,38 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Custom Scrollbar - Zona Street Style */
+  ::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(0 0% 96%); /* Off-white background */
+    border: 2px solid hsl(0 0% 89%); /* Border matching theme */
+    border-radius: 0; /* Sharp edges for brutal style */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(32 100% 48%); /* Orange Street */
+    border: 2px solid hsl(0 0% 9%); /* Black border */
+    border-radius: 0; /* Sharp edges */
+    box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1); /* Offset shadow */
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(32 100% 55%); /* Lighter orange on hover */
+    box-shadow: 3px 3px 0px 0px rgba(0, 0, 0, 1); /* Stronger shadow on hover */
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: hsl(0 0% 9%); /* Black corner */
+  }
+
+  /* Firefox scrollbar */
+  * {
+    scrollbar-color: hsl(32 100% 48%) hsl(0 0% 96%);
   }
 }

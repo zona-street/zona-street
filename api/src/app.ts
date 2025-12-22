@@ -5,6 +5,7 @@ import { config } from "./config/app.config";
 import { productRoutes } from "./routes/product.routes";
 import { authRoutes } from "./routes/auth.routes";
 import { subscriberRoutes } from "./routes/subscriber.routes";
+import { orderRoutes } from "./routes/order.routes";
 
 /**
  * Cria e configura a instância do Fastify
@@ -87,6 +88,9 @@ export async function buildApp() {
   fastify.register(subscriberRoutes, {
     prefix: `${config.apiPrefix}/subscribers`,
   });
+
+  // Registro das rotas de pedidos
+  fastify.register(orderRoutes, { prefix: `${config.apiPrefix}` });
 
   // Handler de erro global
   fastify.setErrorHandler((error, request, reply) => {

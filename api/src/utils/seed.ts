@@ -76,7 +76,7 @@ const mockProducts = [
   {
     name: "Jaqueta Bomber Zona Street",
     description:
-      "Jaqueta bomber com branding exclusivo Zona Street. Nylon de alta qualidade com forro interno, bolsos frontais e punhos ribana. Patches bordados com as cores laranja e azul royal da marca. Statement piece para completar qualquer look streetwear.",
+      "Jaqueta bomber com branding exclusivo Zona Street. Nylon de alta qualidade com forro interno, bolsos frontais e punhos ribana. Patches bordados com as cores laranja e azul royal. Statement piece para completar qualquer look streetwear.",
     price: 399.9,
     oldPrice: 549.9,
     images: [

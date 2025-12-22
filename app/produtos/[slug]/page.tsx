@@ -6,13 +6,14 @@ import { notFound } from "next/navigation";
 export default async function ProdutoDetalhePage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
   let product: Product | null = null;
   let relatedProducts: Product[] = [];
 
   try {
-    product = await productsApi.getBySlug(params.slug);
+    product = await productsApi.getBySlug(slug);
     if (!product) {
       notFound();
     }

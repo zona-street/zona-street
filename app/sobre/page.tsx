@@ -19,7 +19,7 @@ export default function SobrePage() {
             Zona Street
           </h1>
           <p className="text-xl font-medium text-gray-600">
-            Streetwear oversized com a atitude do bairro
+            Streetwear e oversized
           </p>
         </div>
 
@@ -39,14 +39,10 @@ export default function SobrePage() {
           <div className="space-y-6">
             <div className="border-l-4 border-gray-900 bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
               <h2 className="mb-3 text-2xl font-bold uppercase tracking-tight text-gray-900">
-                Nascida nas Ruas
+                Nascida em ...
               </h2>
               <p className="text-gray-700 leading-relaxed">
-                A Zona Street surgiu em 2024 com uma missão clara: trazer o
-                autêntico estilo streetwear oversized para quem respira a
-                cultura urbana. Inspirados pela energia das ruas, pela música
-                que embala os becos e pela atitude que transforma o concreto em
-                passarela.
+                Aqui vai ficar a história da Zona Street. Fundada por...
               </p>
             </div>
 
@@ -70,8 +66,8 @@ export default function SobrePage() {
               <p className="text-gray-700 leading-relaxed">
                 Usamos tecidos premium, estampas exclusivas e acabamentos
                 impecáveis. Cada moletom, camiseta ou acessório carrega a
-                essência da Zona: resistência, conforto e um design que não
-                passa despercebido. Aqui, qualidade e atitude andam juntas.
+                essência da Zona Street: resistência, conforto e um design que
+                não passa despercebido. Aqui, qualidade e atitude andam juntas.
               </p>
             </div>
           </div>
@@ -94,8 +90,8 @@ export default function SobrePage() {
             <div className="border-2 border-white p-6 text-center">
               <h3 className="mb-2 text-xl font-bold uppercase">Comunidade</h3>
               <p className="text-sm text-gray-300">
-                A Zona é de todos. Valorizamos cada pessoa que veste nossa
-                marca.
+                A Zona é de todos. Valorizamos cada pessoa que visita nossa
+                loja.
               </p>
             </div>
             <div className="border-2 border-white p-6 text-center">
@@ -110,7 +106,7 @@ export default function SobrePage() {
         {/* CTA Section */}
         <div className="mt-16 border-2 border-gray-900 bg-white p-12 text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           <h2 className="mb-4 text-3xl font-bold uppercase tracking-tight text-gray-900">
-            Vem fazer parte da Zona
+            Vem fazer parte da Zona Street
           </h2>
           <p className="mb-8 text-gray-600">
             Explore nossa coleção e encontre o look que combina com você

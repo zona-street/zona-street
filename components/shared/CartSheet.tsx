@@ -13,9 +13,13 @@ import {
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useCart } from "@/lib/store/useCart";
 import { useCartSheet } from "@/lib/store/useCartSheet";
+import { ordersApi } from "@/lib/api/orders";
 import { toast } from "sonner";
+import { useState } from "react";
 
 const WHATSAPP_NUMBER = "5524992060913";
 
@@ -30,8 +34,84 @@ export function CartSheet() {
   } = useCart();
   const { isOpen, closeCart, toggleCart } = useCartSheet();
 
-  const formatWhatsAppMessage = () => {
-    const header = "*NOVO PEDIDO - ZONA STREET*\n\n";
+  const [customerName, setCustomerName] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+
+  const handleCheckout = async () => {
+    if (items.length === 0) {
+      toast.error("Carrinho vazio", {
+        description: "Adicione produtos antes de finalizar o pedido.",
+      });
+      return;
+    }
+
+    // Validar dados do cliente
+    if (!customerName.trim()) {
+      toast.error("Nome obrigatório", {
+        description: "Por favor, informe seu nome.",
+      });
+      return;
+    }
+
+    if (!customerPhone.trim()) {
+      toast.error("Telefone obrigatório", {
+        description: "Por favor, informe seu telefone.",
+      });
+      return;
+    }
+
+    try {
+      setIsCheckingOut(true);
+
+      // Criar pedido no banco de dados
+      const orderData = {
+        customerName: customerName.trim(),
+        customerPhone: customerPhone.trim(),
+        customerEmail: customerEmail.trim() || undefined,
+        items: items.map((item) => ({
+          productId: item.id,
+          productName: item.name,
+          productPrice: item.price,
+          productImage: item.image,
+          size: item.size,
+          quantity: item.quantity,
+        })),
+      };
+
+      const result = await ordersApi.create(orderData);
+
+      // Preparar mensagem do WhatsApp
+      const message = formatWhatsAppMessage(result.order.id);
+      const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+
+      // Abrir WhatsApp
+      window.open(whatsappUrl, "_blank");
+
+      // Limpar carrinho e fechar sheet
+      clearCart();
+      closeCart();
+      setCustomerName("");
+      setCustomerPhone("");
+      setCustomerEmail("");
+
+      toast.success("Pedido criado com sucesso!", {
+        description: "Continue a conversa no WhatsApp para finalizar.",
+      });
+    } catch (error: any) {
+      toast.error("Erro ao criar pedido", {
+        description: error.message || "Tente novamente.",
+      });
+    } finally {
+      setIsCheckingOut(false);
+    }
+  };
+
+  const formatWhatsAppMessage = (orderId?: string) => {
+    const header = `*NOVO PEDIDO - ZONA STREET*\n${
+      orderId ? `ID: #${orderId.slice(0, 8)}\n` : ""
+    }\n`;
     const divider = "--------------------------\n";
 
     const itemsList = items
@@ -47,30 +127,11 @@ export function CartSheet() {
       })
       .join("");
 
-    const total = `${divider}\n *TOTAL: R$ ${getTotalPrice().toFixed(2)}*`;
+    const total = `${divider}\n*TOTAL: R$ ${getTotalPrice().toFixed(2)}*`;
 
-    const footer = "\n\n_Gostaria de finalizar este pedido.";
+    const footer = `\n\n_Olá, sou ${customerName}. Gostaria de finalizar este pedido._`;
 
     return encodeURIComponent(header + itemsList + total + footer);
-  };
-
-  const handleCheckout = () => {
-    if (items.length === 0) {
-      toast.error("Carrinho vazio", {
-        description: "Adicione produtos antes de finalizar o pedido.",
-      });
-      return;
-    }
-
-    const message = formatWhatsAppMessage();
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
-
-    window.open(whatsappUrl, "_blank");
-    closeCart();
-
-    toast.success("Redirecionando para WhatsApp", {
-      description: "Finalize seu pedido pelo WhatsApp!",
-    });
   };
 
   return (
@@ -207,6 +268,61 @@ export function CartSheet() {
             </div>
 
             <div className="space-y-4 border-t-2 border-gray-200 pt-4 px-4 pb-6">
+              {/* Formulário de dados do cliente */}
+              <div className="space-y-3 border-2 border-gray-900 p-4 bg-gray-50">
+                <h3 className="text-sm font-bold uppercase text-gray-900">
+                  Seus Dados
+                </h3>
+                <div>
+                  <Label
+                    htmlFor="customer-name"
+                    className="text-xs font-bold uppercase"
+                  >
+                    Nome Completo *
+                  </Label>
+                  <Input
+                    id="customer-name"
+                    type="text"
+                    placeholder="Digite seu nome"
+                    value={customerName}
+                    onChange={(e) => setCustomerName(e.target.value)}
+                    className="mt-1 border-2 border-gray-900"
+                  />
+                </div>
+                <div>
+                  <Label
+                    htmlFor="customer-phone"
+                    className="text-xs font-bold uppercase"
+                  >
+                    WhatsApp *
+                  </Label>
+                  <Input
+                    id="customer-phone"
+                    type="tel"
+                    placeholder="(00) 00000-0000"
+                    value={customerPhone}
+                    onChange={(e) => setCustomerPhone(e.target.value)}
+                    className="mt-1 border-2 border-gray-900"
+                  />
+                </div>
+                <div>
+                  <Label
+                    htmlFor="customer-email"
+                    className="text-xs font-bold uppercase"
+                  >
+                    E-mail (Opcional)
+                  </Label>
+                  <Input
+                    id="customer-email"
+                    type="email"
+                    placeholder="seu@email.com"
+                    value={customerEmail}
+                    onChange={(e) => setCustomerEmail(e.target.value)}
+                    className="mt-1 border-2 border-gray-900"
+                  />
+                </div>
+              </div>
+
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="font-medium text-gray-600">Subtotal</span>
@@ -226,11 +342,12 @@ export function CartSheet() {
               </div>
 
               <Button
-                className="w-full border-2 border-gray-900 bg-green-600 py-6 text-base font-bold uppercase tracking-wide text-white  shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-none active:translate-x-0 active:translate-y-0"
+                className="w-full border-2 border-gray-900 bg-green-600 py-6 text-base font-bold uppercase tracking-wide text-white  shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-none active:translate-x-0 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleCheckout}
+                disabled={isCheckingOut}
               >
                 <FaWhatsapp className="mr-2 h-5 w-5" />
-                Finalizar no WhatsApp
+                {isCheckingOut ? "Criando Pedido..." : "Finalizar no WhatsApp"}
               </Button>
 
               <Button

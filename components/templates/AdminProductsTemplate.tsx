@@ -242,7 +242,7 @@ export function AdminProductsTemplate() {
               Novo Produto
             </Button>
           </DialogTrigger>
-          <DialogContent className="min-w-4xl max-h-[90vh] overflow-y-auto border-2 border-gray-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <DialogContent className="min-w-130 max-h-[90vh] overflow-y-auto overflow-x-hidden border-2 border-gray-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <DialogHeader>
               <DialogTitle className="text-2xl font-black uppercase">
                 {editingProduct ? "Editar Produto" : "Novo Produto"}
@@ -254,7 +254,10 @@ export function AdminProductsTemplate() {
               </DialogDescription>
             </DialogHeader>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="space-y-6 w-full max-w-full box-border"
+            >
               {/* Nome */}
               <div>
                 <Label htmlFor="name" className="font-bold uppercase text-xs">
@@ -263,7 +266,7 @@ export function AdminProductsTemplate() {
                 <Input
                   id="name"
                   {...register("name")}
-                  className="mt-1 border-2 border-gray-900"
+                  className="mt-1 w-full border-2 border-gray-900"
                   placeholder="Ex: Camiseta Oversized Básica"
                 />
                 {errors.name && (
@@ -284,7 +287,7 @@ export function AdminProductsTemplate() {
                 <textarea
                   id="description"
                   {...register("description")}
-                  className="mt-1 w-full border-2 border-gray-900 p-2 min-h-[100px]"
+                  className="mt-1 w-full max-w-full border-2 border-gray-900 p-2 min-h-25 box-border"
                   placeholder="Descrição detalhada do produto..."
                 />
                 {errors.description && (
@@ -295,8 +298,8 @@ export function AdminProductsTemplate() {
               </div>
 
               {/* Preço e Preço Antigo */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1">
                   <Label
                     htmlFor="price"
                     className="font-bold uppercase text-xs"
@@ -308,7 +311,7 @@ export function AdminProductsTemplate() {
                     type="number"
                     step="0.01"
                     {...register("price", { valueAsNumber: true })}
-                    className="mt-1 border-2 border-gray-900"
+                    className="mt-1 w-full border-2 border-gray-900"
                     placeholder="149.90"
                   />
                   {errors.price && (
@@ -318,7 +321,7 @@ export function AdminProductsTemplate() {
                   )}
                 </div>
 
-                <div>
+                <div className="flex-1">
                   <Label
                     htmlFor="oldPrice"
                     className="font-bold uppercase text-xs"
@@ -330,7 +333,7 @@ export function AdminProductsTemplate() {
                     type="number"
                     step="0.01"
                     {...register("oldPrice", { valueAsNumber: true })}
-                    className="mt-1 border-2 border-gray-900"
+                    className="mt-1 w-full border-2 border-gray-900"
                     placeholder="199.90"
                   />
                   {errors.oldPrice && (
@@ -342,8 +345,8 @@ export function AdminProductsTemplate() {
               </div>
 
               {/* Categoria e Estoque */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1">
                   <Label
                     htmlFor="category"
                     className="font-bold uppercase text-xs"
@@ -356,7 +359,7 @@ export function AdminProductsTemplate() {
                       setValue("category", value as any)
                     }
                   >
-                    <SelectTrigger className="mt-1 border-2 border-gray-900">
+                    <SelectTrigger className="mt-1 w-full border-2 border-gray-900">
                       <SelectValue placeholder="Selecione..." />
                     </SelectTrigger>
                     <SelectContent>
@@ -374,7 +377,7 @@ export function AdminProductsTemplate() {
                   )}
                 </div>
 
-                <div>
+                <div className="flex-1">
                   <Label
                     htmlFor="stock"
                     className="font-bold uppercase text-xs"
@@ -385,7 +388,7 @@ export function AdminProductsTemplate() {
                     id="stock"
                     type="number"
                     {...register("stock", { valueAsNumber: true })}
-                    className="mt-1 border-2 border-gray-900"
+                    className="mt-1 w-full border-2 border-gray-900"
                     placeholder="100"
                   />
                   {errors.stock && (
@@ -404,7 +407,7 @@ export function AdminProductsTemplate() {
                 <Input
                   id="slug"
                   {...register("slug")}
-                  className="mt-1 border-2 border-gray-900"
+                  className="mt-1 w-full border-2 border-gray-900"
                   placeholder="camiseta-oversized-basica"
                 />
                 <p className="mt-1 text-xs text-gray-500">
@@ -422,13 +425,13 @@ export function AdminProductsTemplate() {
                 <Label className="font-bold uppercase text-xs">
                   Tamanhos Disponíveis *
                 </Label>
-                <div className="mt-2 flex flex-wrap gap-2">
+                <div className="mt-2 flex flex-wrap gap-2 max-w-full">
                   {availableSizes.map((size) => (
                     <button
                       key={size}
                       type="button"
                       onClick={() => toggleSize(size)}
-                      className={`border-2 px-4 py-2 font-bold uppercase text-xs transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
+                      className={`border-2 px-2 py-1 font-bold uppercase text-xs transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
                         selectedSizes?.includes(size)
                           ? "border-orange-street bg-orange-street text-white"
                           : "border-gray-900 bg-white text-gray-900 hover:bg-gray-100"
@@ -449,11 +452,11 @@ export function AdminProductsTemplate() {
               <div>
                 <Label className="font-bold uppercase text-xs">Imagens *</Label>
                 <div className="mt-2 space-y-2">
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 ">
                     <Input
                       id="image-url-input"
                       type="url"
-                      className="border-2 border-gray-900"
+                      className="flex-1 max-w-full border-2 border-gray-900 box-border"
                       placeholder="https://exemplo.com/imagem.jpg"
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
@@ -487,19 +490,21 @@ export function AdminProductsTemplate() {
 
                   {/* Lista de imagens */}
                   {imageUrls && imageUrls.length > 0 && (
-                    <div className="space-y-2 border-2 border-gray-200 p-4">
+                    <div className="space-y-2 border-2 border-gray-200 p-4 max-w-full box-border overflow-hidden">
                       {imageUrls.map((url, index) => (
                         <div
                           key={index}
-                          className="flex items-center justify-between border border-gray-200 p-2"
+                          className="flex items-center justify-between border border-gray-200 p-2 max-w-full overflow-hidden"
                         >
-                          <span className="text-xs truncate flex-1">{url}</span>
+                          <span className="text-xs truncate flex-1 min-w-0 overflow-hidden">
+                            {url}
+                          </span>
                           <Button
                             type="button"
                             size="sm"
                             variant="ghost"
                             onClick={() => removeImageUrl(url)}
-                            className="text-red-600 hover:text-red-700"
+                            className="text-red-600 hover:text-red-700 shrink-0"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -516,7 +521,7 @@ export function AdminProductsTemplate() {
               </div>
 
               {/* Flags */}
-              <div className="flex gap-6">
+              <div className="flex flex-col gap-4">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
@@ -543,11 +548,11 @@ export function AdminProductsTemplate() {
               </div>
 
               {/* Botões */}
-              <div className="flex gap-3 pt-4">
+              <div className="flex flex-col gap-3 pt-4">
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 border-2 border-gray-900 bg-gray-900 font-bold uppercase text-white hover:bg-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  className="w-full border-2 border-gray-900 bg-gray-900 font-bold uppercase text-white hover:bg-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                 >
                   {isSubmitting ? (
                     <>
@@ -621,6 +626,7 @@ export function AdminProductsTemplate() {
                   <tr key={product.id} className="hover:bg-gray-50">
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-3">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={product.images[0]}
                           alt={product.name}
@@ -644,11 +650,17 @@ export function AdminProductsTemplate() {
                     <td className="px-4 py-4">
                       <div>
                         <p className="font-bold text-sm text-gray-900">
-                          R$ {product.price.toFixed(2)}
+                          R${" "}
+                          {typeof product.price === "string"
+                            ? parseFloat(product.price).toFixed(2)
+                            : product.price.toFixed(2)}
                         </p>
                         {product.oldPrice && (
                           <p className="text-xs text-gray-500 line-through">
-                            R$ {product.oldPrice.toFixed(2)}
+                            R${" "}
+                            {typeof product.oldPrice === "string"
+                              ? parseFloat(product.oldPrice).toFixed(2)
+                              : product.oldPrice.toFixed(2)}
                           </p>
                         )}
                       </div>
@@ -656,9 +668,9 @@ export function AdminProductsTemplate() {
                     <td className="px-4 py-4">
                       <span
                         className={`font-bold text-sm ${
-                          product.stock > 10
+                          Number(product.stock) > 10
                             ? "text-green-600"
-                            : product.stock > 0
+                            : Number(product.stock) > 0
                             ? "text-orange-600"
                             : "text-red-600"
                         }`}
@@ -686,7 +698,7 @@ export function AdminProductsTemplate() {
                           size="sm"
                           variant="outline"
                           onClick={() => openDialog(product)}
-                          className="border-2 border-gray-900 hover:bg-gray-100"
+                          className="border-2 cursor-pointer border-gray-900 hover:bg-gray-900 hover:text-background"
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
@@ -694,7 +706,7 @@ export function AdminProductsTemplate() {
                           size="sm"
                           variant="outline"
                           onClick={() => handleDelete(product.id)}
-                          className={`border-2 ${
+                          className={`border-2 cursor-pointer ${
                             deleteConfirm === product.id
                               ? "border-red-600 bg-red-600 text-white"
                               : "border-gray-900 text-red-600 hover:bg-red-50"

@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { ShoppingBag, Users, Package, TrendingUp } from "lucide-react";
 import { productsApi } from "@/lib/api/products";
 import { subscribersApi } from "@/lib/api/subscribers";
+import { ordersApi } from "@/lib/api/orders";
 import { useAuth } from "@/lib/store/useAuth";
 import { toast } from "sonner";
 
@@ -13,6 +14,9 @@ interface DashboardStats {
   totalCustomers: number;
   totalProducts: number;
   revenue: number;
+  pendingOrders: number;
+  completedOrders: number;
+  cancelledOrders: number;
 }
 
 export default function AdminDashboard() {
@@ -22,6 +26,9 @@ export default function AdminDashboard() {
     totalCustomers: 0,
     totalProducts: 0,
     revenue: 0,
+    pendingOrders: 0,
+    completedOrders: 0,
+    cancelledOrders: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -39,18 +46,31 @@ export default function AdminDashboard() {
         const results = await Promise.allSettled([
           productsApi.getAll(),
           subscribersApi.count(token),
+          ordersApi.getStats(token),
         ]);
 
         const products =
           results[0].status === "fulfilled" ? results[0].value : [];
         const subscribersCount =
           results[1].status === "fulfilled" ? results[1].value : 0;
+        const orderStats =
+          results[2].status === "fulfilled"
+            ? results[2].value
+            : { totalSales: 0, ordersByStatus: {} };
+
+        const pendingOrders = orderStats.ordersByStatus.PENDENTE || 0;
+        const completedOrders = orderStats.ordersByStatus.CONCLUIDO || 0;
+        const cancelledOrders = orderStats.ordersByStatus.CANCELADO || 0;
+        const totalOrders = pendingOrders + completedOrders + cancelledOrders;
 
         setStats({
-          totalOrders: 127, // TODO: Implementar contagem de pedidos
+          totalOrders,
           totalCustomers: subscribersCount || 0,
           totalProducts: Array.isArray(products) ? products.length : 0,
-          revenue: 10890.5, // TODO: Implementar cálculo de faturamento
+          revenue: orderStats.totalSales || 0,
+          pendingOrders,
+          completedOrders,
+          cancelledOrders,
         });
       } catch (error) {
         console.error("Erro ao buscar estatísticas:", error);

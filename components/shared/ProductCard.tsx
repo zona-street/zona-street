@@ -53,8 +53,17 @@ export function ProductCard({
   // Verificações de segurança
   const safeImage = image || "/placeholder-product.png";
   const safeName = name || "Produto sem nome";
-  const safePrice = typeof price === "number" ? price : 0;
-  const safeOldPrice = typeof oldPrice === "number" ? oldPrice : undefined;
+  const safePrice =
+    typeof price === "string"
+      ? parseFloat(price)
+      : typeof price === "number"
+      ? price
+      : 0;
+  const safeOldPrice = oldPrice
+    ? typeof oldPrice === "string"
+      ? parseFloat(oldPrice)
+      : oldPrice
+    : undefined;
   const safeSizes =
     Array.isArray(sizes) && sizes.length > 0 ? sizes : ["P", "M", "G"];
 
@@ -121,7 +130,7 @@ export function ProductCard({
 
           {/* Badge de desconto */}
           {discountPercentage > 0 && (
-            <Badge className="absolute right-3 top-3 border-2 border-red-600 bg-red-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+            <Badge className="absolute right-3 top-3 border-2 border-gray-900 bg-gray-900 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
               -{discountPercentage}%
             </Badge>
           )}
@@ -205,6 +214,12 @@ export function ProductCardFeatured({
   const openCart = useCartSheet((state) => state.openCart);
   const safeSizes =
     Array.isArray(sizes) && sizes.length > 0 ? sizes : ["P", "M", "G"];
+  const safePrice = typeof price === "string" ? parseFloat(price) : price;
+  const safeOldPrice = oldPrice
+    ? typeof oldPrice === "string"
+      ? parseFloat(oldPrice)
+      : oldPrice
+    : undefined;
 
   const handleAddToCart = () => {
     if (!selectedSize) {
@@ -218,7 +233,7 @@ export function ProductCardFeatured({
     addItem({
       id,
       name,
-      price,
+      price: safePrice,
       size: selectedSize,
       image,
       slug,
@@ -276,11 +291,11 @@ export function ProductCardFeatured({
 
         <div className="flex items-baseline gap-3">
           <span className="text-4xl font-bold text-gray-900">
-            R$ {price.toFixed(2)}
+            R$ {safePrice.toFixed(2)}
           </span>
-          {oldPrice && (
+          {safeOldPrice && (
             <span className="text-lg font-medium text-gray-400 line-through">
-              R$ {oldPrice.toFixed(2)}
+              R$ {safeOldPrice.toFixed(2)}
             </span>
           )}
         </div>

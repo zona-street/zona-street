@@ -45,7 +45,10 @@ export function ProductDetailsTemplate({
     addItem({
       id: product.id,
       name: product.name,
-      price: product.price,
+      price:
+        typeof product.price === "string"
+          ? parseFloat(product.price)
+          : product.price,
       size: selectedSize,
       image: product.images?.[0] || "/placeholder.jpg",
       slug: product.slug,
@@ -74,8 +77,17 @@ export function ProductDetailsTemplate({
     }
   };
 
-  const discount = product.oldPrice
-    ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
+  const price =
+    typeof product.price === "string"
+      ? parseFloat(product.price)
+      : product.price;
+  const oldPrice =
+    product.oldPrice && typeof product.oldPrice === "string"
+      ? parseFloat(product.oldPrice)
+      : product.oldPrice;
+
+  const discount = oldPrice
+    ? Math.round(((oldPrice - price) / oldPrice) * 100)
     : 0;
 
   return (
@@ -131,11 +143,11 @@ export function ProductDetailsTemplate({
 
             <div className="mb-6 flex items-center gap-3">
               <span className="text-3xl font-bold text-gray-900">
-                R$ {product.price.toFixed(2)}
+                R$ {price.toFixed(2)}
               </span>
-              {product.oldPrice && (
+              {oldPrice && (
                 <span className="text-xl text-gray-400 line-through">
-                  R$ {product.oldPrice.toFixed(2)}
+                  R$ {oldPrice.toFixed(2)}
                 </span>
               )}
             </div>
