@@ -38,7 +38,7 @@ export const productsApi = {
         params.toString() ? `?${params.toString()}` : ""
       }`;
       const response = await fetch(url, {
-        next: { revalidate: 300 }, // Revalidar a cada 5 minutos
+        next: { revalidate: 60 }, // Revalidar a cada 1 minuto
       });
 
       if (!response.ok) {

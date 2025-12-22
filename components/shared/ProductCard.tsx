@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import { useCart } from "@/lib/store/useCart";
 import { useCartSheet } from "@/lib/store/useCartSheet";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
 interface ProductCardProps {
@@ -47,6 +47,7 @@ export function ProductCard({
   sizes = [],
 }: ProductCardProps) {
   const [selectedSize, setSelectedSize] = useState<string>("");
+  const [isFavorite, setIsFavorite] = useState(false);
   const addItem = useCart((state) => state.addItem);
   const openCart = useCartSheet((state) => state.openCart);
 
@@ -70,6 +71,29 @@ export function ProductCard({
   const discountPercentage = safeOldPrice
     ? Math.round(((safeOldPrice - safePrice) / safeOldPrice) * 100)
     : 0;
+
+  // Carregar estado de favorito
+  useEffect(() => {
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    setIsFavorite(favorites.includes(id));
+  }, [id]);
+
+  const toggleFavorite = (e: React.MouseEvent) => {
+    e.preventDefault(); // Impede navegação ao clicar
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+
+    if (isFavorite) {
+      const newFavorites = favorites.filter((favId: string) => favId !== id);
+      localStorage.setItem("favorites", JSON.stringify(newFavorites));
+      setIsFavorite(false);
+      toast.info("Removido dos favoritos");
+    } else {
+      const newFavorites = [...favorites, id];
+      localStorage.setItem("favorites", JSON.stringify(newFavorites));
+      setIsFavorite(true);
+      toast.success("Adicionado aos favoritos!");
+    }
+  };
 
   const handleAddToCart = () => {
     if (!selectedSize) {
@@ -139,9 +163,12 @@ export function ProductCard({
           <Button
             variant="ghost"
             size="icon"
-            className="absolute right-3 bottom-3 border border-gray-200 bg-white opacity-0 transition-opacity hover:border-gray-900 group-hover:opacity-100"
+            onClick={toggleFavorite}
+            className={`absolute right-3 bottom-3 border bg-white opacity-0 transition-opacity hover:border-gray-900 group-hover:opacity-100 ${
+              isFavorite ? "text-red-600" : "border-gray-200 text-gray-600"
+            }`}
           >
-            <Heart className="h-5 w-5" />
+            <Heart className={`h-5 w-5 ${isFavorite ? "fill-current" : ""}`} />
           </Button>
         </Link>
       </CardHeader>

@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/lib/store/useCart";
 import { useCartSheet } from "@/lib/store/useCartSheet";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Heart } from "lucide-react";
 import { toast } from "sonner";
 import { Product } from "@/lib/types/product";
@@ -24,6 +24,9 @@ export function ProductDetailsTemplate({
 }: ProductDetailsTemplateProps) {
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [isFavorite, setIsFavorite] = useState(false);
+  const [transformOrigin, setTransformOrigin] = useState("center center");
+  const [isZoomed, setIsZoomed] = useState(false);
+  const imageRef = useRef<HTMLImageElement>(null);
   const addItem = useCart((state) => state.addItem);
   const { openCart } = useCartSheet();
 
@@ -90,6 +93,19 @@ export function ProductDetailsTemplate({
     openCart();
   };
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setTransformOrigin(`${x}% ${y}%`);
+    setIsZoomed(true);
+  };
+
+  const handleMouseLeave = () => {
+    setTransformOrigin("center center");
+    setIsZoomed(false);
+  };
+
   const toggleFavorite = () => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
 
@@ -99,10 +115,10 @@ export function ProductDetailsTemplate({
       setIsFavorite(false);
       toast.info("Removido dos favoritos");
     } else {
-      favorites.push(product.id);
-      localStorage.setItem("favorites", JSON.stringify(favorites));
+      const newFavorites = [...favorites, product.id];
+      localStorage.setItem("favorites", JSON.stringify(newFavorites));
       setIsFavorite(true);
-      toast.success("Adicionado aos favoritos");
+      toast.success("Adicionado aos favoritos!");
     }
   };
 
@@ -132,12 +148,21 @@ export function ProductDetailsTemplate({
         <div className="mb-16 grid gap-8 lg:grid-cols-2">
           {/* Imagens */}
           <div className="space-y-4">
-            <div className="relative aspect-square overflow-hidden border-2 border-gray-900 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <div
+              className="relative aspect-square overflow-hidden border-2 border-gray-900 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] cursor-zoom-in"
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
               <Image
+                ref={imageRef}
                 src={product.images?.[0] || "/placeholder.jpg"}
                 alt={product.name}
                 fill
-                className="object-cover"
+                className="object-cover transition-transform duration-300"
+                style={{
+                  transformOrigin,
+                  transform: isZoomed ? "scale(2)" : "scale(1)",
+                }}
               />
               {product.isNewDrop && (
                 <Badge className="absolute left-4 top-4 border-2 border-orange-600 bg-orange-600 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
@@ -232,7 +257,7 @@ export function ProductDetailsTemplate({
                 Informações do Produto
               </h3>
               <ul className="space-y-2 text-sm text-gray-700">
-                <li>• Envio para todo o Brasil</li>
+                <li>• Envio para Resende/RJ e região</li>
                 <li>• 10% OFF no pagamento via PIX</li>
                 <li>• Parcelamento em até 10x sem juros</li>
                 <li>• Troca grátis em até 30 dias</li>
