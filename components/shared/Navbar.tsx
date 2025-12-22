@@ -16,6 +16,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { CartSheet } from "@/components/shared/CartSheet";
+import { useFavorites } from "@/lib/hooks/useFavorites";
+import { Heart } from "lucide-react";
 
 const categories = [
   { name: "Camisetas", href: "/categorias/camisetas" },
@@ -27,6 +29,8 @@ const categories = [
 const newDrops = [{ name: "Ver Todos os Lançamentos", href: "/lancamentos" }];
 
 export function Navbar() {
+  const { count } = useFavorites();
+
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white shadow-sm">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -93,6 +97,21 @@ export function Navbar() {
                     ))}
                   </ul>
                 </NavigationMenuContent>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <Link
+                  href="/favoritos"
+                  className="group inline-flex h-10 w-max items-center justify-center px-4 py-2 text-sm font-medium uppercase tracking-wide text-gray-900 transition-colors hover:text-orange-600 relative"
+                >
+                  <Heart className="h-4 w-4 mr-1" />
+                  Favoritos
+                  {count > 0 && (
+                    <Badge className="ml-1 h-5 min-w-5 px-1 border border-orange-600 bg-orange-600 text-white text-xs">
+                      {count}
+                    </Badge>
+                  )}
+                </Link>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
@@ -217,6 +236,13 @@ export function Navbar() {
                     </Link>
                   ))}
                 </div>
+
+                <Link
+                  href="/favoritos"
+                  className="border border-gray-200 bg-white p-3 text-sm font-medium uppercase tracking-wide text-gray-900 transition-colors hover:border-gray-900 hover:bg-gray-50"
+                >
+                  Favoritos
+                </Link>
 
                 <Link
                   href="/sobre"
