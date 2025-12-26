@@ -3,6 +3,13 @@
 import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
 import { ProductCard } from "@/components/shared/ProductCard";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { Product } from "@/lib/types/product";
 
 interface LancamentosTemplateProps {
@@ -43,14 +50,24 @@ export function LancamentosTemplate({
 
         {/* Loading State */}
         {loading && (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="animate-pulse">
-                <div className="aspect-square bg-gray-200 border-2 border-gray-300" />
-                <div className="mt-4 h-4 bg-gray-200" />
-                <div className="mt-2 h-4 bg-gray-200" />
-              </div>
-            ))}
+          <div className="relative">
+            <Carousel opts={{ slidesToScroll: 1 }}>
+              <CarouselContent>
+                <CarouselItem>
+                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                    {[1, 2, 3, 4].map((i) => (
+                      <div key={i} className="animate-pulse">
+                        <div className="aspect-square bg-gray-200 border-2 border-gray-300" />
+                        <div className="mt-4 h-4 bg-gray-200" />
+                        <div className="mt-2 h-4 bg-gray-200" />
+                      </div>
+                    ))}
+                  </div>
+                </CarouselItem>
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
           </div>
         )}
 
@@ -66,23 +83,35 @@ export function LancamentosTemplate({
           </div>
         )}
 
-        {/* Products Grid */}
+        {/* Products Carousel */}
         {!loading && products.length > 0 && (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                name={product.name}
-                price={product.price}
-                oldPrice={product.oldPrice}
-                image={product.images?.[0] || "/placeholder.jpg"}
-                category={product.category}
-                slug={product.slug}
-                isNewDrop={product.isNewDrop}
-                sizes={product.sizes}
-              />
-            ))}
+          <div className="relative">
+            <Carousel opts={{ slidesToScroll: 1 }}>
+              <CarouselContent>
+                {products.map((product) => (
+                  <CarouselItem
+                    key={product.id}
+                    className="basis-full sm:basis-1/2 lg:basis-1/4"
+                  >
+                    <div className="grid gap-6 grid-cols-1">
+                      <ProductCard
+                        id={product.id}
+                        name={product.name}
+                        price={product.price}
+                        oldPrice={product.oldPrice}
+                        image={product.images?.[0] || "/placeholder.jpg"}
+                        category={product.category}
+                        slug={product.slug}
+                        isNewDrop={product.isNewDrop}
+                        sizes={product.sizes}
+                      />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
           </div>
         )}
       </main>

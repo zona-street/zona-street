@@ -107,7 +107,7 @@ export function Newsletter() {
           <button
             type="submit"
             disabled={isLoading}
-            className="border-2 border-gray-900 bg-gray-900 px-10 py-4 text-base font-bold uppercase tracking-wide text-white transition-colors hover:bg-orange-street hover:border-orange-street disabled:opacity-50 disabled:cursor-not-allowed"
+            className="cursor-pointer border-2 border-gray-900 bg-gray-900 px-10 py-4 text-base font-bold uppercase tracking-wide text-white transition-colors hover:bg-orange-street hover:border-orange-street disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? "Cadastrando..." : "Cadastrar"}
           </button>

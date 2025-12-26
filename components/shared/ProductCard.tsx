@@ -153,7 +153,7 @@ export function ProductCard({
             variant="ghost"
             size="icon"
             onClick={handleToggleFavorite}
-            className={`absolute right-3 bottom-3 border bg-white opacity-0 transition-opacity hover:border-gray-900 group-hover:opacity-100 ${
+            className={`cursor-pointer absolute right-3 bottom-3 border bg-white opacity-0 transition-opacity hover:border-gray-900 group-hover:opacity-100 ${
               isFavorite(id) ? "text-red-600" : "border-gray-200 text-gray-600"
             }`}
           >
@@ -192,7 +192,7 @@ export function ProductCard({
 
       <CardFooter className="flex-col gap-2 p-4 pt-0">
         <Select value={selectedSize} onValueChange={setSelectedSize}>
-          <SelectTrigger className="w-full border-2 border-gray-900 bg-white font-bold hover:border-gray-900">
+          <SelectTrigger className="cursor-pointer w-full border-2 border-gray-900 bg-white font-bold hover:border-gray-900">
             <SelectValue placeholder="Selecione o tamanho" />
           </SelectTrigger>
           <SelectContent>
@@ -205,7 +205,7 @@ export function ProductCard({
         </Select>
 
         <Button
-          className="w-full border-2 border-gray-900 bg-gray-900 py-2 text-xs font-bold uppercase tracking-wide text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+          className="cursor-pointer w-full border-2 border-gray-900 bg-gray-900 py-2 text-xs font-bold uppercase tracking-wide text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
           onClick={handleAddToCart}
         >
           <ShoppingCart className="mr-2 h-4 w-4" />
