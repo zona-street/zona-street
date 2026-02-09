@@ -1,3 +1,5 @@
+import type { ProductCategory, ProductSize } from "@/lib/constants/product";
+
 export interface Product {
   id: string;
   name: string;
@@ -5,10 +7,10 @@ export interface Product {
   price: number;
   oldPrice?: number;
   images: string[];
-  category: "camisetas" | "moletons" | "calcas" | "acessorios" | "calcados";
+  category: ProductCategory;
   stock: number;
   slug: string;
-  sizes: string[];
+  sizes: ProductSize[];
   isNewDrop: boolean;
   isFeatured: boolean;
   createdAt: string;

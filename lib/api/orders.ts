@@ -83,7 +83,7 @@ export const ordersApi = {
   },
 
   /**
-   * Buscar todos os pedidos (requer autenticação)
+   * Buscar todos os pedidos (requer autenticao)
    */
   async getAll(token: string): Promise<Order[]> {
     const response = await fetch(`${API_URL}/orders`, {
@@ -101,7 +101,7 @@ export const ordersApi = {
   },
 
   /**
-   * Buscar pedido por ID (requer autenticação)
+   * Buscar pedido por ID (requer autenticao)
    */
   async getById(orderId: string, token: string): Promise<OrderWithItems> {
     const response = await fetch(`${API_URL}/orders/${orderId}`, {
@@ -119,7 +119,7 @@ export const ordersApi = {
   },
 
   /**
-   * Atualizar pedido (requer autenticação)
+   * Atualizar pedido (requer autenticao)
    */
   async update(
     orderId: string,
@@ -145,7 +145,7 @@ export const ordersApi = {
   },
 
   /**
-   * Validar pedido e abater estoque (requer autenticação)
+   * Validar pedido e abater estoque (requer autenticao)
    */
   async validate(orderId: string, token: string): Promise<Order> {
     const response = await fetch(`${API_URL}/orders/${orderId}/validate`, {
@@ -165,7 +165,7 @@ export const ordersApi = {
   },
 
   /**
-   * Cancelar pedido (requer autenticação)
+   * Cancelar pedido (requer autenticao)
    */
   async cancel(orderId: string, token: string): Promise<Order> {
     const response = await fetch(`${API_URL}/orders/${orderId}/cancel`, {
@@ -185,7 +185,7 @@ export const ordersApi = {
   },
 
   /**
-   * Obter estatísticas de pedidos (requer autenticação)
+   * Obter estatsticas de pedidos (requer autenticao)
    */
   async getStats(token: string): Promise<OrderStats> {
     const response = await fetch(`${API_URL}/orders/stats`, {
@@ -195,7 +195,7 @@ export const ordersApi = {
     });
 
     if (!response.ok) {
-      throw new Error("Erro ao buscar estatísticas");
+      throw new Error("Erro ao buscar estatsticas");
     }
 
     const result = await response.json();

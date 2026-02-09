@@ -1,4 +1,5 @@
 import { Product } from "@/lib/types/product";
+import type { ProductCategory, ProductSize } from "@/lib/constants/product";
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/v1";
@@ -9,10 +10,10 @@ export interface CreateProductData {
   price: number;
   oldPrice?: number;
   images: string[];
-  category: "camisetas" | "moletons" | "calcas" | "acessorios" | "calcados";
+  category: ProductCategory;
   stock: number;
   slug: string;
-  sizes: string[];
+  sizes: ProductSize[];
   isNewDrop?: boolean;
   isFeatured?: boolean;
 }
@@ -77,7 +78,7 @@ export const productsApi = {
     }
   },
 
-  // Buscar novos lançamentos
+  // Buscar novos lanamentos
   async getNewDrops(): Promise<Product[]> {
     try {
       const response = await fetch(`${API_URL}/products/new-drops`, {
@@ -85,14 +86,14 @@ export const productsApi = {
       });
 
       if (!response.ok) {
-        console.error("Erro ao buscar novos lançamentos:", response.statusText);
+        console.error("Erro ao buscar novos lanamentos:", response.statusText);
         return [];
       }
 
       const data = await response.json();
       return Array.isArray(data?.data) ? data.data : [];
     } catch (error) {
-      console.error("Erro ao buscar novos lançamentos:", error);
+      console.error("Erro ao buscar novos lanamentos:", error);
       return [];
     }
   },

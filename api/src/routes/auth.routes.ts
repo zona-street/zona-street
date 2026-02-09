@@ -23,4 +23,20 @@ export async function authRoutes(fastify: FastifyInstance) {
     onRequest: [fastify.authenticate],
     handler: authController.me.bind(authController),
   });
+
+  // PATCH /auth/change-password - Troca senha do usuário autenticado (protegida)
+  fastify.patch("/change-password", {
+    onRequest: [fastify.authenticate],
+    handler: authController.changePassword.bind(authController),
+  });
+
+  // POST /auth/forgot-password - Solicita reset de senha via email (pública)
+  fastify.post("/forgot-password", {
+    handler: authController.forgotPassword.bind(authController),
+  });
+
+  // POST /auth/reset-password - Redefine senha com token (pública)
+  fastify.post("/reset-password", {
+    handler: authController.resetPassword.bind(authController),
+  });
 }

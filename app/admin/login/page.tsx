@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -81,7 +82,7 @@ export default function AdminLoginPage() {
             <Input
               id="email"
               type="email"
-              placeholder="admin@zonastreet.com"
+              placeholder="andrediniz@id.uff.br"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -99,7 +100,7 @@ export default function AdminLoginPage() {
             <Input
               id="password"
               type="password"
-              placeholder="••••••••"
+              placeholder=""
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -114,17 +115,28 @@ export default function AdminLoginPage() {
           >
             {isLoading ? "Entrando..." : "Entrar"}
           </Button>
+
+          <div className="text-center">
+            <Link
+              href="/admin/forgot-password"
+              className="text-sm font-bold text-gray-600 hover:text-orange-street transition-colors underline"
+            >
+              Esqueci minha senha
+            </Link>
+          </div>
         </form>
 
-        <div className="mt-6 border-t-2 border-gray-200 pt-6 text-center">
-          <p className="text-xs font-medium text-gray-500">
-            Credenciais de teste:
-            <br />
-            <span className="font-bold text-gray-900">
-              admin@zonastreet.com / admin123
-            </span>
-          </p>
-        </div>
+        {process.env.NODE_ENV !== "production" && (
+          <div className="mt-6 border-t-2 border-gray-200 pt-6 text-center">
+            <p className="text-xs font-medium text-gray-500">
+              Ambiente de desenvolvimento
+              <br />
+              <span className="font-bold text-gray-900">
+                andrediniz@id.uff.br
+              </span>
+            </p>
+          </div>
+        )}
       </Card>
     </div>
   );

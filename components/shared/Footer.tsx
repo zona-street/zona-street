@@ -18,7 +18,7 @@ export function Footer() {
               />
             </Link>
             <p className="text-sm font-medium text-gray-400">
-              Streetwear oversized com a atitude do bairro.
+              Sua loja online em moda streetwear e oversized
             </p>
           </div>
           <div>

@@ -38,10 +38,10 @@ export function ProductDetailsTemplate({
         <div className="container mx-auto px-4 py-8">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-900 mb-4">
-              Produto não encontrado
+              Produto no encontrado
             </h1>
             <p className="text-gray-600">
-              O produto que você está procurando não existe ou foi removido.
+              O produto que voc est procurando no existe ou foi removido.
             </p>
           </div>
         </div>
@@ -71,8 +71,8 @@ export function ProductDetailsTemplate({
         : product.price || 0;
 
     if (itemPrice <= 0) {
-      toast.error("Produto indisponível", {
-        description: "Este produto não possui preço definido.",
+      toast.error("Produto indisponvel", {
+        description: "Este produto no possui preo definido.",
       });
       return;
     }
@@ -177,7 +177,7 @@ export function ProductDetailsTemplate({
             </div>
           </div>
 
-          {/* Informações */}
+          {/* Informaes */}
           <div>
             <div className="mb-4 flex items-start justify-between">
               <h1 className="text-4xl font-bold uppercase tracking-tight text-gray-900">
@@ -201,7 +201,7 @@ export function ProductDetailsTemplate({
 
             <div className="mb-6 flex items-center gap-3">
               <span className="text-3xl font-bold text-gray-900">
-                R$ {price > 0 ? price.toFixed(2) : "Preço não disponível"}
+                R$ {price > 0 ? price.toFixed(2) : "Preo no disponvel"}
               </span>
               {oldPrice && oldPrice > 0 && (
                 <span className="text-xl text-gray-400 line-through">
@@ -235,7 +235,7 @@ export function ProductDetailsTemplate({
 
             <div className="mb-6">
               <p className="text-sm text-gray-600">
-                Estoque: {product.stock} unidades disponíveis
+                Estoque: {product.stock} unidades disponveis
               </p>
             </div>
 
@@ -248,19 +248,19 @@ export function ProductDetailsTemplate({
               {!selectedSize
                 ? "Selecione um tamanho"
                 : price <= 0
-                ? "Produto indisponível"
+                ? "Produto indisponvel"
                 : "Adicionar ao Carrinho"}
             </Button>
 
             <div className="mt-8 border-t-2 border-gray-200 pt-8">
               <h3 className="mb-4 text-sm font-bold uppercase text-gray-900">
-                Informações do Produto
+                Informaes do Produto
               </h3>
               <ul className="space-y-2 text-sm text-gray-700">
-                <li>• Envio para Resende/RJ e região</li>
-                <li>• 10% OFF no pagamento via PIX</li>
-                <li>• Parcelamento em até 10x sem juros</li>
-                <li>• Troca grátis em até 30 dias</li>
+                <li> Envio para Resende/RJ e regio</li>
+                <li> 10% OFF no pagamento via PIX</li>
+                <li> Parcelamento em at 10x sem juros</li>
+                <li> Troca grtis em at 30 dias</li>
               </ul>
             </div>
           </div>

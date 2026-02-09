@@ -8,6 +8,7 @@ import { productsApi, CreateProductData } from "@/lib/api/products";
 import { useAuth } from "@/lib/store/useAuth";
 import { toast } from "sonner";
 import { Product } from "@/lib/types/product";
+import { useUploadThing } from "@/lib/uploadthing";
 import {
   Dialog,
   DialogContent,
@@ -28,6 +29,12 @@ import {
 } from "@/components/ui/select";
 import { Plus, Pencil, Trash2, Loader2, Package } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import {
+  PRODUCT_CATEGORIES,
+  PRODUCT_SIZES,
+  type ProductCategory,
+  type ProductSize,
+} from "@/lib/constants/product";
 
 // Schema de validação
 const productSchema = z.object({
@@ -35,16 +42,12 @@ const productSchema = z.object({
   description: z.string().min(10, "Descrição deve ter no mínimo 10 caracteres"),
   price: z.number().min(0.01, "Preço deve ser maior que 0"),
   oldPrice: z.number().optional(),
-  category: z.enum([
-    "camisetas",
-    "moletons",
-    "calcas",
-    "acessorios",
-    "calcados",
-  ]),
+  category: z.enum(PRODUCT_CATEGORIES),
   stock: z.number().min(0, "Estoque não pode ser negativo"),
   slug: z.string().min(3, "Slug deve ter no mínimo 3 caracteres"),
-  sizes: z.array(z.string()).min(1, "Selecione pelo menos um tamanho"),
+  sizes: z
+    .array(z.enum(PRODUCT_SIZES))
+    .min(1, "Selecione pelo menos um tamanho"),
   images: z.array(z.string()).min(1, "Adicione pelo menos uma imagem"),
   isNewDrop: z.boolean().optional(),
   isFeatured: z.boolean().optional(),
@@ -65,6 +68,7 @@ export function AdminProductsTemplate() {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
+    getValues,
     setValue,
     watch,
   } = useForm<ProductFormData>({
@@ -82,6 +86,36 @@ export function AdminProductsTemplate() {
   const imageUrls = watch("images");
   const isNewDrop = watch("isNewDrop");
   const isFeatured = watch("isFeatured");
+
+  const MAX_IMAGES = 4;
+  const { startUpload, isUploading: isUploadingImages } = useUploadThing(
+    "productImage",
+    {
+      headers: () => ({
+        Authorization: token ? `Bearer ${token}` : "",
+      }),
+      onClientUploadComplete: (files) => {
+        const urls = files
+          .map((file) => file.url || file.ufsUrl || file.appUrl)
+          .filter((url): url is string => Boolean(url));
+
+        if (urls.length === 0) {
+          toast.error("Upload concluído, mas nenhuma URL foi retornada");
+          return;
+        }
+
+        const current = getValues("images") || [];
+        const merged = [...current, ...urls].slice(0, MAX_IMAGES);
+        setValue("images", merged);
+        toast.success("Imagens enviadas com sucesso");
+      },
+      onUploadError: (error) => {
+        toast.error("Erro no upload", {
+          description: error.message,
+        });
+      },
+    }
+  );
 
   // Carregar produtos
   useEffect(() => {
@@ -181,7 +215,7 @@ export function AdminProductsTemplate() {
   }
 
   // Toggle tamanho
-  function toggleSize(size: string) {
+  function toggleSize(size: ProductSize) {
     const current = selectedSizes || [];
     if (current.includes(size)) {
       setValue(
@@ -190,14 +224,6 @@ export function AdminProductsTemplate() {
       );
     } else {
       setValue("sizes", [...current, size]);
-    }
-  }
-
-  // Adicionar URL de imagem
-  function addImageUrl(url: string) {
-    const current = imageUrls || [];
-    if (!current.includes(url) && url.trim()) {
-      setValue("images", [...current, url.trim()]);
     }
   }
 
@@ -210,13 +236,33 @@ export function AdminProductsTemplate() {
     );
   }
 
-  const availableSizes = ["PP", "P", "M", "G", "GG", "XG", "XGG"];
-  const categories = [
+  function handleImageFiles(files: FileList | null) {
+    if (!files || files.length === 0) return;
+
+    if (!token) {
+      toast.error("Você precisa estar autenticado");
+      return;
+    }
+
+    const current = getValues("images") || [];
+    const remaining = MAX_IMAGES - current.length;
+
+    if (remaining <= 0) {
+      toast.error("Limite de imagens atingido (4)");
+      return;
+    }
+
+    const selected = Array.from(files).slice(0, remaining);
+    startUpload(selected);
+  }
+
+  const availableSizes = PRODUCT_SIZES;
+  const categories: { value: ProductCategory; label: string }[] = [
     { value: "camisetas", label: "Camisetas" },
     { value: "moletons", label: "Moletons" },
     { value: "calcas", label: "Calças" },
+    { value: "jaquetas", label: "Jaquetas" },
     { value: "acessorios", label: "Acessórios" },
-    { value: "calcados", label: "Calçados" },
   ];
 
   return (
@@ -451,60 +497,43 @@ export function AdminProductsTemplate() {
               {/* Imagens */}
               <div>
                 <Label className="font-bold uppercase text-xs">Imagens *</Label>
-                <div className="mt-2 space-y-2">
-                  <div className="flex gap-2 ">
-                    <Input
-                      id="image-url-input"
-                      type="url"
-                      className="flex-1 max-w-full border-2 border-gray-900 box-border"
-                      placeholder="https://exemplo.com/imagem.jpg"
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          e.preventDefault();
-                          const input = e.currentTarget;
-                          addImageUrl(input.value);
-                          input.value = "";
-                        }
-                      }}
-                    />
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        const input = document.getElementById(
-                          "image-url-input"
-                        ) as HTMLInputElement;
-                        if (input?.value) {
-                          addImageUrl(input.value);
-                          input.value = "";
-                        }
-                      }}
-                      className="border-2 border-gray-900 bg-gray-900 text-white hover:bg-orange-street"
-                    >
-                      Adicionar
-                    </Button>
-                  </div>
+                <div className="mt-2 space-y-3">
+                  <Input
+                    id="image-upload-input"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    disabled={isUploadingImages || (imageUrls?.length ?? 0) >= MAX_IMAGES}
+                    className="w-full border-2 border-gray-900"
+                    onChange={(e) => {
+                      handleImageFiles(e.currentTarget.files);
+                      e.currentTarget.value = "";
+                    }}
+                  />
                   <p className="text-xs text-gray-500">
-                    Cole a URL da imagem e pressione Enter ou clique em
-                    Adicionar
+                    Até 4 imagens (4MB cada). Apenas admins podem fazer upload.
                   </p>
 
-                  {/* Lista de imagens */}
+                  {/* Preview das imagens */}
                   {imageUrls && imageUrls.length > 0 && (
-                    <div className="space-y-2 border-2 border-gray-200 p-4 max-w-114 box-border overflow-hidden">
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                       {imageUrls.map((url, index) => (
                         <div
-                          key={index}
-                          className="flex items-center justify-between border border-gray-200 p-2 max-w-full overflow-hidden"
+                          key={`${url}-${index}`}
+                          className="relative overflow-hidden border-2 border-gray-900"
                         >
-                          <span className="text-xs truncate flex-1 min-w-0 overflow-hidden">
-                            {url}
-                          </span>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={url}
+                            alt={`Imagem ${index + 1}`}
+                            className="h-24 w-full object-cover"
+                          />
                           <Button
                             type="button"
                             size="sm"
                             variant="ghost"
                             onClick={() => removeImageUrl(url)}
-                            className="text-red-600 hover:text-red-700 shrink-0"
+                            className="absolute right-1 top-1 h-7 w-7 border border-gray-900 bg-white p-0 text-red-600 hover:bg-red-600 hover:text-white"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -547,7 +576,7 @@ export function AdminProductsTemplate() {
                 </label>
               </div>
 
-              {/* Botões */}
+              {/* Botµes */}
               <div className="flex flex-col gap-3 pt-4">
                 <Button
                   type="submit"
@@ -726,3 +755,4 @@ export function AdminProductsTemplate() {
     </div>
   );
 }
+

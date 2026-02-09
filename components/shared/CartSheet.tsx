@@ -129,7 +129,7 @@ export function CartSheet() {
 
     const total = `${divider}\n*TOTAL: R$ ${getTotalPrice().toFixed(2)}*`;
 
-    const footer = `\n\n_Olá, sou ${customerName}. Gostaria de finalizar este pedido._`;
+    const footer = `\n\n_Ol, sou ${customerName}. Gostaria de finalizar este pedido._`;
 
     return encodeURIComponent(header + itemsList + total + footer);
   };
@@ -171,10 +171,10 @@ export function CartSheet() {
             </div>
             <div className="space-y-2">
               <h3 className="text-lg font-bold text-gray-900">
-                Seu carrinho está vazio
+                Seu carrinho est vazio
               </h3>
               <p className="text-sm text-gray-500">
-                Adicione produtos incríveis da Zona Street!
+                Adicione produtos incrveis da Zona Street!
               </p>
             </div>
           </div>
@@ -254,7 +254,7 @@ export function CartSheet() {
                     </div>
                   </div>
 
-                  {/* Botão de remover */}
+                  {/* Boto de remover */}
                   <Button
                     variant="outline"
                     size="icon"
@@ -268,7 +268,7 @@ export function CartSheet() {
             </div>
 
             <div className="space-y-4 border-t-2 border-gray-200 pt-4 px-4 pb-6">
-              {/* Formulário de dados do cliente */}
+              {/* Formulrio de dados do cliente */}
               <div className="space-y-3 border-2 border-gray-900 p-4 bg-gray-50">
                 <h3 className="text-sm font-bold uppercase text-gray-900">
                   Seus Dados

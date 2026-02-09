@@ -184,4 +184,144 @@ export class EmailService {
 
     await Promise.allSettled(promises);
   }
+
+  /**
+   * Envia email de reset de senha
+   */
+  async sendPasswordResetEmail(
+    to: string,
+    resetToken: string
+  ): Promise<void> {
+    const resetUrl = `${process.env.FRONTEND_URL || "http://localhost:3000"}/admin/reset-password?token=${resetToken}`;
+
+    try {
+      await resend.emails.send({
+        from: "Zona Street <noreply@zonastreet.com>",
+        to,
+        subject: "Redefinição de senha - Zona Street",
+        html: `
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <style>
+                body {
+                  font-family: Arial, sans-serif;
+                  line-height: 1.6;
+                  color: #171717;
+                  background-color: #F5F5F5;
+                  margin: 0;
+                  padding: 0;
+                }
+                .container {
+                  max-width: 600px;
+                  margin: 20px auto;
+                  background-color: #FFFFFF;
+                  border: 2px solid #171717;
+                }
+                .header {
+                  background-color: #171717;
+                  color: #FFFFFF;
+                  padding: 30px 20px;
+                  text-align: center;
+                  border-bottom: 2px solid #171717;
+                }
+                .header h1 {
+                  margin: 0;
+                  font-size: 28px;
+                  font-weight: 900;
+                  text-transform: uppercase;
+                  letter-spacing: 2px;
+                }
+                .content {
+                  padding: 40px 20px;
+                }
+                .button {
+                  display: inline-block;
+                  padding: 16px 40px;
+                  background-color: #ea580c;
+                  color: #FFFFFF !important;
+                  text-decoration: none;
+                  font-weight: 900;
+                  text-transform: uppercase;
+                  border: 2px solid #171717;
+                  box-shadow: 4px 4px 0px #171717;
+                  transition: all 0.2s;
+                  margin: 20px 0;
+                }
+                .reset-link {
+                  word-break: break-all;
+                  background: #F5F5F5;
+                  padding: 15px;
+                  border: 2px solid #171717;
+                  font-size: 14px;
+                  color: #171717;
+                  margin: 20px 0;
+                }
+                .warning {
+                  background-color: #fef3c7;
+                  border: 2px solid #171717;
+                  padding: 15px;
+                  margin: 20px 0;
+                }
+                .warning-text {
+                  color: #dc2626;
+                  font-weight: 900;
+                  margin: 0;
+                }
+                .footer {
+                  background-color: #F5F5F5;
+                  border-top: 2px solid #171717;
+                  padding: 20px;
+                  text-align: center;
+                  font-size: 14px;
+                  color: #4D4D4D;
+                }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                <div class="header">
+                  <h1>🔥 Zona Street</h1>
+                </div>
+                <div class="content">
+                  <h2 style="font-size: 22px; font-weight: 900; text-transform: uppercase; margin: 0 0 20px 0;">
+                    Redefinição de Senha
+                  </h2>
+                  <p style="font-size: 16px; margin: 0 0 15px 0;">
+                    Você solicitou a redefinição de senha da sua conta de administrador.
+                  </p>
+                  <p style="font-size: 16px; margin: 0 0 20px 0;">
+                    Clique no botão abaixo para criar uma nova senha:
+                  </p>
+                  <center>
+                    <a href="${resetUrl}" class="button">
+                      Redefinir Senha
+                    </a>
+                  </center>
+                  <p style="font-size: 14px; margin: 30px 0 10px 0; color: #4D4D4D;">
+                    Ou copie e cole este link no navegador:
+                  </p>
+                  <div class="reset-link">${resetUrl}</div>
+                  <div class="warning">
+                    <p class="warning-text">⚠️ Este link expira em 15 minutos.</p>
+                  </div>
+                  <p style="font-size: 14px; margin: 30px 0 0 0; color: #4D4D4D;">
+                    Se você não solicitou esta redefinição, ignore este email. Sua senha permanecerá inalterada.
+                  </p>
+                </div>
+                <div class="footer">
+                  <p style="margin: 0;">© ${new Date().getFullYear()} Zona Street. Todos os direitos reservados.</p>
+                </div>
+              </div>
+            </body>
+          </html>
+        `,
+      });
+    } catch (error) {
+      console.error("Erro ao enviar email de reset de senha:", error);
+      throw new Error("Falha ao enviar email de reset de senha");
+    }
+  }
 }

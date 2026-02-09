@@ -25,7 +25,7 @@ export function ProtectedRoute({
 
       if (!isAuthenticated) {
         toast.error("Acesso negado", {
-          description: "Você precisa fazer login para acessar esta página",
+          description: "Voc precisa fazer login para acessar esta pgina",
         });
         router.push("/admin/login");
         return;
@@ -33,7 +33,7 @@ export function ProtectedRoute({
 
       if (requireAdmin && !isAdmin) {
         toast.error("Acesso negado", {
-          description: "Você não tem permissão para acessar esta página",
+          description: "Voc no tem permisso para acessar esta pgina",
         });
         router.push("/");
       }
@@ -42,19 +42,19 @@ export function ProtectedRoute({
     return () => clearTimeout(timer);
   }, [isAuthenticated, isAdmin, requireAdmin, router]);
 
-  // Loading enquanto verifica autenticação
+  // Loading enquanto verifica autenticao
   if (isChecking) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-900 border-t-orange-street mx-auto mb-4"></div>
-          <p className="text-gray-600">Verificando autenticação...</p>
+          <p className="text-gray-600">Verificando autenticao...</p>
         </div>
       </div>
     );
   }
 
-  // Se não está autenticado ou não é admin quando necessário, não renderiza nada
+  // Se no est autenticado ou no  admin quando necessrio, no renderiza nada
   if (!isAuthenticated || (requireAdmin && !isAdmin)) {
     return null;
   }

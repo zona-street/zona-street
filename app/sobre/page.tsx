@@ -3,6 +3,7 @@ import { Footer } from "@/components/shared/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Package, RefreshCcw, Store } from "lucide-react";
 
 export default function SobrePage() {
   return (
@@ -51,11 +52,7 @@ export default function SobrePage() {
                 Estilo Sem Fronteiras
               </h2>
               <p className="text-gray-700 leading-relaxed">
-                Cada peça é pensada para quem não aceita padrões. Oversized não
-                é apenas um corte, é uma filosofia: liberdade de movimento,
-                conforto absoluto e um visual marcante que grita personalidade.
-                Do trap ao skateboard, da arte urbana ao basquete, unimos as
-                tribos da Zona.
+                Cada peça é pensada para quem não aceita padrões....
               </p>
             </div>
 
@@ -65,9 +62,7 @@ export default function SobrePage() {
               </h2>
               <p className="text-gray-700 leading-relaxed">
                 Usamos tecidos premium, estampas exclusivas e acabamentos
-                impecáveis. Cada moletom, camiseta ou acessório carrega a
-                essência da Zona Street: resistência, conforto e um design que
-                não passa despercebido. Aqui, qualidade e atitude andam juntas.
+                impecáveis...
               </p>
             </div>
           </div>
@@ -81,23 +76,60 @@ export default function SobrePage() {
           <div className="grid gap-6 md:grid-cols-3">
             <div className="border-2 border-white p-6 text-center">
               <h3 className="mb-2 text-xl font-bold uppercase">
-                Autenticidade
+                Qualidade em primeiro lugar
               </h3>
               <p className="text-sm text-gray-300">
-                Sem mimimi, sem frescura. Moda real para pessoas reais.
+                Usamos tecidos premium e acabamentos impecáveis em cada peça.
               </p>
             </div>
             <div className="border-2 border-white p-6 text-center">
-              <h3 className="mb-2 text-xl font-bold uppercase">Comunidade</h3>
+              <h3 className="mb-2 text-xl font-bold uppercase">
+                Peças exclusivas
+              </h3>
               <p className="text-sm text-gray-300">
-                A Zona é de todos. Valorizamos cada pessoa que visita nossa
-                loja.
+                Estampas únicas e designs que não passam despercebidos.
               </p>
             </div>
             <div className="border-2 border-white p-6 text-center">
-              <h3 className="mb-2 text-xl font-bold uppercase">Inovação</h3>
+              <h3 className="mb-2 text-xl font-bold uppercase">
+                Estilo com identidade
+              </h3>
               <p className="text-sm text-gray-300">
-                Sempre atentos às tendências, mas nunca esquecendo das raízes.
+                Moda real para pessoas reais que não aceitam padrões.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Como Funciona */}
+        <div className="mt-16 border-2 border-gray-900 bg-white p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+          <h2 className="mb-8 text-center text-3xl font-bold uppercase tracking-tight text-gray-900">
+            Como Funciona
+          </h2>
+          <div className="grid gap-6 md:grid-cols-3">
+            <div className="border-2 border-gray-900 p-6">
+              <h3 className="mb-3 text-lg font-bold uppercase text-gray-900 flex text-center items-center gap-2">
+                <Package size={20} /> Entrega para todo o Brasil
+              </h3>
+              <p className="text-sm text-gray-700">
+                Enviamos para qualquer lugar do país com segurança e
+                rastreamento.
+              </p>
+            </div>
+            <div className="border-2 border-gray-900 p-6">
+              <h3 className="mb-3 text-lg font-bold uppercase text-gray-900 flex text-center items-center gap-2">
+                <Store size={20} /> Retirada em Resende
+              </h3>
+              <p className="text-sm text-gray-700">
+                Prefere retirar pessoalmente? Sem problema! Combine conosco.
+              </p>
+            </div>
+            <div className="border-2 border-gray-900 p-6">
+              <h3 className="mb-3 text-lg font-bold uppercase text-gray-900 flex text-center items-center gap-2">
+                <RefreshCcw size={20} /> Troca imediata
+              </h3>
+              <p className="text-sm text-gray-700">
+                Erro de tamanho? Realizamos troca sem burocracia.
               </p>
             </div>
           </div>

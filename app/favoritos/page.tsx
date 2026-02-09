@@ -77,7 +77,7 @@ function FavoritosClient() {
           Nenhum favorito ainda
         </h2>
         <p className="text-gray-600 mb-8">
-          Explore nossos produtos e clique no coração para adicionar aos
+          Explore nossos produtos e clique no corao para adicionar aos
           favoritos.
         </p>
         <Link

@@ -52,7 +52,7 @@ export function ProductCard({
   const addItem = useCart((state) => state.addItem);
   const openCart = useCartSheet((state) => state.openCart);
 
-  // Verificações de segurança
+  // Verificaes de segurana
   const safeImage = image || "/placeholder-product.png";
   const safeName = name || "Produto sem nome";
   const safePrice =
@@ -74,7 +74,7 @@ export function ProductCard({
     : 0;
 
   const handleToggleFavorite = (e: React.MouseEvent) => {
-    e.preventDefault(); // Impede navegação ao clicar
+    e.preventDefault(); // Impede navegao ao clicar
     const isAdded = toggleFav(id);
 
     if (isAdded) {
@@ -148,7 +148,7 @@ export function ProductCard({
             </Badge>
           )}
 
-          {/* Botão de favoritar - aparece no hover */}
+          {/* Boto de favoritar - aparece no hover */}
           <Button
             variant="ghost"
             size="icon"
@@ -177,7 +177,7 @@ export function ProductCard({
           </h3>
         </Link>
 
-        {/* Preços */}
+        {/* Preos */}
         <div className="flex items-baseline gap-2">
           <span className="text-xl font-bold text-gray-900">
             R$ {safePrice.toFixed(2)}

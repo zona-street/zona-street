@@ -102,7 +102,7 @@ export function AdminOrdersTemplate() {
 
     const labels = {
       PENDENTE: "Pendente",
-      CONCLUIDO: "Concluído",
+      CONCLUIDO: "Concludo",
       CANCELADO: "Cancelado",
     };
 
@@ -146,7 +146,7 @@ export function AdminOrdersTemplate() {
             Nenhum pedido encontrado
           </h3>
           <p className="mt-2 text-sm text-gray-600">
-            Os pedidos aparecerão aqui quando forem criados
+            Os pedidos aparecero aqui quando forem criados
           </p>
         </div>
       ) : (
@@ -174,7 +174,7 @@ export function AdminOrdersTemplate() {
                     Data
                   </th>
                   <th className="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-gray-900">
-                    Ações
+                    Aes
                   </th>
                 </tr>
               </thead>
@@ -304,7 +304,7 @@ export function AdminOrdersTemplate() {
                 {selectedOrder.order.notes && (
                   <div className="mt-4">
                     <p className="text-xs font-bold uppercase text-gray-500">
-                      Observações
+                      Observaes
                     </p>
                     <p className="text-sm text-gray-700">
                       {selectedOrder.order.notes}
@@ -365,7 +365,7 @@ export function AdminOrdersTemplate() {
                 </div>
               </div>
 
-              {/* Ações */}
+              {/* Aes */}
               {selectedOrder.order.status === "PENDENTE" && (
                 <div className="flex gap-3 pt-4">
                   <Button

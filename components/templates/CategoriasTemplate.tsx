@@ -4,13 +4,14 @@ import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
 import { ProductCard } from "@/components/shared/ProductCard";
 import { Product } from "@/lib/types/product";
+import type { ProductCategory } from "@/lib/constants/product";
 
-const categoryNames: Record<string, string> = {
+const categoryNames: Record<ProductCategory, string> = {
   camisetas: "Camisetas",
   moletons: "Moletons",
   calcas: "Calças",
+  jaquetas: "Jaquetas",
   acessorios: "Acessórios",
-  calcados: "Calçados",
 };
 
 interface CategoriasTemplateProps {
@@ -25,7 +26,7 @@ export function CategoriasTemplate({
   loading = false,
 }: CategoriasTemplateProps) {
   const categoryName = slug
-    ? categoryNames[slug] || slug.charAt(0).toUpperCase() + slug.slice(1)
+    ? categoryNames[slug as ProductCategory] || slug.charAt(0).toUpperCase() + slug.slice(1)
     : "Categoria";
 
   return (
@@ -39,9 +40,7 @@ export function CategoriasTemplate({
             {categoryName}
           </h1>
           <p className="text-lg text-gray-600">
-            {loading
-              ? "Carregando..."
-              : `${products.length} produtos encontrados`}
+            {loading ? "Carregando..." : products.length + " produtos encontrados"}
           </p>
         </div>
 

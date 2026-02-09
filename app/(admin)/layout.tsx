@@ -26,7 +26,7 @@ export default function AdminLayout({
   return (
     <ProtectedRoute requireAdmin>
       <div className="min-h-screen bg-gray-50">
-        {/* TODO: Adicionar Sidebar de navegação admin */}
+        {/* TODO: Adicionar Sidebar de navegao admin */}
         <div className="flex">
           {/* Sidebar */}
           <aside className="fixed left-0 top-0 h-full w-64 border-r-2 border-gray-900 bg-gray-900 p-6 text-white">
@@ -69,16 +69,6 @@ export default function AdminLayout({
                 }`}
               >
                 Pedidos
-              </Link>
-              <Link
-                href="/admin/customers"
-                className={`block rounded-md border-2 px-4 py-3 font-bold uppercase tracking-wide transition-colors hover:border-orange-street hover:bg-orange-street/10 ${
-                  isActive("/admin/customers")
-                    ? "border-orange-street bg-orange-street/10"
-                    : "border-transparent"
-                }`}
-              >
-                Clientes
               </Link>
 
               <button

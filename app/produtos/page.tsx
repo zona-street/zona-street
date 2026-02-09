@@ -25,14 +25,14 @@ export default async function ProdutosPage({
     console.error("Erro ao buscar produtos:", error);
   }
 
-  // Tradução de categorias
+  // Traduo de categorias
   const categoriaNome = categoria
     ? {
         camisetas: "Camisetas",
         moletons: "Moletons",
-        calcas: "Calças",
+        calcas: "Calas",
         jaquetas: "Jaquetas",
-        acessorios: "Acessórios",
+        acessorios: "Acessrios",
       }[categoria] || "Produtos"
     : "Todos os Produtos";
 

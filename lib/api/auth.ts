@@ -69,4 +69,76 @@ export const authApi = {
 
     return response.json();
   },
+
+  /**
+   * Troca a senha do usuário autenticado
+   */
+  async changePassword(
+    token: string,
+    data: {
+      currentPassword: string;
+      newPassword: string;
+      confirmPassword: string;
+    }
+  ): Promise<{ success: boolean; message: string }> {
+    const response = await fetch(`${API_URL}/auth/change-password`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || "Erro ao alterar senha");
+    }
+
+    return response.json();
+  },
+
+  /**
+   * Solicita reset de senha via email
+   */
+  async forgotPassword(email: string): Promise<{ success: boolean; message: string }> {
+    const response = await fetch(`${API_URL}/auth/forgot-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || "Erro ao solicitar reset de senha");
+    }
+
+    return response.json();
+  },
+
+  /**
+   * Redefine a senha com token
+   */
+  async resetPassword(data: {
+    token: string;
+    newPassword: string;
+    confirmPassword: string;
+  }): Promise<{ success: boolean; message: string }> {
+    const response = await fetch(`${API_URL}/auth/reset-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || "Erro ao redefinir senha");
+    }
+
+    return response.json();
+  },
 };

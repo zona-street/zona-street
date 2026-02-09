@@ -91,7 +91,7 @@ export default function AdminDashboard() {
           Dashboard
         </h1>
         <p className="mt-2 text-lg font-medium text-gray-600">
-          Visão geral do seu e-commerce
+          Visão geral do e-commerce Zona Street
         </p>
       </div>
 
@@ -187,23 +187,29 @@ export default function AdminDashboard() {
         <h2 className="mb-6 text-2xl font-black uppercase tracking-tight text-gray-900">
           Ações Rápidas
         </h2>
-        <div className="grid gap-4 md:grid-cols-3">
-          <button className="border-2 border-gray-900 bg-gray-900 px-6 py-4 font-bold uppercase tracking-wide text-white transition-all hover:bg-orange-street hover:border-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+        <div className="flex gap-4">
+          <a
+            href="/admin/products"
+            className="border-2 border-gray-900 bg-gray-900 px-6 py-4 font-bold uppercase tracking-wide text-white transition-all hover:bg-orange-street hover:border-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             + Novo Produto
-          </button>
-          <button className="border-2 border-gray-900 bg-white px-6 py-4 font-bold uppercase tracking-wide text-gray-900 transition-all hover:bg-gray-900 hover:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-            Ver Pedidos
-          </button>
-          <button className="border-2 border-gray-900 bg-white px-6 py-4 font-bold uppercase tracking-wide text-gray-900 transition-all hover:bg-gray-900 hover:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          </a>
+          <button
+            onClick={() => toast.info("Gráficos e relatórios poderão ser implementados no futuro.")}
+            className="border-2 border-gray-900 bg-white px-6 py-4 font-bold uppercase tracking-wide text-gray-900 transition-all hover:bg-gray-900 hover:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             Relatórios
           </button>
+          <a
+            href="/admin/settings"
+            className="border-2 border-gray-900 bg-white px-6 py-4 font-bold uppercase tracking-wide text-gray-900 transition-all hover:bg-gray-900 hover:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            ⚙️ Configurações
+          </a>
         </div>
       </div>
 
       {/* Placeholder for future charts/tables */}
       <div className="border-2 border-gray-200 bg-white p-8">
         <p className="text-center text-sm font-medium text-gray-500">
-          📊 Gráficos e tabelas serão implementados nas próximas sprints
+          Gráficos e relatórios poderão ser implementados no futuro.
         </p>
       </div>
     </div>

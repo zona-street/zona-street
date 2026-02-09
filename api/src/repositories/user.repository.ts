@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, isNotNull } from "drizzle-orm";
 import { db } from "../db";
 import { users, type User, type NewUser } from "../db/schema";
 
@@ -53,5 +53,61 @@ export class UserRepository {
       .returning();
 
     return updatedUser || null;
+  }
+
+  /**
+   * Atualiza a senha de um usuário
+   */
+  async updatePassword(id: string, hashedPassword: string): Promise<void> {
+    await db
+      .update(users)
+      .set({ password: hashedPassword, updatedAt: new Date() })
+      .where(eq(users.id, id));
+  }
+
+  /**
+   * Atualiza o token de reset de senha
+   */
+  async updateResetToken(
+    id: string,
+    resetTokenHash: string,
+    resetTokenExpiresAt: Date
+  ): Promise<void> {
+    await db
+      .update(users)
+      .set({
+        resetTokenHash,
+        resetTokenExpiresAt,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, id));
+  }
+
+  /**
+   * Busca usuários com token de reset válido
+   */
+  async findUsersWithResetToken(): Promise<User[]> {
+    return db
+      .select()
+      .from(users)
+      .where(isNotNull(users.resetTokenHash));
+  }
+
+  /**
+   * Atualiza senha e limpa token de reset
+   */
+  async updatePasswordAndClearResetToken(
+    id: string,
+    hashedPassword: string
+  ): Promise<void> {
+    await db
+      .update(users)
+      .set({
+        password: hashedPassword,
+        resetTokenHash: null,
+        resetTokenExpiresAt: null,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, id));
   }
 }

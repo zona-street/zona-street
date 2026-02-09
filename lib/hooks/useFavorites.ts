@@ -24,14 +24,14 @@ export function useFavorites() {
 
     loadFavorites();
 
-    // Listener para mudanças entre abas (storage event)
+    // Listener para mudanas entre abas (storage event)
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === FAVORITES_KEY) {
         loadFavorites();
       }
     };
 
-    // Listener para mudanças dentro da mesma aba (custom event)
+    // Listener para mudanas dentro da mesma aba (custom event)
     const handleFavoritesChange = () => {
       loadFavorites();
     };
@@ -98,7 +98,7 @@ export function useFavorites() {
     [addFavorite, removeFavorite]
   );
 
-  // Verificar se é favorito
+  // Verificar se  favorito
   const isFavorite = useCallback(
     (productId: string) => {
       return favorites.includes(productId);

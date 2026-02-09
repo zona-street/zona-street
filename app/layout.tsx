@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Zona Street",
-  description: "Pra streetwear e oversized, Zona Street é o lugar.",
+  description: "Sua loja online em moda streetwear e oversized",
 };
 
 export default function RootLayout({
