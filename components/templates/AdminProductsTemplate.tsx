@@ -507,14 +507,15 @@ export function AdminProductsTemplate() {
                       isUploadingImages ||
                       (imageUrls?.length ?? 0) >= MAX_IMAGES
                     }
-                    className="w-full border-2 border-gray-900"
+                    className="w-full border-2 border-gray-900 hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 hover:bg-accent-foreground/10"
                     onChange={(e) => {
                       handleImageFiles(e.currentTarget.files);
                       e.currentTarget.value = "";
                     }}
                   />
                   <p className="text-xs text-gray-500">
-                    Até 4 imagens (4MB cada). Apenas admins podem fazer upload.
+                    Apenas 1 imagem (4MB máximo por enquanto). Apenas admins
+                    podem fazer upload.
                   </p>
 
                   {/* Preview das imagens */}
