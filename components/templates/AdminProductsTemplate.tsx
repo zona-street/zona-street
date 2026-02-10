@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { productsApi, CreateProductData } from "@/lib/api/products";
+import { productsApi } from "@/lib/api/products";
 import { useAuth } from "@/lib/store/useAuth";
 import { toast } from "sonner";
 import { Product } from "@/lib/types/product";
@@ -625,7 +625,7 @@ export function AdminProductsTemplate() {
             Nenhum produto cadastrado
           </h3>
           <p className="mt-2 text-sm text-gray-600">
-            Clique em "Novo Produto" para começar
+            Clique em &quot;Novo Produto&quot; para começar
           </p>
         </div>
       ) : (

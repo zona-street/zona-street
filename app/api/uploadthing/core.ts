@@ -96,7 +96,9 @@ const auth = (req: Request) => {
     if (process.env.NODE_ENV === "development") {
       // Helpful debug when developing locally
       // eslint-disable-next-line no-console
-      console.warn("UploadThing auth failed: missing or malformed Authorization header");
+      console.warn(
+        "UploadThing auth failed: missing or malformed Authorization header",
+      );
     }
     throw new UploadThingError({
       code: "FORBIDDEN",
