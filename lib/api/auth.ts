@@ -79,7 +79,7 @@ export const authApi = {
       currentPassword: string;
       newPassword: string;
       confirmPassword: string;
-    }
+    },
   ): Promise<{ success: boolean; message: string }> {
     const response = await fetch(`${API_URL}/auth/change-password`, {
       method: "PATCH",
@@ -101,7 +101,9 @@ export const authApi = {
   /**
    * Solicita reset de senha via email
    */
-  async forgotPassword(email: string): Promise<{ success: boolean; message: string }> {
+  async forgotPassword(
+    email: string,
+  ): Promise<{ success: boolean; message: string }> {
     const response = await fetch(`${API_URL}/auth/forgot-password`, {
       method: "POST",
       headers: {

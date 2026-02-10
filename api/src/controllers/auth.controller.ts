@@ -16,27 +16,35 @@ const loginSchema = z.object({
   password: z.string().min(1, "Senha é obrigatória"),
 });
 
-const changePasswordSchema = z.object({
-  currentPassword: z.string().min(1, "Senha atual é obrigatória"),
-  newPassword: z.string().min(6, "Nova senha deve ter no mínimo 6 caracteres"),
-  confirmPassword: z.string().min(1, "Confirmação de senha é obrigatória"),
-}).refine((data) => data.newPassword === data.confirmPassword, {
-  message: "As senhas não correspondem",
-  path: ["confirmPassword"],
-});
+const changePasswordSchema = z
+  .object({
+    currentPassword: z.string().min(1, "Senha atual é obrigatória"),
+    newPassword: z
+      .string()
+      .min(6, "Nova senha deve ter no mínimo 6 caracteres"),
+    confirmPassword: z.string().min(1, "Confirmação de senha é obrigatória"),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "As senhas não correspondem",
+    path: ["confirmPassword"],
+  });
 
 const forgotPasswordSchema = z.object({
   email: z.string().email("Email inválido"),
 });
 
-const resetPasswordSchema = z.object({
-  token: z.string().min(1, "Token é obrigatório"),
-  newPassword: z.string().min(6, "Nova senha deve ter no mínimo 6 caracteres"),
-  confirmPassword: z.string().min(1, "Confirmação de senha é obrigatória"),
-}).refine((data) => data.newPassword === data.confirmPassword, {
-  message: "As senhas não correspondem",
-  path: ["confirmPassword"],
-});
+const resetPasswordSchema = z
+  .object({
+    token: z.string().min(1, "Token é obrigatório"),
+    newPassword: z
+      .string()
+      .min(6, "Nova senha deve ter no mínimo 6 caracteres"),
+    confirmPassword: z.string().min(1, "Confirmação de senha é obrigatória"),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "As senhas não correspondem",
+    path: ["confirmPassword"],
+  });
 
 /**
  * Auth Controller
@@ -58,7 +66,7 @@ export class AuthController {
       const user = await this.authService.register(
         body.email,
         body.password,
-        body.role
+        body.role,
       );
 
       // Gera o token JWT
@@ -68,7 +76,7 @@ export class AuthController {
           email: user.email,
           role: user.role,
         },
-        { expiresIn: "7d" }
+        { expiresIn: "7d" },
       );
 
       return reply.status(201).send({
@@ -118,7 +126,7 @@ export class AuthController {
           email: user.email,
           role: user.role,
         },
-        { expiresIn: "7d" }
+        { expiresIn: "7d" },
       );
 
       return reply.send({
@@ -190,7 +198,7 @@ export class AuthController {
       await this.authService.changePassword(
         userId,
         body.currentPassword,
-        body.newPassword
+        body.newPassword,
       );
 
       return reply.send({
@@ -232,7 +240,8 @@ export class AuthController {
       // Sempre retorna sucesso para evitar enumeração de emails
       return reply.send({
         success: true,
-        message: "Se o email existir, você receberá instruções para redefinir sua senha",
+        message:
+          "Se o email existir, você receberá instruções para redefinir sua senha",
       });
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -246,7 +255,8 @@ export class AuthController {
       // Mesmo em caso de erro, retorna mensagem genérica
       return reply.send({
         success: true,
-        message: "Se o email existir, você receberá instruções para redefinir sua senha",
+        message:
+          "Se o email existir, você receberá instruções para redefinir sua senha",
       });
     }
   }

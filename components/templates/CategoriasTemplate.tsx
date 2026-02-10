@@ -26,7 +26,8 @@ export function CategoriasTemplate({
   loading = false,
 }: CategoriasTemplateProps) {
   const categoryName = slug
-    ? categoryNames[slug as ProductCategory] || slug.charAt(0).toUpperCase() + slug.slice(1)
+    ? categoryNames[slug as ProductCategory] ||
+      slug.charAt(0).toUpperCase() + slug.slice(1)
     : "Categoria";
 
   return (
@@ -40,7 +41,9 @@ export function CategoriasTemplate({
             {categoryName}
           </h1>
           <p className="text-lg text-gray-600">
-            {loading ? "Carregando..." : products.length + " produtos encontrados"}
+            {loading
+              ? "Carregando..."
+              : products.length + " produtos encontrados"}
           </p>
         </div>
 

@@ -22,7 +22,7 @@ export class AuthService {
   async register(
     email: string,
     password: string,
-    role: "admin" | "customer" = "customer"
+    role: "admin" | "customer" = "customer",
   ): Promise<Omit<User, "password">> {
     // Verifica se o email já existe
     const existingUser = await this.userRepository.findByEmail(email);
@@ -57,7 +57,7 @@ export class AuthService {
    */
   async login(
     email: string,
-    password: string
+    password: string,
   ): Promise<Omit<User, "password">> {
     // Busca o usuário
     const user = await this.userRepository.findByEmail(email);
@@ -95,7 +95,7 @@ export class AuthService {
   async changePassword(
     userId: string,
     currentPassword: string,
-    newPassword: string
+    newPassword: string,
   ): Promise<void> {
     // Busca o usuário
     const user = await this.userRepository.findById(userId);
@@ -104,7 +104,10 @@ export class AuthService {
     }
 
     // Verifica a senha atual
-    const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+    const isPasswordValid = await bcrypt.compare(
+      currentPassword,
+      user.password,
+    );
     if (!isPasswordValid) {
       throw new Error("Senha atual incorreta");
     }
@@ -127,7 +130,7 @@ export class AuthService {
   async requestPasswordReset(email: string): Promise<void> {
     // Busca o usuário (apenas admin pode resetar)
     const user = await this.userRepository.findByEmail(email);
-    
+
     // Sempre retorna sucesso para evitar enumeração de emails
     // Mas só envia email se o usuário existir e for admin
     if (!user || user.role !== "admin") {
@@ -147,7 +150,7 @@ export class AuthService {
     await this.userRepository.updateResetToken(
       user.id,
       resetTokenHash,
-      resetTokenExpiresAt
+      resetTokenExpiresAt,
     );
 
     // Envia email com o token (não o hash)
@@ -195,7 +198,7 @@ export class AuthService {
     // Atualiza a senha e limpa o token de reset
     await this.userRepository.updatePasswordAndClearResetToken(
       validUser.id,
-      hashedPassword
+      hashedPassword,
     );
   }
 }

@@ -114,7 +114,7 @@ export function AdminProductsTemplate() {
           description: error.message,
         });
       },
-    }
+    },
   );
 
   // Carregar produtos
@@ -220,7 +220,7 @@ export function AdminProductsTemplate() {
     if (current.includes(size)) {
       setValue(
         "sizes",
-        current.filter((s) => s !== size)
+        current.filter((s) => s !== size),
       );
     } else {
       setValue("sizes", [...current, size]);
@@ -232,7 +232,7 @@ export function AdminProductsTemplate() {
     const current = imageUrls || [];
     setValue(
       "images",
-      current.filter((u) => u !== url)
+      current.filter((u) => u !== url),
     );
   }
 
@@ -503,7 +503,10 @@ export function AdminProductsTemplate() {
                     type="file"
                     accept="image/*"
                     multiple
-                    disabled={isUploadingImages || (imageUrls?.length ?? 0) >= MAX_IMAGES}
+                    disabled={
+                      isUploadingImages ||
+                      (imageUrls?.length ?? 0) >= MAX_IMAGES
+                    }
                     className="w-full border-2 border-gray-900"
                     onChange={(e) => {
                       handleImageFiles(e.currentTarget.files);
@@ -700,8 +703,8 @@ export function AdminProductsTemplate() {
                           Number(product.stock) > 10
                             ? "text-green-600"
                             : Number(product.stock) > 0
-                            ? "text-orange-600"
-                            : "text-red-600"
+                              ? "text-orange-600"
+                              : "text-red-600"
                         }`}
                       >
                         {product.stock}
@@ -755,4 +758,3 @@ export function AdminProductsTemplate() {
     </div>
   );
 }
-

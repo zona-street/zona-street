@@ -227,7 +227,7 @@ export function CartSheet() {
                             updateQuantity(
                               item.id,
                               item.size,
-                              item.quantity - 1
+                              item.quantity - 1,
                             )
                           }
                         >
@@ -244,7 +244,7 @@ export function CartSheet() {
                             updateQuantity(
                               item.id,
                               item.size,
-                              item.quantity + 1
+                              item.quantity + 1,
                             )
                           }
                         >

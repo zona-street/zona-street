@@ -2,6 +2,10 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL
+  ? `Zona Street <${process.env.RESEND_FROM_EMAIL}>`
+  : "onboarding@resend.dev";
+
 interface NewProductEmailData {
   productName: string;
   productDescription: string;
@@ -19,7 +23,7 @@ export class EmailService {
    */
   async sendNewProductEmail(
     to: string,
-    productData: NewProductEmailData
+    productData: NewProductEmailData,
   ): Promise<void> {
     const {
       productName,
@@ -31,7 +35,7 @@ export class EmailService {
 
     try {
       await resend.emails.send({
-        from: "Zona Street <noreply@zonastreet.com>",
+        from: FROM_EMAIL,
         to,
         subject: `🔥 Novo Lançamento: ${productName}`,
         html: `
@@ -173,13 +177,13 @@ export class EmailService {
    */
   async sendBulkNewProductEmails(
     emails: string[],
-    productData: NewProductEmailData
+    productData: NewProductEmailData,
   ): Promise<void> {
     const promises = emails.map((email) =>
       this.sendNewProductEmail(email, productData).catch((error) => {
         console.error(`Erro ao enviar email para ${email}:`, error);
         return null;
-      })
+      }),
     );
 
     await Promise.allSettled(promises);
@@ -188,15 +192,12 @@ export class EmailService {
   /**
    * Envia email de reset de senha
    */
-  async sendPasswordResetEmail(
-    to: string,
-    resetToken: string
-  ): Promise<void> {
+  async sendPasswordResetEmail(to: string, resetToken: string): Promise<void> {
     const resetUrl = `${process.env.FRONTEND_URL || "http://localhost:3000"}/admin/reset-password?token=${resetToken}`;
 
     try {
       await resend.emails.send({
-        from: "Zona Street <noreply@zonastreet.com>",
+        from: FROM_EMAIL,
         to,
         subject: "Redefinição de senha - Zona Street",
         html: `

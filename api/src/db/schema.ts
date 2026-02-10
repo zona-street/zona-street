@@ -79,7 +79,9 @@ export const users = pgTable("users", {
   password: text("password").notNull(), // Hashed com bcrypt
   role: roleEnum("role").notNull().default("customer"),
   resetTokenHash: text("reset_token_hash"), // Hash do token de reset de senha
-  resetTokenExpiresAt: timestamp("reset_token_expires_at", { withTimezone: true }), // Expiração do token
+  resetTokenExpiresAt: timestamp("reset_token_expires_at", {
+    withTimezone: true,
+  }), // Expiração do token
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),

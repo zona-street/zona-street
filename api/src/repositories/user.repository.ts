@@ -44,7 +44,7 @@ export class UserRepository {
    */
   async updateRole(
     id: string,
-    role: "admin" | "customer"
+    role: "admin" | "customer",
   ): Promise<User | null> {
     const [updatedUser] = await db
       .update(users)
@@ -71,7 +71,7 @@ export class UserRepository {
   async updateResetToken(
     id: string,
     resetTokenHash: string,
-    resetTokenExpiresAt: Date
+    resetTokenExpiresAt: Date,
   ): Promise<void> {
     await db
       .update(users)
@@ -87,10 +87,7 @@ export class UserRepository {
    * Busca usuários com token de reset válido
    */
   async findUsersWithResetToken(): Promise<User[]> {
-    return db
-      .select()
-      .from(users)
-      .where(isNotNull(users.resetTokenHash));
+    return db.select().from(users).where(isNotNull(users.resetTokenHash));
   }
 
   /**
@@ -98,7 +95,7 @@ export class UserRepository {
    */
   async updatePasswordAndClearResetToken(
     id: string,
-    hashedPassword: string
+    hashedPassword: string,
   ): Promise<void> {
     await db
       .update(users)

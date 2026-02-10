@@ -32,37 +32,52 @@ export default function SobrePage() {
               src="/logo-cinza-sem-n4.png"
               alt="Zona Street - Logo"
               fill
-              className="object-contain p-8"
+              className="object-contain p-16"
+              quality={100}
             />
           </div>
 
           {/* Story */}
-          <div className="space-y-6">
-            <div className="border-l-4 border-gray-900 bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-              <h2 className="mb-3 text-2xl font-bold uppercase tracking-tight text-gray-900">
-                Nascida em ...
+          <div className="space-y-2">
+            <div className="border-l-4 border-gray-900 bg-white p-3 px-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+              <h2 className="mb-2 text-xl font-bold uppercase tracking-tight text-gray-900">
+                NASCIDA EM RESENDE
               </h2>
               <p className="text-gray-700 leading-relaxed">
-                Aqui vai ficar a história da Zona Street. Fundada por...
+                A Zona Street nasceu em Resende, em 2023, como uma loja física
+                com o propósito de oferecer roupas que realmente entregassem
+                qualidade e identidade. Durante 3 anos, atendemos
+                presencialmente, construindo uma base sólida de clientes e
+                aperfeiçoando cada detalhe da nossa curadoria. Hoje, evoluímos
+                para uma loja 100% online, levando nossa essência e padrão de
+                qualidade para todo o Brasil.
               </p>
             </div>
 
-            <div className="border-l-4 border-gray-900 bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-              <h2 className="mb-3 text-2xl font-bold uppercase tracking-tight text-gray-900">
-                Estilo Sem Fronteiras
+            <div className="border-l-4 border-gray-900 bg-white p-3 px-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+              <h2 className="mb-2 text-xl font-bold uppercase tracking-tight text-gray-900">
+                ESTILO Zona Street
               </h2>
               <p className="text-gray-700 leading-relaxed">
-                Cada peça é pensada para quem não aceita padrões....
+                Na Zona Street, estilo é identidade. Cada peça é escolhida com
+                critério para unir qualidade, exclusividade e presença.
+                Trabalhamos com produtos que se destacam pelo acabamento, pelo
+                caimento e pela originalidade, sempre priorizando um visual
+                moderno e autêntico. Nossa missão é oferecer roupas que estão na
+                moda na atualidade e trazer uma vasta quantidade de opções
+                exclusivas.
               </p>
             </div>
 
-            <div className="border-l-4 border-gray-900 bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-              <h2 className="mb-3 text-2xl font-bold uppercase tracking-tight text-gray-900">
-                Qualidade & Atitude
+            <div className="border-l-4 border-gray-900 bg-white p-3 px-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+              <h2 className="mb-2 text-xl font-bold uppercase tracking-tight text-gray-900">
+                QUALIDADE E EXCLUSIVIDADE
               </h2>
               <p className="text-gray-700 leading-relaxed">
                 Usamos tecidos premium, estampas exclusivas e acabamentos
-                impecáveis...
+                impecáveis. Cada peça é escolhida com atenção aos mínimos
+                detalhes, garantindo conforto, durabilidade e um visual
+                marcante.
               </p>
             </div>
           </div>

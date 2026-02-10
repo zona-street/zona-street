@@ -160,7 +160,8 @@ function ResetPasswordContent() {
             </div>
 
             <div className="rounded-lg border-2 border-orange-600 bg-orange-50 p-3 text-xs text-orange-900">
-              <strong>⚠️ Lembre-se:</strong> Este link expira em 15 minutos e só pode ser usado uma vez.
+              <strong>⚠️ Lembre-se:</strong> Este link expira em 15 minutos e só
+              pode ser usado uma vez.
             </div>
 
             <Button
@@ -214,7 +215,9 @@ export default function ResetPasswordPage() {
         <div className="flex min-h-screen items-center justify-center bg-gray-50">
           <div className="text-center">
             <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-900 border-t-transparent mx-auto" />
-            <p className="mt-4 text-sm font-bold text-gray-600">Carregando...</p>
+            <p className="mt-4 text-sm font-bold text-gray-600">
+              Carregando...
+            </p>
           </div>
         </div>
       }

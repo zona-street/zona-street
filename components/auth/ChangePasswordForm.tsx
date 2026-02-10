@@ -5,7 +5,13 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { authApi } from "@/lib/api/auth";
 import { useAuth } from "@/lib/store/useAuth";
 import { toast } from "sonner";
@@ -44,7 +50,7 @@ export default function ChangePasswordForm() {
       const response = await authApi.changePassword(token, formData);
 
       toast.success(response.message || "Senha alterada com sucesso!");
-      
+
       // Limpa o formulário
       setFormData({
         currentPassword: "",
@@ -60,7 +66,7 @@ export default function ChangePasswordForm() {
       }, 2000);
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Erro ao alterar senha"
+        error instanceof Error ? error.message : "Erro ao alterar senha",
       );
     } finally {
       setLoading(false);

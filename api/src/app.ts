@@ -93,7 +93,7 @@ export async function buildApp() {
   fastify.register(orderRoutes, { prefix: `${config.apiPrefix}` });
 
   // Handler de erro global
-  fastify.setErrorHandler((error, request, reply) => {
+  fastify.setErrorHandler((error, _request, reply) => {
     if (config.isDevelopment) {
       fastify.log.error(error);
     }

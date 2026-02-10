@@ -34,7 +34,7 @@ export class ProductController {
    */
   async listProducts(
     request: FastifyRequest<{ Querystring: ListProductsQuery }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ): Promise<void> {
     try {
       // Validação com Zod
@@ -71,7 +71,7 @@ export class ProductController {
    */
   async getProductBySlug(
     request: FastifyRequest<{ Params: ProductSlugParams }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ): Promise<void> {
     try {
       // Validação com Zod
@@ -114,8 +114,8 @@ export class ProductController {
    * Lista produtos em destaque
    */
   async getFeaturedProducts(
-    request: FastifyRequest,
-    reply: FastifyReply
+    _request: FastifyRequest,
+    reply: FastifyReply,
   ): Promise<void> {
     try {
       const products = await this.service.getFeaturedProducts();
@@ -147,8 +147,8 @@ export class ProductController {
    * Lista novos lançamentos
    */
   async getNewDrops(
-    request: FastifyRequest,
-    reply: FastifyReply
+    _request: FastifyRequest,
+    reply: FastifyReply,
   ): Promise<void> {
     try {
       const products = await this.service.getNewDrops();
@@ -180,7 +180,7 @@ export class ProductController {
    */
   async createProduct(
     request: FastifyRequest,
-    reply: FastifyReply
+    reply: FastifyReply,
   ): Promise<void> {
     try {
       const createProductSchema = z.object({
@@ -259,7 +259,7 @@ export class ProductController {
    */
   async updateProduct(
     request: FastifyRequest<{ Params: { id: string } }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ): Promise<void> {
     try {
       const { id } = request.params;
@@ -321,7 +321,7 @@ export class ProductController {
    */
   async deleteProduct(
     request: FastifyRequest<{ Params: { id: string } }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ): Promise<void> {
     try {
       const { id } = request.params;

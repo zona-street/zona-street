@@ -32,7 +32,8 @@ export default function ForgotPasswordPage() {
       // Mesmo em erro, mostramos mensagem genérica por segurança
       setEmailSent(true);
       toast.info("Verificação enviada", {
-        description: "Se o email existir, você receberá instruções para redefinir sua senha",
+        description:
+          "Se o email existir, você receberá instruções para redefinir sua senha",
       });
     } finally {
       setIsLoading(false);
@@ -104,8 +105,8 @@ export default function ForgotPasswordPage() {
                 ✓ Verificação enviada!
               </p>
               <p className="mt-2 text-sm text-green-800">
-                Se o email <strong>{email}</strong> estiver cadastrado, você receberá
-                instruções para redefinir sua senha em alguns minutos.
+                Se o email <strong>{email}</strong> estiver cadastrado, você
+                receberá instruções para redefinir sua senha em alguns minutos.
               </p>
               <p className="mt-3 text-xs text-green-700">
                 <strong>Importante:</strong> O link expira em 15 minutos.
