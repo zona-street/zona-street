@@ -21,7 +21,10 @@ function decodeBase64Url(input: string): string {
 function verifyJwt(token: string): JwtPayload {
   const parts = token.split(".");
   if (parts.length !== 3) {
-    throw new UploadThingError({ code: "FORBIDDEN", message: "Forbidden" });
+    throw new UploadThingError({
+      code: "FORBIDDEN",
+      message: "Invalid JWT format",
+    });
   }
 
   const [encodedHeader, encodedPayload, signature] = parts;
@@ -35,7 +38,10 @@ function verifyJwt(token: string): JwtPayload {
   };
 
   if (header.alg !== "HS256") {
-    throw new UploadThingError({ code: "FORBIDDEN", message: "Forbidden" });
+    throw new UploadThingError({
+      code: "FORBIDDEN",
+      message: "Unsupported JWT algorithm",
+    });
   }
 
   const data = `${encodedHeader}.${encodedPayload}`;
@@ -49,18 +55,27 @@ function verifyJwt(token: string): JwtPayload {
     crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(signature));
 
   if (!sigOk) {
-    throw new UploadThingError({ code: "FORBIDDEN", message: "Forbidden" });
+    throw new UploadThingError({
+      code: "FORBIDDEN",
+      message: "Invalid JWT signature",
+    });
   }
 
   const payload = JSON.parse(decodeBase64Url(encodedPayload)) as JwtPayload;
 
   if (typeof payload.exp !== "number") {
-    throw new UploadThingError({ code: "FORBIDDEN", message: "Forbidden" });
+    throw new UploadThingError({
+      code: "FORBIDDEN",
+      message: "Invalid JWT payload",
+    });
   }
 
   const now = Math.floor(Date.now() / 1000);
   if (payload.exp <= now) {
-    throw new UploadThingError({ code: "FORBIDDEN", message: "Forbidden" });
+    throw new UploadThingError({
+      code: "FORBIDDEN",
+      message: "JWT expired",
+    });
   }
 
   return payload;
@@ -78,7 +93,15 @@ const auth = (req: Request) => {
   // Extrair token do header Authorization
   const authHeader = req.headers.get("authorization");
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    throw new UploadThingError({ code: "FORBIDDEN", message: "Forbidden" });
+    if (process.env.NODE_ENV === "development") {
+      // Helpful debug when developing locally
+      // eslint-disable-next-line no-console
+      console.warn("UploadThing auth failed: missing or malformed Authorization header");
+    }
+    throw new UploadThingError({
+      code: "FORBIDDEN",
+      message: "Missing Authorization header (Bearer <token>)",
+    });
   }
 
   const token = authHeader.split(" ")[1];

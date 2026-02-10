@@ -75,7 +75,7 @@ export function LancamentosTemplate({
         {!loading && products.length === 0 && (
           <div className="border-2 border-gray-900 bg-white p-16 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <p className="text-xl font-bold uppercase text-gray-900">
-              Em breve novos lanamentos
+              Em breve, novos lançamentos
             </p>
             <p className="mt-2 text-sm text-gray-600">
               Cadastre-se na newsletter para ser avisado!

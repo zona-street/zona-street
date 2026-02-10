@@ -29,10 +29,10 @@ export function FeaturedProduct({ product }: FeaturedProductProps) {
         <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
           <div>
             <h2 className="text-3xl font-bold uppercase tracking-tight text-gray-900 md:text-4xl">
-              Lanamento Exclusivo
+              Lançamento Exclusivo
             </h2>
             <p className="mt-2 text-sm font-medium text-gray-600">
-              Edio Limitada - Apenas 20 unidades
+              Edição Limitada - Apenas 20 unidades
             </p>
           </div>
           <div className="flex flex-wrap gap-3">

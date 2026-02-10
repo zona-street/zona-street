@@ -70,7 +70,12 @@ export default function AdminLayout({
               >
                 Pedidos
               </Link>
-
+              <Link
+                href="/"
+                className="block rounded-md border-2 px-4 py-3 font-bold uppercase tracking-wide transition-colors hover:border-orange-street hover:bg-orange-street/10 text-center border-transparent"
+              >
+                Voltar para o site
+              </Link>
               <button
                 onClick={handleLogout}
                 className="mt-auto block w-full rounded-md border-2 border-transparent px-4 py-3 font-bold uppercase tracking-wide text-left transition-colors hover:border-red-500 hover:bg-red-500/10 hover:text-red-500"

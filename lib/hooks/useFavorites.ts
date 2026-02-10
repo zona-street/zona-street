@@ -24,14 +24,14 @@ export function useFavorites() {
 
     loadFavorites();
 
-    // Listener para mudanas entre abas (storage event)
+    // Listener para mudanças entre abas (storage event)
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === FAVORITES_KEY) {
         loadFavorites();
       }
     };
 
-    // Listener para mudanas dentro da mesma aba (custom event)
+    // Listener para mudanças dentro da mesma aba (custom event)
     const handleFavoritesChange = () => {
       loadFavorites();
     };
@@ -95,15 +95,15 @@ export function useFavorites() {
       }
       return false;
     },
-    [addFavorite, removeFavorite]
+    [addFavorite, removeFavorite],
   );
 
-  // Verificar se  favorito
+  // Verificar se é favorito
   const isFavorite = useCallback(
     (productId: string) => {
       return favorites.includes(productId);
     },
-    [favorites]
+    [favorites],
   );
 
   // Limpar todos os favoritos

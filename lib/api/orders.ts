@@ -83,7 +83,7 @@ export const ordersApi = {
   },
 
   /**
-   * Buscar todos os pedidos (requer autenticao)
+   * Buscar todos os pedidos (requer autenticação)
    */
   async getAll(token: string): Promise<Order[]> {
     const response = await fetch(`${API_URL}/orders`, {
@@ -101,7 +101,7 @@ export const ordersApi = {
   },
 
   /**
-   * Buscar pedido por ID (requer autenticao)
+   * Buscar pedido por ID (requer autenticação)
    */
   async getById(orderId: string, token: string): Promise<OrderWithItems> {
     const response = await fetch(`${API_URL}/orders/${orderId}`, {
@@ -119,12 +119,12 @@ export const ordersApi = {
   },
 
   /**
-   * Atualizar pedido (requer autenticao)
+   * Atualizar pedido (requer autenticação)
    */
   async update(
     orderId: string,
     data: UpdateOrderData,
-    token: string
+    token: string,
   ): Promise<OrderWithItems> {
     const response = await fetch(`${API_URL}/orders/${orderId}`, {
       method: "PUT",
@@ -145,7 +145,7 @@ export const ordersApi = {
   },
 
   /**
-   * Validar pedido e abater estoque (requer autenticao)
+   * Validar pedido e abater estoque (requer autenticação)
    */
   async validate(orderId: string, token: string): Promise<Order> {
     const response = await fetch(`${API_URL}/orders/${orderId}/validate`, {
@@ -165,7 +165,7 @@ export const ordersApi = {
   },
 
   /**
-   * Cancelar pedido (requer autenticao)
+   * Cancelar pedido (requer autenticação)
    */
   async cancel(orderId: string, token: string): Promise<Order> {
     const response = await fetch(`${API_URL}/orders/${orderId}/cancel`, {
@@ -185,7 +185,7 @@ export const ordersApi = {
   },
 
   /**
-   * Obter estatsticas de pedidos (requer autenticao)
+   * Obter estatísticas de pedidos (requer autenticação)
    */
   async getStats(token: string): Promise<OrderStats> {
     const response = await fetch(`${API_URL}/orders/stats`, {
@@ -195,7 +195,7 @@ export const ordersApi = {
     });
 
     if (!response.ok) {
-      throw new Error("Erro ao buscar estatsticas");
+      throw new Error("Erro ao buscar estatísticas");
     }
 
     const result = await response.json();

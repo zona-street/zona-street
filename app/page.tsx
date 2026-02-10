@@ -8,7 +8,7 @@ export default async function Home() {
   let newDropProducts: Product[] = [];
 
   try {
-    // Buscar produtos em destaque e novos lanamentos em paralelo
+    // Buscar produtos em destaque e novos lançamentos em paralelo
     const results = await Promise.allSettled([
       productsApi.getFeatured(),
       productsApi.getNewDrops(),
@@ -25,7 +25,7 @@ export default async function Home() {
     // Continuar com arrays vazios
   }
 
-  // Pegar o primeiro produto em destaque (com verificao)
+  // Pegar o primeiro produto em destaque (com verificação)
   const featuredProduct =
     Array.isArray(featuredProducts) && featuredProducts.length > 0
       ? featuredProducts[0]

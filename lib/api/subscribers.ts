@@ -12,7 +12,7 @@ export const subscribersApi = {
   async getAll(token: string): Promise<Subscriber[]> {
     try {
       if (!token) {
-        console.error("Token no fornecido");
+        console.error("Token não fornecido");
         return [];
       }
 

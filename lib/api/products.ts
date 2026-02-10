@@ -65,7 +65,7 @@ export const productsApi = {
       if (!response.ok) {
         console.error(
           "Erro ao buscar produtos em destaque:",
-          response.statusText
+          response.statusText,
         );
         return [];
       }
@@ -78,7 +78,7 @@ export const productsApi = {
     }
   },
 
-  // Buscar novos lanamentos
+  // Buscar novos lançamentos
   async getNewDrops(): Promise<Product[]> {
     try {
       const response = await fetch(`${API_URL}/products/new-drops`, {
@@ -86,14 +86,14 @@ export const productsApi = {
       });
 
       if (!response.ok) {
-        console.error("Erro ao buscar novos lanamentos:", response.statusText);
+        console.error("Erro ao buscar novos lançamentos:", response.statusText);
         return [];
       }
 
       const data = await response.json();
       return Array.isArray(data?.data) ? data.data : [];
     } catch (error) {
-      console.error("Erro ao buscar novos lanamentos:", error);
+      console.error("Erro ao buscar novos lançamentos:", error);
       return [];
     }
   },
@@ -123,7 +123,7 @@ export const productsApi = {
   // Criar produto (Admin)
   async create(
     productData: CreateProductData,
-    token: string
+    token: string,
   ): Promise<Product> {
     const response = await fetch(`${API_URL}/products`, {
       method: "POST",
@@ -147,7 +147,7 @@ export const productsApi = {
   async update(
     id: string,
     productData: UpdateProductData,
-    token: string
+    token: string,
   ): Promise<Product> {
     const response = await fetch(`${API_URL}/products/${id}`, {
       method: "PUT",

@@ -143,11 +143,9 @@ export function CartSheet() {
           className="relative border-2 border-gray-900 bg-gray-900 font-bold text-white hover:bg-transparent hover:text-gray-900"
         >
           <ShoppingCart className="h-5 w-5" />
-          {getTotalItems() > 0 && (
-            <Badge className="absolute -right-2 -top-2 h-5 w-5 rounded-full border-2 border-white bg-orange-street p-0 text-xs font-bold text-white">
-              {getTotalItems()}
-            </Badge>
-          )}
+          <Badge className="absolute -right-2 -top-2 h-5 w-5 rounded-full border-2 border-white bg-orange-street p-0 text-xs font-bold text-white">
+            {getTotalItems() > 0 ? getTotalItems() : null}
+          </Badge>
           <span className="sr-only">Carrinho</span>
         </Button>
       </SheetTrigger>
@@ -156,11 +154,11 @@ export function CartSheet() {
         <SheetHeader>
           <SheetTitle className="flex items-center justify-between text-xl font-bold uppercase tracking-wide">
             <span>Carrinho</span>
-            {items.length > 0 && (
-              <Badge className="border-2 border-orange-street bg-orange-street text-white font-bold mr-7">
-                {getTotalItems()} {getTotalItems() === 1 ? "item" : "itens"}
-              </Badge>
-            )}
+            <Badge className="border-2 border-orange-street bg-orange-street text-white font-bold mr-7">
+              {items.length > 0
+                ? `${getTotalItems()} ${getTotalItems() === 1 ? "item" : "itens"}`
+                : null}
+            </Badge>
           </SheetTitle>
         </SheetHeader>
 
@@ -171,10 +169,10 @@ export function CartSheet() {
             </div>
             <div className="space-y-2">
               <h3 className="text-lg font-bold text-gray-900">
-                Seu carrinho est vazio
+                Seu carrinho está vazio
               </h3>
               <p className="text-sm text-gray-500">
-                Adicione produtos incrveis da Zona Street!
+                Adicione produtos incríveis da Zona Street!
               </p>
             </div>
           </div>

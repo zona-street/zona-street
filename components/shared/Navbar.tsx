@@ -149,10 +149,10 @@ export function Navbar() {
               className="text-gray-900 hover:bg-gray-100 mr-2"
               asChild
             >
-              <Link href="/admin/login">
+              {/* <Link href="/admin/login">
                 <User className="h-5 w-5" />
                 <span className="sr-only">Conta</span>
-              </Link>
+              </Link> */}
             </Button>
             <CartSheet />
           </div>

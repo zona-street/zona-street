@@ -18,7 +18,7 @@ interface NewDropsProps {
 }
 
 export function NewDrops({ products }: NewDropsProps) {
-  // Verificar se products existe e  um array
+  // Verificar se products existe e é um array
   const safeProducts = Array.isArray(products) ? products : [];
 
   return (
@@ -37,7 +37,7 @@ export function NewDrops({ products }: NewDropsProps) {
         </div>
         <div className="mb-8 border border-gray-900 bg-gray-900 p-4 text-center">
           <p className="text-sm font-medium uppercase tracking-wide text-white">
-            10% OFF no PIX + Parcelamento em at 10x sem juros
+            10% OFF no PIX + Parcelamento em até 10x sem juros
           </p>
         </div>
 

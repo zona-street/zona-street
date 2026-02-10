@@ -2,7 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
-import { ShoppingBag, Users, Package, TrendingUp } from "lucide-react";
+import {
+  ShoppingBag,
+  Users,
+  Package,
+  TrendingUp,
+  Settings,
+  Plus,
+} from "lucide-react";
 import { productsApi } from "@/lib/api/products";
 import { subscribersApi } from "@/lib/api/subscribers";
 import { ordersApi } from "@/lib/api/orders";
@@ -190,9 +197,9 @@ export default function AdminDashboard() {
         <div className="flex gap-4">
           <a
             href="/admin/products"
-            className="border-2 border-gray-900 bg-gray-900 px-6 py-4 font-bold uppercase tracking-wide text-white transition-all hover:bg-orange-street hover:border-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+            className="border-2 flex text-center items-center border-gray-900 bg-gray-900 px-6 py-4 font-bold uppercase tracking-wide text-white transition-all hover:bg-orange-street hover:border-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
           >
-            + Novo Produto
+            <Plus className="inline-block mr-2 h-5 w-5" /> Novo Produto
           </a>
           <button
             onClick={() =>
@@ -206,9 +213,9 @@ export default function AdminDashboard() {
           </button>
           <a
             href="/admin/settings"
-            className="border-2 border-gray-900 bg-white px-6 py-4 font-bold uppercase tracking-wide text-gray-900 transition-all hover:bg-gray-900 hover:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+            className="border-2 flex text-center items-center border-gray-900 bg-white px-6 py-4 font-bold uppercase tracking-wide text-gray-900 transition-all hover:bg-gray-900 hover:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
           >
-            ⚙️ Configurações
+            <Settings className="inline-block mr-2 h-5 w-5" /> Configurações
           </a>
         </div>
       </div>

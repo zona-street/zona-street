@@ -25,7 +25,7 @@ export function ProtectedRoute({
 
       if (!isAuthenticated) {
         toast.error("Acesso negado", {
-          description: "Voc precisa fazer login para acessar esta pgina",
+          description: "Você precisa fazer login para acessar esta página",
         });
         router.push("/admin/login");
         return;
@@ -33,7 +33,7 @@ export function ProtectedRoute({
 
       if (requireAdmin && !isAdmin) {
         toast.error("Acesso negado", {
-          description: "Voc no tem permisso para acessar esta pgina",
+          description: "Você não tem permissão para acessar esta página",
         });
         router.push("/");
       }
@@ -54,7 +54,7 @@ export function ProtectedRoute({
     );
   }
 
-  // Se no est autenticado ou no  admin quando necessrio, no renderiza nada
+  // Se não está autenticado ou não é admin quando necessário, não renderiza nada
   if (!isAuthenticated || (requireAdmin && !isAdmin)) {
     return null;
   }
