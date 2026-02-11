@@ -161,13 +161,13 @@ export default function SobrePage() {
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Button
               asChild
-              className="border-2 border-gray-900 bg-gray-900 px-8 py-6 text-sm font-bold uppercase tracking-wide text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none"
+              className="border-2 border-gray-900 bg-gray-900 px-8 py-6 text-sm font-bold uppercase tracking-wide text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-1 hover:translate-y-1 hover:shadow-none"
             >
               <Link href="/produtos">Ver Produtos</Link>
             </Button>
             <Button
               asChild
-              className="border-2 border-gray-900 bg-transparent px-8 py-6 text-sm font-bold uppercase tracking-wide text-gray-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none"
+              className="border-2 border-gray-900 bg-transparent px-8 py-6 text-sm font-bold uppercase tracking-wide text-gray-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-1 hover:translate-y-1 hover:shadow-none"
             >
               <Link href="/lancamentos">Ver Lançamentos</Link>
             </Button>

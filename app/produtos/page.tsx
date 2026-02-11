@@ -7,8 +7,8 @@ import { Product } from "@/lib/types/product";
 // Revalidar a cada 1 minuto
 export const revalidate = 60;
 // Força dynamic rendering se fetch falhar
-export const dynamic = 'force-dynamic';
-export const fetchCache = 'force-no-store';
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 interface SearchParams {
   categoria?: string;
@@ -25,7 +25,7 @@ export default async function ProdutosPage({
   let products: Product[] = [];
   try {
     products = await productsApi.getAll(
-      categoria ? { category: categoria } : {}
+      categoria ? { category: categoria } : {},
     );
   } catch (error) {
     console.error("Erro ao buscar produtos:", error);

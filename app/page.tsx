@@ -5,8 +5,8 @@ import { Product } from "@/lib/types/product";
 // Revalidar a cada 1 hora
 export const revalidate = 3600;
 // Força dynamic rendering se fetch falhar
-export const dynamic = 'force-dynamic';
-export const fetchCache = 'force-no-store';
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 export default async function Home() {
   // Buscar dados reais da API (Server Component com ISR)

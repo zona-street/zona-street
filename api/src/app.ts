@@ -13,15 +13,17 @@ import { orderRoutes } from "./routes/order.routes";
 export async function buildApp() {
   const fastify = Fastify({
     logger: config.enableLogging
-      ? {
-          transport: {
-            target: "pino-pretty",
-            options: {
-              translateTime: "HH:MM:ss Z",
-              ignore: "pid,hostname",
+      ? config.isDevelopment
+        ? {
+            transport: {
+              target: "pino-pretty",
+              options: {
+                translateTime: "HH:MM:ss Z",
+                ignore: "pid,hostname",
+              },
             },
-          },
-        }
+          }
+        : true
       : false,
   });
 
