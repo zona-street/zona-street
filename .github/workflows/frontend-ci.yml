@@ -1,0 +1,41 @@
+name: Frontend - Build & Test
+
+on:
+    push:
+        branches: [main, staging]
+        paths:
+            - "app/**"
+            - "components/**"
+            - "lib/**"
+            - "public/**"
+            - "package.json"
+            - "tsconfig.json"
+            - "next.config.ts"
+            - ".github/workflows/frontend-ci.yml"
+    pull_request:
+        branches: [main, staging]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: 📥 Checkout code
+              uses: actions/checkout@v4
+
+            - name: 🔧 Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+                  cache: "npm"
+
+            - name: 📦 Install dependencies
+              run: npm ci
+
+            - name: 🏗️ Build Next.js
+              run: npm run build
+              env:
+                  NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL || 'http://localhost:3333/api/v1' }}
+
+            - name: ✅ Build successful
+              run: echo "✅ Frontend build completed successfully!"

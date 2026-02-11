@@ -1,0 +1,43 @@
+name: API - Build & Test
+
+on:
+    push:
+        branches: [main, staging]
+        paths:
+            - "api/**"
+            - ".github/workflows/api-ci.yml"
+    pull_request:
+        branches: [main, staging]
+        paths:
+            - "api/**"
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        defaults:
+            run:
+                working-directory: ./api
+
+        steps:
+            - name: 📥 Checkout code
+              uses: actions/checkout@v4
+
+            - name: 🔧 Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+                  cache: "npm"
+                  cache-dependency-path: api/package-lock.json
+
+            - name: 📦 Install dependencies
+              run: npm ci
+
+            - name: 🔍 Type check
+              run: npm run type-check
+
+            - name: 🏗️ Build
+              run: npm run build
+
+            - name: ✅ Build successful
+              run: echo "✅ API build completed successfully!"
