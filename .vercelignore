@@ -1,12 +1,9 @@
-# Ignore API folder (deployed separately on Railway)
-
-api/
+# Ignore API backend folder (deployed separately on Railway)
+/api
 
 # Ignore docs
+/docs
 
-docs/
-
-# Ignore git
-
-.git/
-.github/
+# Ignore git metadata
+/.git
+/.github
