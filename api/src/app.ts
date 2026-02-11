@@ -71,6 +71,16 @@ export async function buildApp() {
     }
   });
 
+  // Root endpoint for Railway healthcheck
+  fastify.get("/", async () => {
+    return {
+      success: true,
+      message: "Zona Street API",
+      version: "1.0.0",
+      status: "running",
+    };
+  });
+
   // Health check
   fastify.get("/health", async () => {
     return {
