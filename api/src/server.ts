@@ -44,16 +44,5 @@ async function start() {
   }
 }
 
-// Tratamento de sinais de shutdown
-process.on("SIGINT", async () => {
-  console.log("\n🛑 Encerrando servidor...");
-  process.exit(0);
-});
-
-process.on("SIGTERM", async () => {
-  console.log("\n🛑 Encerrando servidor...");
-  process.exit(0);
-});
-
 // Inicia a aplicação
 start();
