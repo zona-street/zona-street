@@ -26,10 +26,12 @@ COPY package*.json ./
 # Install only production dependencies
 RUN npm ci --omit=dev
 
+# Copy source files needed for production
+COPY drizzle ./drizzle
+COPY drizzle.config.ts ./drizzle.config.ts
+
 # Copy built files from builder stage
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/drizzle ./drizzle
-COPY --from=builder /app/drizzle.config.ts ./drizzle.config.ts
 
 # Expose port (Railway will override this with PORT env var)
 EXPOSE 3333
