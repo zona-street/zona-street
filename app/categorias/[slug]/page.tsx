@@ -3,8 +3,8 @@ import { productsApi } from "@/lib/api/products";
 import { Product } from "@/lib/types/product";
 
 // Força dynamic rendering
-export const dynamic = 'force-dynamic';
-export const fetchCache = 'force-no-store';
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 export default async function CategoriaPage({
   params,

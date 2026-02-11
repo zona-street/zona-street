@@ -4,8 +4,8 @@ import { Product } from "@/lib/types/product";
 import { notFound } from "next/navigation";
 
 // Força dynamic rendering
-export const dynamic = 'force-dynamic';
-export const fetchCache = 'force-no-store';
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 export default async function ProdutoDetalhePage({
   params,
