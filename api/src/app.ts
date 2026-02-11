@@ -99,18 +99,18 @@ export async function buildApp() {
     }
 
     // Erro de validação Zod
-    if (error.name === "ZodError") {
+    if ((error as any).name === "ZodError") {
       return reply.status(400).send({
         success: false,
         error: "Erro de validação",
-        details: error.message,
+        details: (error as any).message,
       });
     }
 
     // Outros erros
-    return reply.status(error.statusCode || 500).send({
+    return reply.status((error as any).statusCode || 500).send({
       success: false,
-      error: error.message || "Erro interno do servidor",
+      error: (error as any).message || "Erro interno do servidor",
     });
   });
 
