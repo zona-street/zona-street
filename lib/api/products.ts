@@ -1,8 +1,8 @@
 import { Product } from "@/lib/types/product";
 import type { ProductCategory, ProductSize } from "@/lib/constants/product";
+import { getApiUrl, fetchWithTimeout } from "@/lib/utils/api";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/v1";
+const API_URL = getApiUrl();
 
 export interface CreateProductData {
   name: string;

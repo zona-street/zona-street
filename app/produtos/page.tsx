@@ -4,6 +4,12 @@ import { ProductCard } from "@/components/shared/ProductCard";
 import { productsApi } from "@/lib/api/products";
 import { Product } from "@/lib/types/product";
 
+// Revalidar a cada 1 minuto
+export const revalidate = 60;
+// Força dynamic rendering se fetch falhar
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+
 interface SearchParams {
   categoria?: string;
 }

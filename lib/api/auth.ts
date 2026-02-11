@@ -4,9 +4,9 @@ import type {
   LoginCredentials,
   RegisterCredentials,
 } from "@/lib/types/auth";
+import { getApiUrl, fetchWithTimeout } from "@/lib/utils/api";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/v1";
+const API_URL = getApiUrl();
 
 /**
  * API de Autenticação

@@ -1,5 +1,6 @@
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/v1";
+import { getApiUrl, fetchWithTimeout } from "@/lib/utils/api";
+
+const API_URL = getApiUrl();
 
 export interface Subscriber {
   id: string;
