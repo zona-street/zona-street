@@ -131,9 +131,7 @@ export default function AdminLoginPage() {
             <p className="text-xs font-medium text-gray-500">
               Ambiente de desenvolvimento
               <br />
-              <span className="font-bold text-gray-900">
-                andrediniz@id.uff.br
-              </span>
+              <span className="font-bold text-gray-900"></span>
             </p>
           </div>
         )}
