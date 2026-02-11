@@ -9,8 +9,8 @@ import { users } from "../db/schema";
 async function createAdmin() {
   console.log("🚀 Criando usuário admin...");
 
-  const email = "admin@zonastreet.com";
-  const password = "admin123"; // Alterar em produção!
+  const email = "andrediniz@id.uff.br";
+  const password = "zonastreet339";
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
@@ -25,9 +25,7 @@ async function createAdmin() {
 
     console.log("✅ Admin criado com sucesso!");
     console.log("📧 Email:", email);
-    console.log("🔑 Senha:", password);
     console.log("👤 ID:", admin.id);
-    console.log("\n⚠️  IMPORTANTE: Altere a senha após o primeiro login!");
   } catch (error: any) {
     if (error.code === "23505") {
       console.log("ℹ️  Admin já existe!");
