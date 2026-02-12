@@ -37,10 +37,10 @@ export function HomeTemplate({
   newDropProducts,
 }: HomeTemplateProps) {
   return (
-    <div className="min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Navbar />
 
-      <main>
+      <main className="flex-grow">
         <Hero />
         <Promotions />
         <Categories />

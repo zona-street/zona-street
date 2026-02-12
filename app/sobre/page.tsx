@@ -7,10 +7,10 @@ import { Package, RefreshCcw, Store } from "lucide-react";
 
 export default function SobrePage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="flex min-h-screen flex-col bg-gray-50">
       <Navbar />
 
-      <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <main className="mx-auto flex-grow max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Hero Section */}
         <div className="mb-16 border-b-2 border-gray-900 pb-12">
           <div className="mb-6 inline-flex items-center gap-2 border-2 border-gray-900 bg-gray-50 px-4 py-2 text-xs font-bold uppercase tracking-wider text-gray-900 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">

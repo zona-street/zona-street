@@ -140,10 +140,10 @@ export function ProductDetailsTemplate({
     : 0;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="flex min-h-screen flex-col bg-gray-50">
       <Navbar />
 
-      <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <main className="mx-auto flex-grow max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Produto */}
         <div className="mb-16 grid gap-8 lg:grid-cols-2">
           {/* Imagens */}
