@@ -30,9 +30,11 @@ export class AuthService {
       throw new Error("Email já cadastrado");
     }
 
-    // Valida a senha (mínimo 6 caracteres)
-    if (password.length < 6) {
-      throw new Error("Senha deve ter no mínimo 6 caracteres");
+    // Valida a senha (mínimo 8 caracteres, letra e número)
+    if (password.length < 8 || !/^(?=.*[A-Za-z])(?=.*\d).+$/.test(password)) {
+      throw new Error(
+        "Senha deve ter no mínimo 8 caracteres e conter pelo menos uma letra e um número",
+      );
     }
 
     // Hash da senha
@@ -113,8 +115,13 @@ export class AuthService {
     }
 
     // Valida a nova senha
-    if (newPassword.length < 6) {
-      throw new Error("Nova senha deve ter no mínimo 6 caracteres");
+    if (
+      newPassword.length < 8 ||
+      !/^(?=.*[A-Za-z])(?=.*\d).+$/.test(newPassword)
+    ) {
+      throw new Error(
+        "Senha deve ter no mínimo 8 caracteres e conter pelo menos uma letra e um número",
+      );
     }
 
     // Gera hash da nova senha
@@ -162,8 +169,13 @@ export class AuthService {
    */
   async resetPassword(token: string, newPassword: string): Promise<void> {
     // Valida a nova senha
-    if (newPassword.length < 6) {
-      throw new Error("Nova senha deve ter no mínimo 6 caracteres");
+    if (
+      newPassword.length < 8 ||
+      !/^(?=.*[A-Za-z])(?=.*\d).+$/.test(newPassword)
+    ) {
+      throw new Error(
+        "Senha deve ter no mínimo 8 caracteres e conter pelo menos uma letra e um número",
+      );
     }
 
     // Busca todos os usuários admin (só deve haver um)

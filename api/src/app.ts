@@ -1,6 +1,7 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import jwt from "@fastify/jwt";
+import rateLimit from "@fastify/rate-limit";
 import { config } from "./config/app.config";
 import { productRoutes } from "./routes/product.routes";
 import { authRoutes } from "./routes/auth.routes";
@@ -39,6 +40,11 @@ export async function buildApp() {
     secret:
       process.env.JWT_SECRET ||
       "zona-street-super-secret-key-change-in-production",
+  });
+
+  // Registro do Rate Limit
+  await fastify.register(rateLimit, {
+    global: false,
   });
 
   // Decorators de autenticação

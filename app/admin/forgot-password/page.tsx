@@ -28,7 +28,15 @@ export default function ForgotPasswordPage() {
       toast.success("Email enviado!", {
         description: response.message,
       });
-    } catch (error) {
+    } catch (error: any) {
+      // Trata rate limiting
+      if (error?.status === 429) {
+        toast.error("Muitas tentativas", {
+          description: "Aguarde alguns minutos antes de tentar novamente.",
+        });
+        return;
+      }
+
       // Mesmo em erro, mostramos mensagem genérica por segurança
       setEmailSent(true);
       toast.info("Verificação enviada", {

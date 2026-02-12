@@ -41,8 +41,13 @@ function ResetPasswordContent() {
       return;
     }
 
-    if (newPassword.length < 6) {
-      toast.error("A senha deve ter no mínimo 6 caracteres");
+    if (
+      newPassword.length < 8 ||
+      !/^(?=.*[A-Za-z])(?=.*\d).+$/.test(newPassword)
+    ) {
+      toast.error(
+        "Senha deve ter no mínimo 8 caracteres e conter pelo menos uma letra e um número",
+      );
       return;
     }
 
@@ -64,7 +69,15 @@ function ResetPasswordContent() {
       setTimeout(() => {
         router.push("/admin/login");
       }, 3000);
-    } catch (error) {
+    } catch (error: any) {
+      // Trata rate limiting
+      if (error?.status === 429) {
+        toast.error("Muitas tentativas", {
+          description: "Aguarde alguns minutos antes de tentar novamente.",
+        });
+        return;
+      }
+
       toast.error("Erro ao redefinir senha", {
         description:
           error instanceof Error

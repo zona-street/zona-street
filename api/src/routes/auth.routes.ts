@@ -10,11 +10,23 @@ export async function authRoutes(fastify: FastifyInstance) {
 
   // POST /auth/register - Registra um novo usuário
   fastify.post("/register", {
+    config: {
+      rateLimit: {
+        max: 3,
+        timeWindow: "1 minute",
+      },
+    },
     handler: authController.register.bind(authController),
   });
 
   // POST /auth/login - Autentica um usuário
   fastify.post("/login", {
+    config: {
+      rateLimit: {
+        max: 5,
+        timeWindow: "1 minute",
+      },
+    },
     handler: authController.login.bind(authController),
   });
 
@@ -32,11 +44,23 @@ export async function authRoutes(fastify: FastifyInstance) {
 
   // POST /auth/forgot-password - Solicita reset de senha via email (pública)
   fastify.post("/forgot-password", {
+    config: {
+      rateLimit: {
+        max: 3,
+        timeWindow: "1 minute",
+      },
+    },
     handler: authController.forgotPassword.bind(authController),
   });
 
   // POST /auth/reset-password - Redefine senha com token (pública)
   fastify.post("/reset-password", {
+    config: {
+      rateLimit: {
+        max: 5,
+        timeWindow: "1 minute",
+      },
+    },
     handler: authController.resetPassword.bind(authController),
   });
 }

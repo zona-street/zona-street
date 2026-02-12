@@ -7,7 +7,16 @@ import { AuthService } from "../services/auth.service";
  */
 const registerSchema = z.object({
   email: z.string().email("Email inválido"),
-  password: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
+  password: z
+    .string()
+    .min(
+      8,
+      "Senha deve ter no mínimo 8 caracteres e conter pelo menos uma letra e um número",
+    )
+    .regex(
+      /^(?=.*[A-Za-z])(?=.*\d).+$/,
+      "Senha deve ter no mínimo 8 caracteres e conter pelo menos uma letra e um número",
+    ),
   role: z.enum(["admin", "customer"]).optional().default("customer"),
 });
 
@@ -21,7 +30,14 @@ const changePasswordSchema = z
     currentPassword: z.string().min(1, "Senha atual é obrigatória"),
     newPassword: z
       .string()
-      .min(6, "Nova senha deve ter no mínimo 6 caracteres"),
+      .min(
+        8,
+        "Senha deve ter no mínimo 8 caracteres e conter pelo menos uma letra e um número",
+      )
+      .regex(
+        /^(?=.*[A-Za-z])(?=.*\d).+$/,
+        "Senha deve ter no mínimo 8 caracteres e conter pelo menos uma letra e um número",
+      ),
     confirmPassword: z.string().min(1, "Confirmação de senha é obrigatória"),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
@@ -38,7 +54,14 @@ const resetPasswordSchema = z
     token: z.string().min(1, "Token é obrigatório"),
     newPassword: z
       .string()
-      .min(6, "Nova senha deve ter no mínimo 6 caracteres"),
+      .min(
+        8,
+        "Senha deve ter no mínimo 8 caracteres e conter pelo menos uma letra e um número",
+      )
+      .regex(
+        /^(?=.*[A-Za-z])(?=.*\d).+$/,
+        "Senha deve ter no mínimo 8 caracteres e conter pelo menos uma letra e um número",
+      ),
     confirmPassword: z.string().min(1, "Confirmação de senha é obrigatória"),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {

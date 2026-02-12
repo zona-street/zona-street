@@ -39,8 +39,13 @@ export default function ChangePasswordForm() {
       return;
     }
 
-    if (formData.newPassword.length < 6) {
-      toast.error("A nova senha deve ter no mínimo 6 caracteres");
+    if (
+      formData.newPassword.length < 8 ||
+      !/^(?=.*[A-Za-z])(?=.*\d).+$/.test(formData.newPassword)
+    ) {
+      toast.error(
+        "Senha deve ter no mínimo 8 caracteres e conter pelo menos uma letra e um número",
+      );
       return;
     }
 
@@ -64,7 +69,15 @@ export default function ChangePasswordForm() {
         logout();
         router.push("/admin/login");
       }, 2000);
-    } catch (error) {
+    } catch (error: any) {
+      // Trata rate limiting
+      if (error?.status === 429) {
+        toast.error("Muitas tentativas", {
+          description: "Aguarde alguns minutos antes de tentar novamente.",
+        });
+        return;
+      }
+
       toast.error(
         error instanceof Error ? error.message : "Erro ao alterar senha",
       );
