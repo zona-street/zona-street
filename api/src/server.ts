@@ -1,6 +1,8 @@
 import { buildApp } from "./app";
 import { config } from "./config/app.config";
 import { testConnection } from "./db";
+import { testConnection, db } from "./db";
+import { migrate } from "drizzle-orm/node-postgres/migrator";
 import "dotenv/config";
 
 /**
@@ -14,7 +16,27 @@ async function start() {
 
     if (!connected) {
       throw new Error(
-        "Não foi possível conectar ao banco de dados. Verifique o Docker e as variáveis de ambiente."
+        "Não foi possível conectar ao banco de dados. Verifique o Docker e as variáveis de ambiente.",
+      );
+    }
+
+    // Executar migrations automaticamente (apenas se não for produção ou se forçado)
+    const shouldRunMigrations =
+      config.env !== "production" || process.env.FORCE_MIGRATE === "true";
+    if (shouldRunMigrations) {
+      console.log("🚀 Executando migrations do banco de dados...");
+      try {
+        await migrate(db, {
+          migrationsFolder: "./drizzle",
+        });
+        console.log("✅ Migrations executadas com sucesso!");
+      } catch (error) {
+        console.error("❌ Erro ao executar migrations:", error);
+        // Continua mesmo com erro em migrate (pode ser que já foram aplicadas)
+      }
+    } else {
+      console.log(
+        "⏭️  Pulando migrations (ambiente produção). Execute manualmente se necessário.",
       );
     }
 
