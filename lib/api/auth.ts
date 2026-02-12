@@ -45,8 +45,29 @@ export const authApi = {
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || "Erro ao fazer login");
+      let errorMessage = "Erro ao fazer login";
+      let errorDetails: any = null;
+
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.error || errorMessage;
+        errorDetails = errorData.details || null;
+      } catch (parseError) {
+        // Se não conseguir fazer parse do JSON, usa mensagem genérica
+        if (response.status === 401) {
+          errorMessage = "Credenciais inválidas";
+        } else if (response.status === 400) {
+          errorMessage = "Dados inválidos fornecidos";
+        } else if (response.status >= 500) {
+          errorMessage = "Erro interno do servidor";
+        }
+      }
+
+      // Cria um erro customizado com mais informações
+      const error = new Error(errorMessage);
+      (error as any).status = response.status;
+      (error as any).details = errorDetails;
+      throw error;
     }
 
     return response.json();

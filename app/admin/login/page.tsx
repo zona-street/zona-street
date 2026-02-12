@@ -21,6 +21,31 @@ export default function AdminLoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validação básica no front-end
+    if (!email.trim()) {
+      toast.error("Email obrigatório", {
+        description: "Por favor, insira seu endereço de email.",
+      });
+      return;
+    }
+
+    if (!password.trim()) {
+      toast.error("Senha obrigatória", {
+        description: "Por favor, insira sua senha.",
+      });
+      return;
+    }
+
+    // Validação de formato de email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Email inválido", {
+        description: "Por favor, insira um endereço de email válido.",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -40,10 +65,52 @@ export default function AdminLoginPage() {
       });
 
       router.push("/admin");
-    } catch (error) {
-      toast.error("Erro ao fazer login", {
-        description:
-          error instanceof Error ? error.message : "Verifique suas credenciais",
+    } catch (error: any) {
+      console.error("Erro no login:", error);
+
+      // Trata diferentes tipos de erro
+      let errorTitle = "Erro ao fazer login";
+      let errorDescription = "Verifique suas credenciais e tente novamente.";
+
+      if (error?.message) {
+        // Erros específicos do backend
+        if (error.message.includes("Email ou senha incorretos")) {
+          errorTitle = "Credenciais inválidas";
+          errorDescription = "Email ou senha incorretos. Verifique e tente novamente.";
+        } else if (error.message.includes("Email inválido")) {
+          errorTitle = "Email inválido";
+          errorDescription = "Por favor, insira um endereço de email válido.";
+        } else if (error.message.includes("Senha é obrigatória")) {
+          errorTitle = "Senha obrigatória";
+          errorDescription = "Por favor, insira sua senha.";
+        } else if (error.message.includes("Dados inválidos")) {
+          errorTitle = "Dados inválidos";
+          errorDescription = "Verifique se o email e senha estão corretos.";
+        } else if (error.message.includes("rede") || error.message.includes("fetch")) {
+          errorTitle = "Erro de conexão";
+          errorDescription = "Verifique sua conexão com a internet e tente novamente.";
+        } else {
+          // Outros erros específicos
+          errorDescription = error.message;
+        }
+      } else if (error?.response) {
+        // Erros HTTP específicos
+        const status = error.response.status;
+        if (status === 401) {
+          errorTitle = "Não autorizado";
+          errorDescription = "Credenciais inválidas ou conta desativada.";
+        } else if (status === 429) {
+          errorTitle = "Muitas tentativas";
+          errorDescription = "Aguarde alguns minutos antes de tentar novamente.";
+        } else if (status >= 500) {
+          errorTitle = "Erro do servidor";
+          errorDescription = "Problema temporário. Tente novamente em alguns minutos.";
+        }
+      }
+
+      toast.error(errorTitle, {
+        description: errorDescription,
+        duration: 5000, // Mostra por mais tempo para erros
       });
     } finally {
       setIsLoading(false);
