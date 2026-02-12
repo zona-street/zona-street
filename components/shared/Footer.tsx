@@ -4,9 +4,9 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="bg-black py-10 text-white ">
+    <footer className="bg-black py-8 sm:py-10 text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-8 md:grid-cols-4">
+        <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
           <div>
             <Link href="/">
               <Image
@@ -14,7 +14,7 @@ export function Footer() {
                 alt="Zona Street Logo"
                 width={500}
                 height={500}
-                className="mb-4 h-auto w-25 cursor-pointer transition-opacity hover:opacity-80"
+                className="mb-4 h-auto w-32 sm:w-36 cursor-pointer transition-opacity hover:opacity-80"
               />
             </Link>
             <p className="text-sm font-medium text-gray-400">
@@ -22,12 +22,12 @@ export function Footer() {
             </p>
           </div>
           <div>
-            <h4 className="mb-4 font-bold">CATEGORIAS</h4>
-            <ul className="space-y-2 text-sm font-medium text-gray-400">
+            <h4 className="mb-4 font-bold text-base">CATEGORIAS</h4>
+            <ul className="space-y-2.5 text-sm font-medium text-gray-400">
               <li>
                 <Link
                   href="/categorias/camisetas"
-                  className="hover:text-orange-street transition-colors"
+                  className="hover:text-orange-street transition-colors inline-block py-1"
                 >
                   Camisetas
                 </Link>
@@ -35,7 +35,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/categorias/moletons"
-                  className="hover:text-orange-street transition-colors"
+                  className="hover:text-orange-street transition-colors inline-block py-1"
                 >
                   Moletons
                 </Link>
@@ -43,7 +43,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/categorias/calcas"
-                  className="hover:text-orange-street transition-colors"
+                  className="hover:text-orange-street transition-colors inline-block py-1"
                 >
                   Calças
                 </Link>
@@ -51,7 +51,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/categorias/acessorios"
-                  className="hover:text-orange-street transition-colors"
+                  className="hover:text-orange-street transition-colors inline-block py-1"
                 >
                   Acessórios
                 </Link>
@@ -59,44 +59,48 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="mb-4 font-bold">AJUDA</h4>
-            <ul className="space-y-2 text-sm font-medium text-gray-400">
+            <h4 className="mb-4 font-bold text-base">AJUDA</h4>
+            <ul className="space-y-2.5 text-sm font-medium text-gray-400">
               <li>
-                <span className="cursor-not-allowed opacity-60">
+                <span className="cursor-not-allowed opacity-60 inline-block py-1">
                   Trocas e Devoluções
                 </span>
               </li>
               <li>
-                <span className="cursor-not-allowed opacity-60">Entregas</span>
+                <span className="cursor-not-allowed opacity-60 inline-block py-1">
+                  Entregas
+                </span>
               </li>
               <li>
-                <span className="cursor-not-allowed opacity-60">
+                <span className="cursor-not-allowed opacity-60 inline-block py-1">
                   Tabela de Medidas
                 </span>
               </li>
               <li>
-                <span className="cursor-not-allowed opacity-60">Contato</span>
+                <span className="cursor-not-allowed opacity-60 inline-block py-1">
+                  Contato
+                </span>
               </li>
             </ul>
           </div>
           <div>
-            <h4 className="mb-4 font-bold">REDES SOCIAIS</h4>
-            <ul className="space-y-2 text-sm font-medium text-gray-400">
+            <h4 className="mb-4 font-bold text-base">REDES SOCIAIS</h4>
+            <ul className="space-y-2.5 text-sm font-medium text-gray-400">
               <li>
                 <a
                   href="https://instagram.com/zonastreet01"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-orange-street text-center transition-colors"
+                  className="hover:text-orange-street transition-colors inline-flex items-center py-1"
                 >
-                  <FaInstagram className="inline mr-1" />
+                  <FaInstagram className="inline mr-2" />
                   Instagram
                 </a>
               </li>
             </ul>
           </div>
         </div>
-        <div className="mt-8 border-t-2 border-gray-800 pt-8 text-center text-sm font-medium text-gray-400">
+        <div className="mt-8 border-t-2 border-gray-800 pt-6 sm:pt-8 text-center text-sm font-medium text-gray-400">
           <p>© 2025 Zona Street. Todos os direitos reservados.</p>
         </div>
       </div>

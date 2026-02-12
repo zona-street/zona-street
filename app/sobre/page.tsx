@@ -10,7 +10,7 @@ export default function SobrePage() {
     <div className="flex min-h-screen flex-col bg-gray-50">
       <Navbar />
 
-      <main className="mx-auto flex-grow max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <main className="mx-auto flex-grow max-w-7xl px-3 sm:px-4 py-12 sm:px-6 lg:px-8">
         {/* Hero Section */}
         <div className="mb-16 border-b-2 border-gray-900 pb-12">
           <div className="mb-6 inline-flex items-center gap-2 border-2 border-gray-900 bg-gray-50 px-4 py-2 text-xs font-bold uppercase tracking-wider text-gray-900 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
@@ -123,26 +123,35 @@ export default function SobrePage() {
           </h2>
           <div className="grid gap-6 md:grid-cols-3">
             <div className="border-2 border-gray-900 p-6">
-              <h3 className="mb-3 text-lg font-bold uppercase text-gray-900 flex text-center items-center gap-2">
-                <Package size={20} /> Entrega para todo o Brasil
-              </h3>
+              <div className="flex items-center gap-3 mb-3">
+                <Package className="h-5 w-5 sm:h-6 sm:w-6 flex-shrink-0" />
+                <h3 className="text-base sm:text-lg font-bold uppercase text-gray-900">
+                  Entrega para todo o Brasil
+                </h3>
+              </div>
               <p className="text-sm text-gray-700">
                 Enviamos para qualquer lugar do país com segurança e
                 rastreamento.
               </p>
             </div>
             <div className="border-2 border-gray-900 p-6">
-              <h3 className="mb-3 text-lg font-bold uppercase text-gray-900 flex text-center items-center gap-2">
-                <Store size={20} /> Retirada em Resende
-              </h3>
+              <div className="flex items-center gap-3 mb-3">
+                <Store className="h-5 w-5 sm:h-6 sm:w-6 flex-shrink-0" />
+                <h3 className="text-base sm:text-lg font-bold uppercase text-gray-900">
+                  Retirada em Resende
+                </h3>
+              </div>
               <p className="text-sm text-gray-700">
                 Prefere retirar pessoalmente? Sem problema! Combine conosco.
               </p>
             </div>
             <div className="border-2 border-gray-900 p-6">
-              <h3 className="mb-3 text-lg font-bold uppercase text-gray-900 flex text-center items-center gap-2">
-                <RefreshCcw size={20} /> Troca imediata
-              </h3>
+              <div className="flex items-center gap-3 mb-3">
+                <RefreshCcw className="h-5 w-5 sm:h-6 sm:w-6 flex-shrink-0" />
+                <h3 className="text-base sm:text-lg font-bold uppercase text-gray-900">
+                  Troca imediata
+                </h3>
+              </div>
               <p className="text-sm text-gray-700">
                 Erro de tamanho? Realizamos troca sem burocracia.
               </p>

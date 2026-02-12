@@ -266,14 +266,14 @@ export function AdminProductsTemplate() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Header */}
-      <div className="flex items-center justify-between border-b-2 border-gray-900 pb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b-2 border-gray-900 pb-4 sm:pb-6 gap-4">
         <div>
-          <h1 className="text-4xl font-black uppercase tracking-tight text-gray-900">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight text-gray-900">
             Produtos
           </h1>
-          <p className="mt-2 text-lg font-medium text-gray-600">
+          <p className="mt-1 sm:mt-2 text-sm sm:text-base lg:text-lg font-medium text-gray-600">
             Gerencie o catálogo de produtos da loja
           </p>
         </div>
@@ -282,18 +282,18 @@ export function AdminProductsTemplate() {
           <DialogTrigger asChild>
             <Button
               onClick={() => openDialog()}
-              className="border-2 border-gray-900 bg-gray-900 px-6 py-3 font-bold uppercase tracking-wide text-white hover:bg-orange-street hover:border-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+              className="w-full sm:w-auto border-2 border-gray-900 bg-gray-900 px-5 sm:px-6 py-2.5 sm:py-3 text-sm font-bold uppercase tracking-wide text-white hover:bg-orange-street hover:border-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95"
             >
-              <Plus className="mr-2 h-5 w-5" />
+              <Plus className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
               Novo Produto
             </Button>
           </DialogTrigger>
-          <DialogContent className="min-w-130 max-h-[90vh] overflow-y-auto overflow-x-hidden border-2 border-gray-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <DialogContent className="w-[95vw] sm:w-full max-w-[600px] max-h-[90vh] overflow-y-auto overflow-x-hidden border-2 border-gray-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <DialogHeader>
-              <DialogTitle className="text-2xl font-black uppercase">
+              <DialogTitle className="text-xl sm:text-2xl font-black uppercase">
                 {editingProduct ? "Editar Produto" : "Novo Produto"}
               </DialogTitle>
-              <DialogDescription>
+              <DialogDescription className="text-sm">
                 {editingProduct
                   ? "Atualize as informações do produto"
                   : "Preencha os dados para criar um novo produto"}
@@ -302,7 +302,7 @@ export function AdminProductsTemplate() {
 
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="space-y-6 w-full max-w-full box-border"
+              className="space-y-4 sm:space-y-6 w-full max-w-full box-border"
             >
               {/* Nome */}
               <div>
@@ -312,7 +312,7 @@ export function AdminProductsTemplate() {
                 <Input
                   id="name"
                   {...register("name")}
-                  className="mt-1 w-full border-2 border-gray-900"
+                  className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
                   placeholder="Ex: Camiseta Oversized Básica"
                 />
                 {errors.name && (
@@ -333,7 +333,7 @@ export function AdminProductsTemplate() {
                 <textarea
                   id="description"
                   {...register("description")}
-                  className="mt-1 w-full max-w-full border-2 border-gray-900 p-2 min-h-25 box-border"
+                  className="mt-1 w-full max-w-full border-2 border-gray-900 p-2 sm:p-3 min-h-25 box-border text-base rounded-md"
                   placeholder="Descrição detalhada do produto..."
                 />
                 {errors.description && (
@@ -357,7 +357,7 @@ export function AdminProductsTemplate() {
                     type="number"
                     step="0.01"
                     {...register("price", { valueAsNumber: true })}
-                    className="mt-1 w-full border-2 border-gray-900"
+                    className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
                     placeholder="149.90"
                   />
                   {errors.price && (
@@ -379,7 +379,7 @@ export function AdminProductsTemplate() {
                     type="number"
                     step="0.01"
                     {...register("oldPrice", { valueAsNumber: true })}
-                    className="mt-1 w-full border-2 border-gray-900"
+                    className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
                     placeholder="199.90"
                   />
                   {errors.oldPrice && (
@@ -405,7 +405,7 @@ export function AdminProductsTemplate() {
                       setValue("category", value as any)
                     }
                   >
-                    <SelectTrigger className="mt-1 w-full border-2 border-gray-900">
+                    <SelectTrigger className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base">
                       <SelectValue placeholder="Selecione..." />
                     </SelectTrigger>
                     <SelectContent>
@@ -434,7 +434,7 @@ export function AdminProductsTemplate() {
                     id="stock"
                     type="number"
                     {...register("stock", { valueAsNumber: true })}
-                    className="mt-1 w-full border-2 border-gray-900"
+                    className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
                     placeholder="100"
                   />
                   {errors.stock && (
@@ -453,7 +453,7 @@ export function AdminProductsTemplate() {
                 <Input
                   id="slug"
                   {...register("slug")}
-                  className="mt-1 w-full border-2 border-gray-900"
+                  className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
                   placeholder="camiseta-oversized-basica"
                 />
                 <p className="mt-1 text-xs text-gray-500">
@@ -477,7 +477,7 @@ export function AdminProductsTemplate() {
                       key={size}
                       type="button"
                       onClick={() => toggleSize(size)}
-                      className={`border-2 px-2 py-1 font-bold uppercase text-xs transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
+                      className={`border-2 px-3 sm:px-2 py-2 sm:py-1 font-bold uppercase text-xs transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95 ${
                         selectedSizes?.includes(size)
                           ? "border-orange-street bg-orange-street text-white"
                           : "border-gray-900 bg-white text-gray-900 hover:bg-gray-100"

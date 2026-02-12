@@ -143,9 +143,9 @@ export function ProductDetailsTemplate({
     <div className="flex min-h-screen flex-col bg-gray-50">
       <Navbar />
 
-      <main className="mx-auto flex-grow max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <main className="mx-auto flex-grow max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
         {/* Produto */}
-        <div className="mb-16 grid gap-8 lg:grid-cols-2">
+        <div className="mb-12 sm:mb-16 grid gap-6 sm:gap-8 lg:grid-cols-2">
           {/* Imagens */}
           <div className="space-y-4">
             <div
@@ -165,12 +165,12 @@ export function ProductDetailsTemplate({
                 }}
               />
               {product.isNewDrop && (
-                <Badge className="absolute left-4 top-4 border-2 border-orange-600 bg-orange-600 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                <Badge className="absolute left-3 sm:left-4 top-3 sm:top-4 border-2 border-orange-600 bg-orange-600 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-xs sm:text-sm px-2 sm:px-3 py-1">
                   NOVO
                 </Badge>
               )}
               {discount > 0 && (
-                <Badge className="absolute right-4 top-4 border-2 border-gray-900 bg-gray-900 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                <Badge className="absolute right-3 sm:right-4 top-3 sm:top-4 border-2 border-gray-900 bg-gray-900 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-xs sm:text-sm px-2 sm:px-3 py-1">
                   -{discount}%
                 </Badge>
               )}
@@ -179,15 +179,15 @@ export function ProductDetailsTemplate({
 
           {/* Informaes */}
           <div>
-            <div className="mb-4 flex items-start justify-between">
-              <h1 className="text-4xl font-bold uppercase tracking-tight text-gray-900">
+            <div className="mb-4 flex items-start justify-between gap-3">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold uppercase tracking-tight text-gray-900">
                 {product.name}
               </h1>
               <Button
                 variant="outline"
                 size="icon"
                 onClick={toggleFavorite}
-                className={`border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none ${
+                className={`flex-shrink-0 h-11 w-11 sm:h-12 sm:w-12 border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none active:scale-95 ${
                   isFavorite
                     ? "border-red-600 bg-red-600 text-white hover:bg-red-700"
                     : "border-gray-900 bg-white hover:bg-gray-50"
@@ -199,21 +199,23 @@ export function ProductDetailsTemplate({
               </Button>
             </div>
 
-            <div className="mb-6 flex items-center gap-3">
-              <span className="text-3xl font-bold text-gray-900">
+            <div className="mb-5 sm:mb-6 flex items-baseline gap-2 sm:gap-3">
+              <span className="text-2xl sm:text-3xl font-bold text-gray-900">
                 R$ {price > 0 ? price.toFixed(2) : "Preço não disponível"}
               </span>
               {oldPrice && oldPrice > 0 && (
-                <span className="text-xl text-gray-400 line-through">
+                <span className="text-lg sm:text-xl text-gray-400 line-through">
                   R$ {oldPrice.toFixed(2)}
                 </span>
               )}
             </div>
 
-            <p className="mb-6 text-gray-700">{product.description}</p>
+            <p className="mb-5 sm:mb-6 text-sm sm:text-base text-gray-700">
+              {product.description}
+            </p>
 
-            <div className="mb-6">
-              <h3 className="mb-3 text-sm font-bold uppercase text-gray-900">
+            <div className="mb-5 sm:mb-6">
+              <h3 className="mb-3 text-xs sm:text-sm font-bold uppercase text-gray-900">
                 Selecione o tamanho
               </h3>
               <div className="flex flex-wrap gap-2">
@@ -221,7 +223,7 @@ export function ProductDetailsTemplate({
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
-                    className={`border-2 px-6 py-3 font-bold uppercase transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none ${
+                    className={`border-2 px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-bold uppercase transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none active:scale-95 ${
                       selectedSize === size
                         ? "border-gray-900 bg-gray-900 text-white"
                         : "border-gray-900 bg-white text-gray-900"
@@ -233,7 +235,7 @@ export function ProductDetailsTemplate({
               </div>
             </div>
 
-            <div className="mb-6">
+            <div className="mb-5 sm:mb-6">
               <p className="text-sm text-gray-600">
                 Estoque: {product.stock} unidades disponíveis
               </p>
@@ -242,7 +244,7 @@ export function ProductDetailsTemplate({
             <Button
               onClick={handleAddToCart}
               disabled={!selectedSize || price <= 0}
-              className="w-full border-2 border-gray-900 bg-gray-900 py-6 text-sm font-bold uppercase tracking-wide text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full border-2 border-gray-900 bg-gray-900 py-5 sm:py-6 text-sm sm:text-base font-bold uppercase tracking-wide text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
               size="lg"
             >
               {!selectedSize
@@ -252,15 +254,15 @@ export function ProductDetailsTemplate({
                   : "Adicionar ao Carrinho"}
             </Button>
 
-            <div className="mt-8 border-t-2 border-gray-200 pt-8">
-              <h3 className="mb-4 text-sm font-bold uppercase text-gray-900">
+            <div className="mt-6 sm:mt-8 border-t-2 border-gray-200 pt-6 sm:pt-8">
+              <h3 className="mb-3 sm:mb-4 text-xs sm:text-sm font-bold uppercase text-gray-900">
                 Informações do Produto
               </h3>
               <ul className="space-y-2 text-sm text-gray-700">
-                <li>Envio para Resende/RJ e região</li>
-                <li>10% OFF no pagamento via PIX</li>
-                <li>Parcelamento em até 10x sem juros</li>
-                <li>Troca grátis em até 30 dias</li>
+                <li>• Envio para Resende/RJ e região</li>
+                <li>• 10% OFF no pagamento via PIX</li>
+                <li>• Parcelamento em até 10x sem juros</li>
+                <li>• Troca grátis em até 30 dias</li>
               </ul>
             </div>
           </div>
@@ -268,11 +270,11 @@ export function ProductDetailsTemplate({
 
         {/* Produtos Relacionados */}
         {relatedProducts.length > 0 && (
-          <section className="border-t-2 border-gray-900 pt-16">
-            <h2 className="mb-8 text-3xl font-bold uppercase tracking-tight text-gray-900">
+          <section className="border-t-2 border-gray-900 pt-12 sm:pt-16">
+            <h2 className="mb-6 sm:mb-8 text-2xl sm:text-3xl font-bold uppercase tracking-tight text-gray-900">
               Produtos Relacionados
             </h2>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 sm:gap-6 grid-cols-1 xs:grid-cols-2 lg:grid-cols-4">
               {relatedProducts.map((relatedProduct: Product) => (
                 <ProductCard
                   key={relatedProduct.id}

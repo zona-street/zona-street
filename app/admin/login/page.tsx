@@ -51,19 +51,19 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
-      <Card className="w-full max-w-md border-2 border-gray-900 bg-white p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-        <div className="mb-8 text-center">
-          <div className="mb-4 flex justify-center">
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-8 sm:py-12">
+      <Card className="w-full max-w-md border-2 border-gray-900 bg-white p-6 sm:p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+        <div className="mb-6 sm:mb-8 text-center">
+          <div className="mb-3 sm:mb-4 flex justify-center">
             <Image
               src="/logo.png"
               alt="Zona Street"
               width={200}
               height={80}
-              className="h-auto w-48"
+              className="h-auto w-36 sm:w-48"
             />
           </div>
-          <h1 className="text-3xl font-black uppercase tracking-tight text-gray-900">
+          <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-gray-900">
             Painel Admin
           </h1>
           <p className="mt-2 text-sm font-medium text-gray-600">
@@ -71,11 +71,11 @@ export default function AdminLoginPage() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
           <div className="space-y-2">
             <Label
               htmlFor="email"
-              className="text-sm font-bold uppercase tracking-wide text-gray-900"
+              className="text-xs sm:text-sm font-bold uppercase tracking-wide text-gray-900"
             >
               Email
             </Label>
@@ -86,14 +86,14 @@ export default function AdminLoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="border-2 border-gray-900 bg-white focus:border-orange-street"
+              className="border-2 border-gray-900 bg-white focus:border-orange-street h-11 sm:h-12 text-base"
             />
           </div>
 
           <div className="space-y-2">
             <Label
               htmlFor="password"
-              className="text-sm font-bold uppercase tracking-wide text-gray-900"
+              className="text-xs sm:text-sm font-bold uppercase tracking-wide text-gray-900"
             >
               Senha
             </Label>
@@ -104,14 +104,14 @@ export default function AdminLoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="border-2 border-gray-900 bg-white focus:border-orange-street"
+              className="border-2 border-gray-900 bg-white focus:border-orange-street h-11 sm:h-12 text-base"
             />
           </div>
 
           <Button
             type="submit"
             disabled={isLoading}
-            className="w-full border-2 border-gray-900 bg-gray-900 py-6 text-base font-bold uppercase tracking-wide text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:bg-orange-street hover:border-orange-street hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-none active:translate-x-0 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full border-2 border-gray-900 bg-gray-900 py-5 sm:py-6 text-sm sm:text-base font-bold uppercase tracking-wide text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:bg-orange-street hover:border-orange-street hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-none active:translate-x-0 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? "Entrando..." : "Entrar"}
           </Button>

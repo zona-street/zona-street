@@ -4,7 +4,14 @@ import Link from "next/link";
 import { Menu, User } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+  SheetDescription,
+  SheetHeader,
+} from "@/components/ui/sheet";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -33,15 +40,15 @@ export function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white shadow-sm">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-3 sm:px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2">
+        <Link href="/" className="flex items-center space-x-2 flex-shrink-0">
           <Image
             src="/logo.png"
             alt="Zona Street Logo"
             width={500}
             height={500}
-            className="h-28 w-auto  "
+            className="h-20 w-auto sm:h-24 md:h-28"
           />
         </Link>
 
@@ -159,12 +166,12 @@ export function Navbar() {
         </div>
 
         {/* Mobile Navigation */}
-        <div className="flex items-center space-x-2 md:hidden">
+        <div className="flex items-center gap-1.5 md:hidden">
           {/* WhatsApp Button */}
           <Button
             variant="ghost"
             size="icon"
-            className="text-gray-900 hover:bg-gray-100"
+            className="h-10 w-10 text-gray-900 hover:bg-gray-100 active:scale-95 transition-transform"
             asChild
           >
             <Link
@@ -180,7 +187,7 @@ export function Navbar() {
           <Button
             variant="ghost"
             size="icon"
-            className="text-gray-900 hover:bg-gray-100"
+            className="h-10 w-10 text-gray-900 hover:bg-gray-100 hidden"
             asChild
           >
             {/* <Link href="/admin/login">
@@ -193,7 +200,7 @@ export function Navbar() {
               <Button
                 variant="outline"
                 size="icon"
-                className="border-gray-300 text-gray-900 hover:bg-gray-100"
+                className="h-10 w-10 border-gray-300 text-gray-900 hover:bg-gray-100 active:scale-95 transition-transform"
               >
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Menu</span>
@@ -201,36 +208,42 @@ export function Navbar() {
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-75 border-l border-gray-200"
+              className="w-[85vw] max-w-sm border-l border-gray-200 overflow-y-auto"
             >
-              <div className="flex flex-col space-y-4 pt-6">
-                <h2 className="text-sm font-bold uppercase tracking-wide text-gray-900">
+              <SheetHeader className="sr-only">
+                <SheetTitle>Menu de Navegação</SheetTitle>
+                <SheetDescription>
+                  Navegue pelas categorias e seções da loja
+                </SheetDescription>
+              </SheetHeader>
+              <div className="flex flex-col space-y-4 pt-6 pb-6">
+                <h2 className="text-sm font-bold uppercase tracking-wide text-gray-900 px-1">
                   Categorias
                 </h2>
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2.5">
                   {categories.map((category) => (
                     <Link
                       key={category.name}
                       href={category.href}
-                      className="border border-gray-200 bg-white p-3 text-sm font-medium uppercase tracking-wide text-gray-900 transition-colors hover:border-gray-900 hover:bg-gray-50"
+                      className="border border-gray-200 bg-white p-4 text-base font-medium uppercase tracking-wide text-gray-900 transition-colors hover:border-gray-900 hover:bg-gray-50 active:scale-[0.98]"
                     >
                       {category.name}
                     </Link>
                   ))}
                 </div>
 
-                <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-gray-900">
+                <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-gray-900 px-1 pt-2">
                   <Badge className="border border-orange-600 bg-orange-600 text-xs uppercase text-white">
                     New
                   </Badge>
                   Drops
                 </h2>
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2.5">
                   {newDrops.map((drop) => (
                     <Link
                       key={drop.name}
                       href={drop.href}
-                      className="border border-gray-200 bg-white p-3 text-sm font-medium uppercase tracking-wide text-gray-900 transition-colors hover:border-gray-900 hover:bg-gray-50"
+                      className="border border-gray-200 bg-white p-4 text-base font-medium uppercase tracking-wide text-gray-900 transition-colors hover:border-gray-900 hover:bg-gray-50 active:scale-[0.98]"
                     >
                       {drop.name}
                     </Link>
@@ -239,14 +252,22 @@ export function Navbar() {
 
                 <Link
                   href="/favoritos"
-                  className="border border-gray-200 bg-white p-3 text-sm font-medium uppercase tracking-wide text-gray-900 transition-colors hover:border-gray-900 hover:bg-gray-50"
+                  className="border border-gray-200 bg-white p-4 text-base font-medium uppercase tracking-wide text-gray-900 transition-colors hover:border-gray-900 hover:bg-gray-50 active:scale-[0.98] flex items-center justify-between"
                 >
-                  Favoritos
+                  <span className="flex items-center gap-2">
+                    <Heart className="h-4 w-4" />
+                    Favoritos
+                  </span>
+                  {count > 0 && (
+                    <Badge className="border border-orange-600 bg-orange-600 text-white text-xs">
+                      {count}
+                    </Badge>
+                  )}
                 </Link>
 
                 <Link
                   href="/sobre"
-                  className="border border-gray-200 bg-white p-3 text-sm font-medium uppercase tracking-wide text-gray-900 transition-colors hover:border-gray-900 hover:bg-gray-50"
+                  className="border border-gray-200 bg-white p-4 text-base font-medium uppercase tracking-wide text-gray-900 transition-colors hover:border-gray-900 hover:bg-gray-50 active:scale-[0.98]"
                 >
                   Sobre
                 </Link>

@@ -3,10 +3,10 @@ import Link from "next/link";
 
 export function Hero() {
   return (
-    <section className="relative bg-white py-20 md:py-32">
+    <section className="relative bg-white py-12 sm:py-16 md:py-20 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <div className="mb-6 inline-flex items-center gap-2 border border-gray-900 shadow-md bg-gray-50 px-4 py-2 text-xs font-medium uppercase tracking-wider text-gray-900">
+          <div className="mb-4 sm:mb-6 inline-flex items-center gap-2 border border-gray-900 shadow-md bg-gray-50 px-3 sm:px-4 py-1.5 sm:py-2 text-xs font-medium uppercase tracking-wider text-gray-900">
             Nova Coleção disponível
           </div>
           <div className="mb-0 flex items-center justify-center">
@@ -15,7 +15,7 @@ export function Hero() {
               alt="Wallabee - Identidade Zona Street"
               width={550}
               height={454}
-              className="h-24 w-auto md:h-32"
+              className="h-16 w-auto sm:h-20 md:h-24 lg:h-32"
             />
           </div>
           <Image
@@ -23,19 +23,19 @@ export function Hero() {
             alt="Modelo usando roupas da Zona Street em um cenário urbano"
             width={500}
             height={400}
-            className="mx-auto  h-auto w-70 max-w-3xl mb-10 "
+            className="mx-auto h-auto w-60 sm:w-70 max-w-3xl mb-8 sm:mb-10"
           />
 
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4">
             <Link
               href="/lancamentos"
-              className="border-2 border-gray-900 bg-gray-900 px-8 py-4 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-transparent hover:text-gray-900"
+              className="w-full sm:w-auto border-2 border-gray-900 bg-gray-900 px-6 sm:px-8 py-3.5 sm:py-4 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-transparent hover:text-gray-900 active:scale-[0.98]"
             >
               Ver Lançamentos
             </Link>
             <Link
               href="/produtos"
-              className="border-2 border-gray-300 bg-transparent px-8 py-4 text-sm font-bold uppercase tracking-wide text-gray-900 transition-colors hover:border-gray-900"
+              className="w-full sm:w-auto border-2 border-gray-300 bg-transparent px-6 sm:px-8 py-3.5 sm:py-4 text-sm font-bold uppercase tracking-wide text-gray-900 transition-colors hover:border-gray-900 active:scale-[0.98]"
             >
               Explorar Tudo
             </Link>

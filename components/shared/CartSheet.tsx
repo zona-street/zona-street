@@ -9,6 +9,7 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
+  SheetDescription,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
@@ -140,35 +141,46 @@ export function CartSheet() {
         <Button
           variant="default"
           size="icon"
-          className="relative border-2 border-gray-900 bg-gray-900 font-bold text-white hover:bg-transparent hover:text-gray-900"
+          className="relative h-10 w-10 border-2 border-gray-900 bg-gray-900 font-bold text-white hover:bg-transparent hover:text-gray-900 active:scale-95 transition-transform"
         >
           <ShoppingCart className="h-5 w-5" />
-          <Badge className="absolute -right-2 -top-2 h-5 w-5 rounded-full border-2 border-white bg-orange-street p-0 text-xs font-bold text-white">
-            {getTotalItems() > 0 ? getTotalItems() : null}
-          </Badge>
+          {getTotalItems() > 0 && (
+            <Badge
+              className="absolute -right-2 -top-2 h-5 w-5 rounded-full border-2 border-white bg-orange-street p-0 text-xs font-bold text-white"
+              suppressHydrationWarning
+            >
+              {getTotalItems()}
+            </Badge>
+          )}
           <span className="sr-only">Carrinho</span>
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="flex w-full flex-col border-l-2 border-gray-900 bg-white sm:max-w-lg overflow-visible">
-        <SheetHeader>
-          <SheetTitle className="flex items-center justify-between text-xl font-bold uppercase tracking-wide">
+      <SheetContent className="flex w-[90vw] sm:w-full flex-col border-l-2 border-gray-900 bg-white sm:max-w-lg overflow-visible">
+        <SheetHeader className="pb-4">
+          <SheetTitle className="flex items-center justify-between text-lg sm:text-xl font-bold uppercase tracking-wide pr-8">
             <span>Carrinho</span>
-            <Badge className="border-2 border-orange-street bg-orange-street text-white font-bold mr-7">
-              {items.length > 0
-                ? `${getTotalItems()} ${getTotalItems() === 1 ? "item" : "itens"}`
-                : null}
-            </Badge>
+            {items.length > 0 && (
+              <Badge
+                className="border-2 border-orange-street bg-orange-street text-white font-bold text-xs sm:text-sm px-2 py-0.5"
+                suppressHydrationWarning
+              >
+                {`${getTotalItems()} ${getTotalItems() === 1 ? "item" : "itens"}`}
+              </Badge>
+            )}
           </SheetTitle>
+          <SheetDescription className="sr-only">
+            Seu carrinho de compras com os produtos selecionados
+          </SheetDescription>
         </SheetHeader>
 
         {items.length === 0 ? (
-          <div className="flex flex-1 flex-col items-center justify-center space-y-4 text-center">
-            <div className="rounded-full border-4 border-gray-200 p-8">
-              <ShoppingCart className="h-16 w-16 text-gray-300" />
+          <div className="flex flex-1 flex-col items-center justify-center space-y-4 text-center px-4">
+            <div className="rounded-full border-4 border-gray-200 p-6 sm:p-8">
+              <ShoppingCart className="h-12 w-12 sm:h-16 sm:w-16 text-gray-300" />
             </div>
             <div className="space-y-2">
-              <h3 className="text-lg font-bold text-gray-900">
+              <h3 className="text-base sm:text-lg font-bold text-gray-900">
                 Seu carrinho está vazio
               </h3>
               <p className="text-sm text-gray-500">
@@ -178,14 +190,14 @@ export function CartSheet() {
           </div>
         ) : (
           <>
-            <div className="flex-1 space-y-4 overflow-y-auto py-4">
+            <div className="flex-1 space-y-3 sm:space-y-4 overflow-y-auto py-2 px-1">
               {items.map((item) => (
                 <div
                   key={`${item.id}-${item.size}`}
-                  className="group relative flex gap-4 border-2 border-gray-900 bg-white p-4 transition-all hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                  className="group relative flex gap-3 sm:gap-4 border-2 border-gray-900 bg-white p-3 sm:p-4 transition-all hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                 >
                   {/* Imagem do produto */}
-                  <div className="flex h-24 w-24 shrink-0 items-center justify-center border-2 border-gray-900 bg-gray-50 overflow-hidden">
+                  <div className="flex h-20 w-20 sm:h-24 sm:w-24 shrink-0 items-center justify-center border-2 border-gray-900 bg-gray-50 overflow-hidden">
                     {item.image ? (
                       <Image
                         src={item.image}
@@ -195,15 +207,15 @@ export function CartSheet() {
                         className="h-full w-full object-cover"
                       />
                     ) : (
-                      <div className="flex h-full w-full items-center justify-center text-2xl font-black text-gray-300">
+                      <div className="flex h-full w-full items-center justify-center text-xl sm:text-2xl font-black text-gray-300">
                         {item.name.charAt(0)}
                       </div>
                     )}
                   </div>
 
-                  <div className="flex flex-1 flex-col justify-between">
+                  <div className="flex flex-1 flex-col justify-between min-w-0">
                     <div>
-                      <h4 className="line-clamp-2 text-sm font-bold leading-tight text-gray-900">
+                      <h4 className="line-clamp-2 text-sm sm:text-base font-bold leading-tight text-gray-900">
                         {item.name}
                       </h4>
                       <p className="mt-1 text-xs font-medium uppercase text-gray-500">
@@ -211,16 +223,16 @@ export function CartSheet() {
                       </p>
                     </div>
 
-                    <div className="flex items-center justify-between">
-                      <span className="text-lg font-bold text-gray-900">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-base sm:text-lg font-bold text-gray-900">
                         R$ {(item.price * item.quantity).toFixed(2)}
                       </span>
 
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1.5 sm:gap-2">
                         <Button
                           variant="outline"
                           size="icon"
-                          className="h-8 w-8 border-2 border-gray-900 bg-white hover:bg-orange-street hover:text-white transition-colors"
+                          className="h-8 w-8 sm:h-9 sm:w-9 border-2 border-gray-900 bg-white hover:bg-orange-street hover:text-white transition-colors active:scale-95"
                           onClick={() =>
                             updateQuantity(
                               item.id,
@@ -231,13 +243,13 @@ export function CartSheet() {
                         >
                           <Minus className="h-3 w-3" />
                         </Button>
-                        <span className="w-8 text-center text-sm font-bold">
+                        <span className="w-7 sm:w-8 text-center text-sm font-bold">
                           {item.quantity}
                         </span>
                         <Button
                           variant="outline"
                           size="icon"
-                          className="h-8 w-8 border-2 border-gray-900 bg-white hover:bg-orange-street hover:text-white transition-colors"
+                          className="h-8 w-8 sm:h-9 sm:w-9 border-2 border-gray-900 bg-white hover:bg-orange-street hover:text-white transition-colors active:scale-95"
                           onClick={() =>
                             updateQuantity(
                               item.id,
@@ -256,19 +268,19 @@ export function CartSheet() {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="absolute right-2 top-2 h-8 w-8 border-2 border-gray-900 bg-white text-gray-900 hover:bg-red-600 hover:border-red-600 hover:text-white transition-colors"
+                    className="absolute right-2 top-2 h-8 w-8 sm:h-9 sm:w-9 border-2 border-gray-900 bg-white text-gray-900 hover:bg-red-600 hover:border-red-600 hover:text-white transition-colors active:scale-95"
                     onClick={() => removeItem(item.id, item.size)}
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   </Button>
                 </div>
               ))}
             </div>
 
-            <div className="space-y-4 border-t-2 border-gray-200 pt-4 px-4 pb-6">
+            <div className="space-y-3 sm:space-y-4 border-t-2 border-gray-200 pt-3 sm:pt-4 px-2 sm:px-4 pb-4 sm:pb-6">
               {/* Formulrio de dados do cliente */}
-              <div className="space-y-3 border-2 border-gray-900 p-4 bg-gray-50">
-                <h3 className="text-sm font-bold uppercase text-gray-900">
+              <div className="space-y-2.5 sm:space-y-3 border-2 border-gray-900 p-3 sm:p-4 bg-gray-50">
+                <h3 className="text-xs sm:text-sm font-bold uppercase text-gray-900">
                   Seus Dados
                 </h3>
                 <div>
@@ -284,7 +296,7 @@ export function CartSheet() {
                     placeholder="Digite seu nome"
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
-                    className="mt-1 border-2 border-gray-900"
+                    className="mt-1 border-2 border-gray-900 h-10 sm:h-11 text-base"
                   />
                 </div>
                 <div>
@@ -300,7 +312,7 @@ export function CartSheet() {
                     placeholder="(00) 00000-0000"
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
-                    className="mt-1 border-2 border-gray-900"
+                    className="mt-1 border-2 border-gray-900 h-10 sm:h-11 text-base"
                   />
                 </div>
                 <div>
@@ -316,7 +328,7 @@ export function CartSheet() {
                     placeholder="seu@email.com"
                     value={customerEmail}
                     onChange={(e) => setCustomerEmail(e.target.value)}
-                    className="mt-1 border-2 border-gray-900"
+                    className="mt-1 border-2 border-gray-900 h-10 sm:h-11 text-base"
                   />
                 </div>
               </div>
@@ -329,18 +341,18 @@ export function CartSheet() {
                   </span>
                 </div>
                 <Separator />
-                <div className="flex justify-between text-lg">
+                <div className="flex justify-between text-base sm:text-lg">
                   <span className="font-bold uppercase text-gray-900">
                     Total
                   </span>
-                  <span className="text-2xl font-bold text-gray-900">
+                  <span className="text-xl sm:text-2xl font-bold text-gray-900">
                     R$ {getTotalPrice().toFixed(2)}
                   </span>
                 </div>
               </div>
 
               <Button
-                className="w-full border-2 border-gray-900 bg-green-600 py-6 text-base font-bold uppercase tracking-wide text-white  shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-none active:translate-x-0 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full border-2 border-gray-900 bg-green-600 py-5 sm:py-6 text-sm sm:text-base font-bold uppercase tracking-wide text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-none active:translate-x-0 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleCheckout}
                 disabled={isCheckingOut}
               >
@@ -350,7 +362,7 @@ export function CartSheet() {
 
               <Button
                 variant="outline"
-                className="w-full border-2 border-gray-900 bg-white py-4 font-bold text-gray-900 hover:bg-red-600 hover:border-red-600 hover:text-white transition-colors"
+                className="w-full border-2 border-gray-900 bg-white py-3.5 sm:py-4 text-sm sm:text-base font-bold text-gray-900 hover:bg-red-600 hover:border-red-600 hover:text-white transition-colors active:scale-[0.98]"
                 onClick={clearCart}
               >
                 <Trash2 className="mr-2 h-4 w-4" />
