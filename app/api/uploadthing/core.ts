@@ -81,7 +81,7 @@ function verifyJwt(token: string): JwtPayload {
   return payload;
 }
 
-// Funo de autenticao (verificar se  admin)
+// Função de autenticação (verificar se  admin)
 const auth = (req: Request) => {
   if (!JWT_SECRET) {
     throw new UploadThingError({
@@ -95,7 +95,7 @@ const auth = (req: Request) => {
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     if (process.env.NODE_ENV === "development") {
       // Helpful debug when developing locally
-      // eslint-disable-next-line no-console
+
       console.warn(
         "UploadThing auth failed: missing or malformed Authorization header",
       );
@@ -119,12 +119,12 @@ const auth = (req: Request) => {
   return { userId: payload.id ?? "admin" };
 };
 
-// FileRouter para a aplicao
+// FileRouter para a aplicação
 export const ourFileRouter = {
   // Rota para upload de imagens de produtos
   productImage: f({ image: { maxFileSize: "4MB", maxFileCount: 4 } })
     .middleware(async ({ req }) => {
-      // Verificar autenticao
+      // Verificar autenticação
       const user = auth(req);
       return { userId: user.userId };
     })
