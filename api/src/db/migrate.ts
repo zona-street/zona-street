@@ -2,6 +2,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import { migrationClient } from "./index";
 import * as schema from "./schema";
+import "dotenv/config";
 
 /**
  * Script de migração do banco de dados

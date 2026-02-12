@@ -129,7 +129,7 @@ export function CartSheet() {
 
     const total = `${divider}\n*TOTAL: R$ ${getTotalPrice().toFixed(2)}*`;
 
-    const footer = `\n\n_Ol, sou ${customerName}. Gostaria de finalizar este pedido._`;
+    const footer = `\n\n_Olá, sou ${customerName}. Gostaria de finalizar este pedido._`;
 
     return encodeURIComponent(header + itemsList + total + footer);
   };

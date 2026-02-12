@@ -183,9 +183,9 @@ export function Navbar() {
             className="text-gray-900 hover:bg-gray-100"
             asChild
           >
-            <Link href="/admin/login">
+            {/* <Link href="/admin/login">
               <User className="h-5 w-5" />
-            </Link>
+            </Link> */}
           </Button>
           <CartSheet />
           <Sheet>
