@@ -319,7 +319,7 @@ export function AdminOrdersTemplate() {
 
       {/* Dialog de detalhes do pedido */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="min-w-[600px] max-h-[90vh] overflow-y-auto overflow-x-hidden border-2 border-gray-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+        <DialogContent className="w-[95vw] max-w-4xl max-h-[90vh] overflow-y-auto overflow-x-hidden border-2 border-gray-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
           <DialogHeader>
             <DialogTitle className="text-2xl font-black uppercase">
               Detalhes do Pedido
@@ -331,7 +331,7 @@ export function AdminOrdersTemplate() {
             <div className="space-y-6">
               {/* Info do pedido */}
               <div className="border-2 border-gray-900 p-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <p className="text-xs font-bold uppercase text-gray-500">
                       Pedido
