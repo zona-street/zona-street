@@ -76,7 +76,8 @@ export default function AdminLoginPage() {
         // Erros específicos do backend
         if (error.message.includes("Email ou senha incorretos")) {
           errorTitle = "Credenciais inválidas";
-          errorDescription = "Email ou senha incorretos. Verifique e tente novamente.";
+          errorDescription =
+            "Email ou senha incorretos. Verifique e tente novamente.";
         } else if (error.message.includes("Email inválido")) {
           errorTitle = "Email inválido";
           errorDescription = "Por favor, insira um endereço de email válido.";
@@ -86,9 +87,13 @@ export default function AdminLoginPage() {
         } else if (error.message.includes("Dados inválidos")) {
           errorTitle = "Dados inválidos";
           errorDescription = "Verifique se o email e senha estão corretos.";
-        } else if (error.message.includes("rede") || error.message.includes("fetch")) {
+        } else if (
+          error.message.includes("rede") ||
+          error.message.includes("fetch")
+        ) {
           errorTitle = "Erro de conexão";
-          errorDescription = "Verifique sua conexão com a internet e tente novamente.";
+          errorDescription =
+            "Verifique sua conexão com a internet e tente novamente.";
         } else {
           // Outros erros específicos
           errorDescription = error.message;
@@ -101,10 +106,12 @@ export default function AdminLoginPage() {
           errorDescription = "Credenciais inválidas ou conta desativada.";
         } else if (status === 429) {
           errorTitle = "Muitas tentativas";
-          errorDescription = "Aguarde alguns minutos antes de tentar novamente.";
+          errorDescription =
+            "Aguarde alguns minutos antes de tentar novamente.";
         } else if (status >= 500) {
           errorTitle = "Erro do servidor";
-          errorDescription = "Problema temporário. Tente novamente em alguns minutos.";
+          errorDescription =
+            "Problema temporário. Tente novamente em alguns minutos.";
         }
       }
 

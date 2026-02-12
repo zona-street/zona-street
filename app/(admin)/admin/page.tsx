@@ -199,7 +199,8 @@ export default function AdminDashboard() {
             href="/admin/products"
             className="border-2 flex text-center items-center justify-center border-gray-900 bg-gray-900 px-4 sm:px-6 py-3 sm:py-4 font-bold uppercase tracking-wide text-white transition-all hover:bg-orange-street hover:border-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
           >
-            <Plus className="inline-block mr-2 h-4 w-4 sm:h-5 sm:w-5" /> Novo Produto
+            <Plus className="inline-block mr-2 h-4 w-4 sm:h-5 sm:w-5" /> Novo
+            Produto
           </a>
           <button
             onClick={() =>
@@ -215,7 +216,8 @@ export default function AdminDashboard() {
             href="/admin/settings"
             className="border-2 flex text-center items-center justify-center border-gray-900 bg-white px-4 sm:px-6 py-3 sm:py-4 font-bold uppercase tracking-wide text-gray-900 transition-all hover:bg-gray-900 hover:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
           >
-            <Settings className="inline-block mr-2 h-4 w-4 sm:h-5 sm:w-5" /> Configurações
+            <Settings className="inline-block mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+            Configurações
           </a>
         </div>
       </div>
