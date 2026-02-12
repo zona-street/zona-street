@@ -91,27 +91,27 @@ export default function AdminDashboard() {
   }, [token]);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Header */}
-      <div className="border-b-2 border-gray-900 pb-6">
-        <h1 className="text-4xl font-black uppercase tracking-tight text-gray-900">
+      <div className="border-b-2 border-gray-900 pb-4 sm:pb-6">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight text-gray-900">
           Dashboard
         </h1>
-        <p className="mt-2 text-lg font-medium text-gray-600">
+        <p className="mt-2 text-base sm:text-lg font-medium text-gray-600">
           Visão geral do e-commerce Zona Street
         </p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         {/* Total Revenue */}
-        <Card className="border-2 border-gray-900 bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+        <Card className="w-full border-2 border-gray-900 bg-white p-4 sm:p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-bold uppercase tracking-wide text-gray-600">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-wide text-gray-600">
                 Faturamento
               </p>
-              <p className="mt-2 text-3xl font-black text-gray-900">
+              <p className="mt-1 sm:mt-2 text-2xl sm:text-3xl font-black text-gray-900 break-words">
                 {loading ? (
                   <span className="animate-pulse">...</span>
                 ) : (
@@ -119,20 +119,20 @@ export default function AdminDashboard() {
                 )}
               </p>
             </div>
-            <div className="rounded-full border-2 border-gray-900 bg-orange-street p-3">
-              <TrendingUp className="h-6 w-6 text-white" />
+            <div className="ml-3 flex-shrink-0 rounded-full border-2 border-gray-900 bg-orange-street p-2 sm:p-3">
+              <TrendingUp className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
             </div>
           </div>
         </Card>
 
         {/* Total Orders */}
-        <Card className="border-2 border-gray-900 bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+        <Card className="w-full border-2 border-gray-900 bg-white p-4 sm:p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-bold uppercase tracking-wide text-gray-600">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-wide text-gray-600">
                 Pedidos
               </p>
-              <p className="mt-2 text-3xl font-black text-gray-900">
+              <p className="mt-1 sm:mt-2 text-2xl sm:text-3xl font-black text-gray-900">
                 {loading ? (
                   <span className="animate-pulse">...</span>
                 ) : (
@@ -140,20 +140,20 @@ export default function AdminDashboard() {
                 )}
               </p>
             </div>
-            <div className="rounded-full border-2 border-gray-900 bg-blue-street p-3">
-              <ShoppingBag className="h-6 w-6 text-white" />
+            <div className="ml-3 flex-shrink-0 rounded-full border-2 border-gray-900 bg-blue-street p-2 sm:p-3">
+              <ShoppingBag className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
             </div>
           </div>
         </Card>
 
         {/* Total Customers */}
-        <Card className="border-2 border-gray-900 bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+        <Card className="w-full border-2 border-gray-900 bg-white p-4 sm:p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-bold uppercase tracking-wide text-gray-600">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-wide text-gray-600">
                 Assinantes
               </p>
-              <p className="mt-2 text-3xl font-black text-gray-900">
+              <p className="mt-1 sm:mt-2 text-2xl sm:text-3xl font-black text-gray-900">
                 {loading ? (
                   <span className="animate-pulse">...</span>
                 ) : (
@@ -161,20 +161,20 @@ export default function AdminDashboard() {
                 )}
               </p>
             </div>
-            <div className="rounded-full border-2 border-gray-900 bg-green-600 p-3">
-              <Users className="h-6 w-6 text-white" />
+            <div className="ml-3 flex-shrink-0 rounded-full border-2 border-gray-900 bg-green-600 p-2 sm:p-3">
+              <Users className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
             </div>
           </div>
         </Card>
 
         {/* Total Products */}
-        <Card className="border-2 border-gray-900 bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+        <Card className="w-full border-2 border-gray-900 bg-white p-4 sm:p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-bold uppercase tracking-wide text-gray-600">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-wide text-gray-600">
                 Produtos
               </p>
-              <p className="mt-2 text-3xl font-black text-gray-900">
+              <p className="mt-1 sm:mt-2 text-2xl sm:text-3xl font-black text-gray-900">
                 {loading ? (
                   <span className="animate-pulse">...</span>
                 ) : (
@@ -182,24 +182,24 @@ export default function AdminDashboard() {
                 )}
               </p>
             </div>
-            <div className="rounded-full border-2 border-gray-900 bg-purple-600 p-3">
-              <Package className="h-6 w-6 text-white" />
+            <div className="ml-3 flex-shrink-0 rounded-full border-2 border-gray-900 bg-purple-600 p-2 sm:p-3">
+              <Package className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
             </div>
           </div>
         </Card>
       </div>
 
       {/* Quick Actions */}
-      <div className="border-2 border-gray-900 bg-white p-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-        <h2 className="mb-6 text-2xl font-black uppercase tracking-tight text-gray-900">
+      <div className="border-2 border-gray-900 bg-white p-4 sm:p-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+        <h2 className="mb-4 sm:mb-6 text-xl sm:text-2xl font-black uppercase tracking-tight text-gray-900">
           Ações Rápidas
         </h2>
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <a
             href="/admin/products"
-            className="border-2 flex text-center items-center border-gray-900 bg-gray-900 px-6 py-4 font-bold uppercase tracking-wide text-white transition-all hover:bg-orange-street hover:border-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+            className="border-2 flex text-center items-center justify-center border-gray-900 bg-gray-900 px-4 sm:px-6 py-3 sm:py-4 font-bold uppercase tracking-wide text-white transition-all hover:bg-orange-street hover:border-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
           >
-            <Plus className="inline-block mr-2 h-5 w-5" /> Novo Produto
+            <Plus className="inline-block mr-2 h-4 w-4 sm:h-5 sm:w-5" /> Novo Produto
           </a>
           <button
             onClick={() =>
@@ -207,15 +207,15 @@ export default function AdminDashboard() {
                 "Gráficos e relatórios poderão ser implementados no futuro.",
               )
             }
-            className="border-2 border-gray-900 bg-white px-6 py-4 font-bold uppercase tracking-wide text-gray-900 transition-all hover:bg-gray-900 hover:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+            className="border-2 border-gray-900 bg-white px-4 sm:px-6 py-3 sm:py-4 font-bold uppercase tracking-wide text-gray-900 transition-all hover:bg-gray-900 hover:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
           >
             Relatórios
           </button>
           <a
             href="/admin/settings"
-            className="border-2 flex text-center items-center border-gray-900 bg-white px-6 py-4 font-bold uppercase tracking-wide text-gray-900 transition-all hover:bg-gray-900 hover:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+            className="border-2 flex text-center items-center justify-center border-gray-900 bg-white px-4 sm:px-6 py-3 sm:py-4 font-bold uppercase tracking-wide text-gray-900 transition-all hover:bg-gray-900 hover:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
           >
-            <Settings className="inline-block mr-2 h-5 w-5" /> Configurações
+            <Settings className="inline-block mr-2 h-4 w-4 sm:h-5 sm:w-5" /> Configurações
           </a>
         </div>
       </div>
