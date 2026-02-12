@@ -264,7 +264,7 @@ export function CartSheet() {
                     </div>
                   </div>
 
-                  {/* Boto de remover */}
+                  {/* Botão de remover */}
                   <Button
                     variant="outline"
                     size="icon"
@@ -278,7 +278,7 @@ export function CartSheet() {
             </div>
 
             <div className="space-y-3 sm:space-y-4 border-t-2 border-gray-200 pt-3 sm:pt-4 px-2 sm:px-4 pb-4 sm:pb-6">
-              {/* Formulrio de dados do cliente */}
+              {/* Formulário de dados do cliente */}
               <div className="space-y-2.5 sm:space-y-3 border-2 border-gray-900 p-3 sm:p-4 bg-gray-50">
                 <h3 className="text-xs sm:text-sm font-bold uppercase text-gray-900">
                   Seus Dados

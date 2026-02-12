@@ -60,7 +60,7 @@ export default function AdminLayout({
       <Link
         href="/"
         onClick={() => isMobile && setMobileMenuOpen(false)}
-        className="block rounded-md border-2 px-4 py-3 font-bold uppercase tracking-wide transition-colors hover:border-orange-street hover:bg-orange-street/10 text-center border-transparent"
+        className="block rounded-md border-2 px-4 py-3 font-bold uppercase tracking-wide transition-colors hover:border-orange-street hover:bg-orange-street/10 border-transparent"
       >
         Voltar para o site
       </Link>

@@ -21,7 +21,7 @@ export function AdminOrdersTemplate() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState<OrderWithItems | null>(
-    null
+    null,
   );
   const [dialogOpen, setDialogOpen] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
@@ -102,7 +102,7 @@ export function AdminOrdersTemplate() {
 
     const labels = {
       PENDENTE: "Pendente",
-      CONCLUIDO: "Concludo",
+      CONCLUIDO: "Concluído",
       CANCELADO: "Cancelado",
     };
 
@@ -146,104 +146,175 @@ export function AdminOrdersTemplate() {
             Nenhum pedido encontrado
           </h3>
           <p className="mt-2 text-sm text-gray-600">
-            Os pedidos aparecero aqui quando forem criados
+            Os pedidos aparecerão aqui quando forem criados
           </p>
         </div>
       ) : (
-        <div className="border-2 border-gray-900 bg-white overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="border-b-2 border-gray-900 bg-gray-50">
-                <tr>
-                  <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-900">
-                    Pedido
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-900">
-                    Cliente
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-900">
-                    WhatsApp
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-900">
-                    Total
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-900">
-                    Status
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-900">
-                    Data
-                  </th>
-                  <th className="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-gray-900">
-                    Aes
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y-2 divide-gray-200">
-                {orders.map((order) => (
-                  <tr
-                    key={order.id}
-                    className="transition-colors hover:bg-gray-50"
-                  >
-                    <td className="px-6 py-4">
-                      <p className="text-sm font-mono font-bold text-gray-900">
-                        #{order.id.slice(0, 8)}
-                      </p>
-                    </td>
-                    <td className="px-6 py-4">
-                      <p className="text-sm font-bold text-gray-900">
-                        {order.customerName}
-                      </p>
-                      {order.customerEmail && (
-                        <p className="text-xs text-gray-500">
-                          {order.customerEmail}
-                        </p>
-                      )}
-                    </td>
-                    <td className="px-6 py-4">
-                      <a
-                        href={formatWhatsAppLink(order.customerPhone)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-sm font-medium text-green-600 hover:text-green-700"
-                      >
-                        {order.customerPhone}
-                        <ExternalLink className="h-3 w-3" />
-                      </a>
-                    </td>
-                    <td className="px-6 py-4">
-                      <p className="text-sm font-bold text-gray-900">
-                        R$ {Number(order.total).toFixed(2)}
-                      </p>
-                    </td>
-                    <td className="px-6 py-4">
-                      {getStatusBadge(order.status)}
-                    </td>
-                    <td className="px-6 py-4">
-                      <p className="text-sm text-gray-600">
-                        {new Date(order.createdAt).toLocaleDateString("pt-BR")}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {new Date(order.createdAt).toLocaleTimeString("pt-BR")}
-                      </p>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center justify-center gap-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => viewOrderDetails(order.id)}
-                          className="border-2 border-gray-900 font-bold uppercase"
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </td>
+        <>
+          {/* Tabela para desktop */}
+          <div className="hidden md:block border-2 border-gray-900 bg-white overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="border-b-2 border-gray-900 bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-900">
+                      Pedido
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-900">
+                      Cliente
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-900">
+                      WhatsApp
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-900">
+                      Total
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-900">
+                      Status
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-900">
+                      Data
+                    </th>
+                    <th className="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-gray-900">
+                      Ações
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y-2 divide-gray-200">
+                  {orders.map((order) => (
+                    <tr
+                      key={order.id}
+                      className="transition-colors hover:bg-gray-50"
+                    >
+                      <td className="px-6 py-4">
+                        <p className="text-sm font-mono font-bold text-gray-900">
+                          #{order.id.slice(0, 8)}
+                        </p>
+                      </td>
+                      <td className="px-6 py-4">
+                        <p className="text-sm font-bold text-gray-900">
+                          {order.customerName}
+                        </p>
+                        {order.customerEmail && (
+                          <p className="text-xs text-gray-500">
+                            {order.customerEmail}
+                          </p>
+                        )}
+                      </td>
+                      <td className="px-6 py-4">
+                        <a
+                          href={formatWhatsAppLink(order.customerPhone)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-sm font-medium text-green-600 hover:text-green-700"
+                        >
+                          {order.customerPhone}
+                          <ExternalLink className="h-3 w-3" />
+                        </a>
+                      </td>
+                      <td className="px-6 py-4">
+                        <p className="text-sm font-bold text-gray-900">
+                          R$ {Number(order.total).toFixed(2)}
+                        </p>
+                      </td>
+                      <td className="px-6 py-4">
+                        {getStatusBadge(order.status)}
+                      </td>
+                      <td className="px-6 py-4">
+                        <p className="text-sm text-gray-600">
+                          {new Date(order.createdAt).toLocaleDateString(
+                            "pt-BR",
+                          )}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {new Date(order.createdAt).toLocaleTimeString(
+                            "pt-BR",
+                          )}
+                        </p>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center justify-center gap-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => viewOrderDetails(order.id)}
+                            className="border-2 border-gray-900 font-bold uppercase"
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+
+          {/* Cards para mobile */}
+          <div className="md:hidden grid gap-4">
+            {orders.map((order) => (
+              <div
+                key={order.id}
+                className="border-2 border-gray-900 bg-white p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-shadow"
+              >
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <p className="text-sm font-mono font-bold text-gray-900 mb-1">
+                      #{order.id.slice(0, 8)}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {new Date(order.createdAt).toLocaleDateString("pt-BR")}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    {getStatusBadge(order.status)}
+                  </div>
+                </div>
+
+                <div className="border-t-2 border-gray-900 pt-3 mb-3">
+                  <div className="mb-2">
+                    <p className="text-sm font-bold text-gray-900 mb-1">
+                      {order.customerName}
+                    </p>
+                    {order.customerEmail && (
+                      <p className="text-xs text-gray-500 mb-2">
+                        {order.customerEmail}
+                      </p>
+                    )}
+                    <a
+                      href={formatWhatsAppLink(order.customerPhone)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-sm font-medium text-green-600 hover:text-green-700"
+                    >
+                      {order.customerPhone}
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="text-xs text-gray-600 mb-1">Total</p>
+                    <p className="text-lg font-bold text-gray-900">
+                      R$ {Number(order.total).toFixed(2)}
+                    </p>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => viewOrderDetails(order.id)}
+                    className="border-2 border-gray-900 font-bold uppercase"
+                  >
+                    <Eye className="h-4 w-4 mr-2" />
+                    Ver
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
 
       {/* Dialog de detalhes do pedido */}
@@ -289,7 +360,7 @@ export function AdminOrdersTemplate() {
                     </p>
                     <a
                       href={formatWhatsAppLink(
-                        selectedOrder.order.customerPhone
+                        selectedOrder.order.customerPhone,
                       )}
                       target="_blank"
                       rel="noopener noreferrer"

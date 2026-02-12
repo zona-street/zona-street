@@ -148,7 +148,7 @@ export function ProductCard({
             </Badge>
           )}
 
-          {/* Boto de favoritar - sempre visível no mobile, hover no desktop */}
+          {/* Botão de favoritar - sempre visível no mobile, hover no desktop */}
           <Button
             variant="ghost"
             size="icon"
