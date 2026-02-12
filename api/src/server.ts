@@ -1,6 +1,5 @@
 import { buildApp } from "./app";
 import { config } from "./config/app.config";
-import { testConnection } from "./db";
 import { testConnection, db } from "./db";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import "dotenv/config";
