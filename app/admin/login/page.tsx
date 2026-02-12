@@ -126,6 +126,16 @@ export default function AdminLoginPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-8 sm:py-12">
+      {/* Botão voltar ao site */}
+      <div className="absolute top-4 left-4 sm:top-6 sm:left-6">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 border-2 border-gray-900 bg-white px-3 py-2 text-sm font-bold uppercase tracking-wide text-gray-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:bg-gray-900 hover:text-white hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-none active:translate-x-0 active:translate-y-0"
+        >
+          ← Voltar ao Site
+        </Link>
+      </div>
+
       <Card className="w-full max-w-md border-2 border-gray-900 bg-white p-6 sm:p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
         <div className="mb-6 sm:mb-8 text-center">
           <div className="mb-3 sm:mb-4 flex justify-center">

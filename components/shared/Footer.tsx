@@ -1,6 +1,7 @@
 import { FaInstagram } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
+import { SettingsIcon } from "lucide-react";
 
 export function Footer() {
   return (
@@ -101,7 +102,15 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-8 border-t-2 border-gray-800 pt-6 sm:pt-8 text-center text-sm font-medium text-gray-400">
-          <p>© 2025 Zona Street. Todos os direitos reservados.</p>
+          <p className="mb-2">
+            © 2025 Zona Street. Todos os direitos reservados.
+          </p>
+          <Link
+            href="/admin"
+            className="text-xs text-gray-600 hover:text-gray-500 transition-colors opacity-50 hover:opacity-75"
+          >
+            <SettingsIcon className="inline-block mr-1 h-3 w-3" />
+          </Link>
         </div>
       </div>
     </footer>

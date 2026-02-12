@@ -629,78 +629,197 @@ export function AdminProductsTemplate() {
           </p>
         </div>
       ) : (
-        <div className="border-2 border-gray-900 bg-white overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="border-b-2 border-gray-900 bg-gray-900">
-                <tr>
-                  <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wide text-white">
-                    Produto
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wide text-white">
-                    Categoria
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wide text-white">
-                    Preço
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wide text-white">
-                    Estoque
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wide text-white">
-                    Status
-                  </th>
-                  <th className="px-4 py-3 text-right text-xs font-bold uppercase tracking-wide text-white">
-                    Ações
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {products.map((product) => (
-                  <tr key={product.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-4">
-                      <div className="flex items-center gap-3">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={product.images[0]}
-                          alt={product.name}
-                          className="h-12 w-12 border border-gray-200 object-cover"
-                        />
+        <>
+          {/* Tabela para desktop */}
+          <div className="hidden md:block border-2 border-gray-900 bg-white overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="border-b-2 border-gray-900 bg-gray-900">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wide text-white">
+                      Produto
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wide text-white">
+                      Categoria
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wide text-white">
+                      Preço
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wide text-white">
+                      Estoque
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wide text-white">
+                      Status
+                    </th>
+                    <th className="px-4 py-3 text-right text-xs font-bold uppercase tracking-wide text-white">
+                      Ações
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {products.map((product) => (
+                    <tr key={product.id} className="hover:bg-gray-50">
+                      <td className="px-4 py-4">
+                        <div className="flex items-center gap-3">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={product.images[0]}
+                            alt={product.name}
+                            className="h-12 w-12 border border-gray-200 object-cover"
+                          />
+                          <div>
+                            <p className="font-bold text-sm text-gray-900">
+                              {product.name}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {product.slug}
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-4 py-4">
+                        <span className="text-xs font-medium uppercase text-gray-700">
+                          {product.category}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4">
                         <div>
                           <p className="font-bold text-sm text-gray-900">
-                            {product.name}
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            {product.slug}
-                          </p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-4">
-                      <span className="text-xs font-medium uppercase text-gray-700">
-                        {product.category}
-                      </span>
-                    </td>
-                    <td className="px-4 py-4">
-                      <div>
-                        <p className="font-bold text-sm text-gray-900">
-                          R${" "}
-                          {typeof product.price === "string"
-                            ? parseFloat(product.price).toFixed(2)
-                            : product.price.toFixed(2)}
-                        </p>
-                        {product.oldPrice && (
-                          <p className="text-xs text-gray-500 line-through">
                             R${" "}
-                            {typeof product.oldPrice === "string"
-                              ? parseFloat(product.oldPrice).toFixed(2)
-                              : product.oldPrice.toFixed(2)}
+                            {typeof product.price === "string"
+                              ? parseFloat(product.price).toFixed(2)
+                              : product.price.toFixed(2)}
                           </p>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-4 py-4">
+                          {product.oldPrice && (
+                            <p className="text-xs text-gray-500 line-through">
+                              R${" "}
+                              {typeof product.oldPrice === "string"
+                                ? parseFloat(product.oldPrice).toFixed(2)
+                                : product.oldPrice.toFixed(2)}
+                            </p>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4">
+                        <span
+                          className={`font-bold text-sm ${
+                            Number(product.stock) > 10
+                              ? "text-green-600"
+                              : Number(product.stock) > 0
+                                ? "text-orange-600"
+                                : "text-red-600"
+                          }`}
+                        >
+                          {product.stock}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4">
+                        <div className="flex flex-wrap gap-1">
+                          {product.isNewDrop && (
+                            <Badge className="border border-orange-600 bg-orange-600 text-xs uppercase text-white">
+                              New
+                            </Badge>
+                          )}
+                          {product.isFeatured && (
+                            <Badge className="border border-blue-600 bg-blue-600 text-xs uppercase text-white">
+                              Destaque
+                            </Badge>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4">
+                        <div className="flex justify-end gap-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => openDialog(product)}
+                            className="border-2 cursor-pointer border-gray-900 hover:bg-gray-900 hover:text-background"
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleDelete(product.id)}
+                            className={`border-2 cursor-pointer ${
+                              deleteConfirm === product.id
+                                ? "border-red-600 bg-red-600 text-white"
+                                : "border-gray-900 text-red-600 hover:bg-red-50"
+                            }`}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Cards para mobile */}
+          <div className="md:hidden grid gap-4">
+            {products.map((product) => (
+              <div
+                key={product.id}
+                className="border-2 border-gray-900 bg-white p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-shadow"
+              >
+                <div className="flex gap-4 mb-4">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={product.images[0]}
+                    alt={product.name}
+                    className="h-24 w-24 border-2 border-gray-900 object-cover"
+                  />
+                  <div className="flex-1">
+                    <p className="font-bold text-sm text-gray-900 mb-1">
+                      {product.name}
+                    </p>
+                    <p className="text-xs text-gray-500 mb-2">{product.slug}</p>
+                    <span className="text-xs font-medium uppercase text-gray-700 block mb-2">
+                      {product.category}
+                    </span>
+                    <div className="flex flex-wrap gap-1">
+                      {product.isNewDrop && (
+                        <Badge className="border border-orange-600 bg-orange-600 text-xs uppercase text-white">
+                          New
+                        </Badge>
+                      )}
+                      {product.isFeatured && (
+                        <Badge className="border border-blue-600 bg-blue-600 text-xs uppercase text-white">
+                          Destaque
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="border-t-2 border-gray-900 pt-3 mb-3">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <p className="text-xs text-gray-600 mb-1">Preço</p>
+                      <p className="font-bold text-sm text-gray-900">
+                        R${" "}
+                        {typeof product.price === "string"
+                          ? parseFloat(product.price).toFixed(2)
+                          : product.price.toFixed(2)}
+                      </p>
+                      {product.oldPrice && (
+                        <p className="text-xs text-gray-500 line-through">
+                          R${" "}
+                          {typeof product.oldPrice === "string"
+                            ? parseFloat(product.oldPrice).toFixed(2)
+                            : product.oldPrice.toFixed(2)}
+                        </p>
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-600 mb-1 text-right">
+                        Estoque
+                      </p>
                       <span
-                        className={`font-bold text-sm ${
+                        className={`font-bold text-sm block ${
                           Number(product.stock) > 10
                             ? "text-green-600"
                             : Number(product.stock) > 0
@@ -710,51 +829,38 @@ export function AdminProductsTemplate() {
                       >
                         {product.stock}
                       </span>
-                    </td>
-                    <td className="px-4 py-4">
-                      <div className="flex flex-wrap gap-1">
-                        {product.isNewDrop && (
-                          <Badge className="border border-orange-600 bg-orange-600 text-xs uppercase text-white">
-                            New
-                          </Badge>
-                        )}
-                        {product.isFeatured && (
-                          <Badge className="border border-blue-600 bg-blue-600 text-xs uppercase text-white">
-                            Destaque
-                          </Badge>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-4 py-4">
-                      <div className="flex justify-end gap-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => openDialog(product)}
-                          className="border-2 cursor-pointer border-gray-900 hover:bg-gray-900 hover:text-background"
-                        >
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleDelete(product.id)}
-                          className={`border-2 cursor-pointer ${
-                            deleteConfirm === product.id
-                              ? "border-red-600 bg-red-600 text-white"
-                              : "border-gray-900 text-red-600 hover:bg-red-50"
-                          }`}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-2 justify-end">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => openDialog(product)}
+                    className="border-2 cursor-pointer border-gray-900 hover:bg-gray-900 hover:text-background flex-1"
+                  >
+                    <Pencil className="h-4 w-4 mr-2" />
+                    Editar
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleDelete(product.id)}
+                    className={`border-2 cursor-pointer flex-1 ${
+                      deleteConfirm === product.id
+                        ? "border-red-600 bg-red-600 text-white"
+                        : "border-gray-900 text-red-600 hover:bg-red-50"
+                    }`}
+                  >
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Deletar
+                  </Button>
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
+        </>
       )}
     </div>
   );
