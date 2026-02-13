@@ -34,3 +34,5 @@ logs/
 # Drizzle (não ignore as migrations - elas devem estar no Git)
 # drizzle/
 
+# Backups 
+backups/
