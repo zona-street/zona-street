@@ -4,6 +4,15 @@ import Link from "next/link";
 import { SettingsIcon } from "lucide-react";
 
 export function Footer() {
+  const isMobile = () => {
+    if (typeof window === 'undefined') return false;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  };
+
+  const getInstagramUrl = () => {
+    return isMobile() ? 'instagram://user?username=zonastreet01' : 'https://instagram.com/zonastreet01';
+  };
+
   return (
     <footer className="bg-black py-8 sm:py-10 text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -89,7 +98,7 @@ export function Footer() {
             <ul className="space-y-2.5 text-sm font-medium text-gray-400">
               <li>
                 <a
-                  href="https://instagram.com/zonastreet01"
+                  href={getInstagramUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-orange-street transition-colors inline-flex items-center py-1"
