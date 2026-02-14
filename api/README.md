@@ -70,6 +70,16 @@ curl http://localhost:3333/api/v1/products/moletom-oversized-numero-4
 curl http://localhost:3333/api/v1/products/featured
 ```
 
+## Migrações de Banco de Dados
+
+Para atualizar o schema do banco:
+
+1. Faça as mudanças no arquivo `src/db/schema.ts`.
+2. Gere a migração: `npm run db:generate`.
+3. Aplique a migração: `npm run db:migrate`.
+
+Teste sempre em desenvolvimento antes de aplicar em produção.
+
 ## Comandos Úteis
 
 ```powershell
