@@ -845,23 +845,23 @@ export function AdminProductsTemplate() {
                     <span className="text-xs font-medium uppercase text-gray-700 block mb-2">
                       {product.category}
                     </span>
-                    <div className="flex flex-wrap gap-1">
+                    <div className="flex flex-wrap gap-1 overflow-hidden">
                       {product.isActive ? (
-                        <Badge className="border border-green-600 bg-green-600 text-xs uppercase text-white">
+                        <Badge className="border border-green-600 bg-green-600 text-xs uppercase text-white flex-shrink-0">
                           Ativo
                         </Badge>
                       ) : (
-                        <Badge className="border border-gray-600 bg-gray-600 text-xs uppercase text-white">
+                        <Badge className="border border-gray-600 bg-gray-600 text-xs uppercase text-white flex-shrink-0">
                           Arquivado
                         </Badge>
                       )}
                       {product.isNewDrop && (
-                        <Badge className="border border-orange-600 bg-orange-600 text-xs uppercase text-white">
+                        <Badge className="border border-orange-600 bg-orange-600 text-xs uppercase text-white flex-shrink-0">
                           New
                         </Badge>
                       )}
                       {product.isFeatured && (
-                        <Badge className="border border-blue-600 bg-blue-600 text-xs uppercase text-white">
+                        <Badge className="border border-blue-600 bg-blue-600 text-xs uppercase text-white flex-shrink-0">
                           Destaque
                         </Badge>
                       )}

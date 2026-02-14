@@ -40,7 +40,7 @@ export function HomeTemplate({
     <div className="flex min-h-screen flex-col">
       <Navbar />
 
-      <main className="flex-grow">
+      <main className="grow">
         <Hero />
         <Promotions />
         <Categories />
