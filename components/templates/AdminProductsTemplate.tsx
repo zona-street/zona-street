@@ -845,23 +845,23 @@ export function AdminProductsTemplate() {
                     <span className="text-xs font-medium uppercase text-gray-700 block mb-2">
                       {product.category}
                     </span>
-                    <div className="flex flex-wrap gap-1 overflow-hidden">
+                    <div className="flex flex-wrap gap-1">
                       {product.isActive ? (
-                        <Badge className="border border-green-600 bg-green-600 text-xs uppercase text-white flex-shrink-0">
+                        <Badge className="border border-green-600 bg-green-600 text-xs uppercase text-white">
                           Ativo
                         </Badge>
                       ) : (
-                        <Badge className="border border-gray-600 bg-gray-600 text-xs uppercase text-white flex-shrink-0">
+                        <Badge className="border border-gray-600 bg-gray-600 text-xs uppercase text-white">
                           Arquivado
                         </Badge>
                       )}
                       {product.isNewDrop && (
-                        <Badge className="border border-orange-600 bg-orange-600 text-xs uppercase text-white flex-shrink-0">
+                        <Badge className="border border-orange-600 bg-orange-600 text-xs uppercase text-white">
                           New
                         </Badge>
                       )}
                       {product.isFeatured && (
-                        <Badge className="border border-blue-600 bg-blue-600 text-xs uppercase text-white flex-shrink-0">
+                        <Badge className="border border-blue-600 bg-blue-600 text-xs uppercase text-white">
                           Destaque
                         </Badge>
                       )}
@@ -907,40 +907,40 @@ export function AdminProductsTemplate() {
                   </div>
                 </div>
 
-                <div className="flex gap-2 justify-end">
+                <div className="grid grid-cols-3 gap-2">
                   <Button
                     size="sm"
                     variant="outline"
                     onClick={() => handleArchive(product)}
-                    className={`border-2 cursor-pointer flex-1 ${
+                    className={`border-2 cursor-pointer w-full text-xs ${
                       product.isActive
                         ? "border-gray-900 text-orange-700 hover:bg-orange-50"
                         : "border-gray-900 text-green-700 hover:bg-green-50"
                     }`}
                   >
-                    <Archive className="h-4 w-4 mr-2" />
+                    <Archive className="h-3 w-3 mr-1" />
                     {product.isActive ? "Arquivar" : "Reativar"}
                   </Button>
                   <Button
                     size="sm"
                     variant="outline"
                     onClick={() => openDialog(product)}
-                    className="border-2 cursor-pointer border-gray-900 hover:bg-gray-900 hover:text-background flex-1"
+                    className="border-2 cursor-pointer border-gray-900 hover:bg-gray-900 hover:text-background w-full text-xs"
                   >
-                    <Pencil className="h-4 w-4 mr-2" />
+                    <Pencil className="h-3 w-3 mr-1" />
                     Editar
                   </Button>
                   <Button
                     size="sm"
                     variant="outline"
                     onClick={() => handleDelete(product.id)}
-                    className={`border-2 cursor-pointer flex-1 ${
+                    className={`border-2 cursor-pointer w-full text-xs ${
                       deleteConfirm === product.id
                         ? "border-red-600 bg-red-600 text-white"
                         : "border-gray-900 text-red-600 hover:bg-red-50"
                     }`}
                   >
-                    <Trash2 className="h-4 w-4 mr-2" />
+                    <Trash2 className="h-3 w-3 mr-1" />
                     Deletar
                   </Button>
                 </div>

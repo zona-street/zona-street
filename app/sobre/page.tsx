@@ -25,14 +25,14 @@ export default function SobrePage() {
         </div>
 
         {/* Content Grid */}
-        <div className="grid gap-12 lg:grid-cols-2">
+        <div className="group grid gap-12 lg:grid-cols-2">
           {/* Image */}
           <div className="relative aspect-square overflow-hidden border-2 border-gray-900 bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             <Image
-              src="/logo-cinza-sem-n4.png"
+              src="/zona-street-sobre.png"
               alt="Zona Street - Logo"
               fill
-              className="object-contain p-16"
+              className="object-contain group-hover:scale-105 transition-transform duration-300"
               quality={100}
             />
           </div>

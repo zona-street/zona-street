@@ -17,9 +17,10 @@ interface SearchParams {
 export default async function ProdutosPage({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 }) {
-  const categoria = searchParams.categoria;
+  const params = await searchParams;
+  const categoria = params.categoria;
 
   // Buscar produtos da API
   let products: Product[] = [];

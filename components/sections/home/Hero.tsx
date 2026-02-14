@@ -19,11 +19,11 @@ export function Hero() {
             />
           </div>
           <Image
-            src="/logo-cinza-sem-n4.png"
+            src="/zona-street-graffiti.png"
             alt="Modelo usando roupas da Zona Street em um cenário urbano"
-            width={500}
-            height={400}
-            className="mx-auto h-auto w-60 sm:w-70 max-w-3xl mb-8 sm:mb-10"
+            width={1109}
+            height={768}
+            className="mx-auto h-auto w-70 sm:w-80 max-w-3xl mb-6 sm:mb-10"
           />
 
           <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4">
