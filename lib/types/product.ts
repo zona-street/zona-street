@@ -13,6 +13,7 @@ export interface Product {
   sizes: ProductSize[];
   isNewDrop: boolean;
   isFeatured: boolean;
+  isActive: boolean;
   createdAt: string;
   updatedAt: string;
 }

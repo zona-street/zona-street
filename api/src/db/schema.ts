@@ -62,6 +62,7 @@ export const products = pgTable("products", {
   sizes: text("sizes").array().notNull(), // Array de strings para tamanhos
   isNewDrop: boolean("is_new_drop").notNull().default(false),
   isFeatured: boolean("is_featured").notNull().default(false),
+  isActive: boolean("is_active").notNull().default(true),
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),

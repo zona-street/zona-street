@@ -55,6 +55,7 @@ export async function productRoutes(fastify: FastifyInstance) {
           category: { type: "string" },
           isNewDrop: { type: "boolean" },
           isFeatured: { type: "boolean" },
+          includeInactive: { type: "boolean" },
           minPrice: { type: "number" },
           maxPrice: { type: "number" },
         },
@@ -118,6 +119,18 @@ export async function productRoutes(fastify: FastifyInstance) {
   fastify.put<{ Params: { id: string } }>("/:id", {
     onRequest: [fastify.requireAdmin],
     handler: productController.updateProduct.bind(productController),
+  });
+
+  // PATCH /products/:id/archive - Arquivar produto (apenas admins)
+  fastify.patch<{ Params: { id: string } }>("/:id/archive", {
+    onRequest: [fastify.requireAdmin],
+    handler: productController.archiveProduct.bind(productController),
+  });
+
+  // PATCH /products/:id/restore - Reativar produto (apenas admins)
+  fastify.patch<{ Params: { id: string } }>("/:id/restore", {
+    onRequest: [fastify.requireAdmin],
+    handler: productController.restoreProduct.bind(productController),
   });
 
   // DELETE /products/:id - Deletar produto (apenas admins)

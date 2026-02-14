@@ -16,6 +16,7 @@ export interface CreateProductData {
   sizes: ProductSize[];
   isNewDrop?: boolean;
   isFeatured?: boolean;
+  isActive?: boolean;
 }
 
 export interface UpdateProductData extends Partial<CreateProductData> {}
@@ -24,6 +25,7 @@ export interface ProductFilters {
   category?: string;
   page?: number;
   limit?: number;
+  includeInactive?: boolean;
 }
 
 export const productsApi = {
@@ -34,6 +36,8 @@ export const productsApi = {
       if (filters?.category) params.append("category", filters.category);
       if (filters?.page) params.append("page", filters.page.toString());
       if (filters?.limit) params.append("limit", filters.limit.toString());
+      if (filters?.includeInactive)
+        params.append("includeInactive", "true");
 
       const url = `${API_URL}/products${
         params.toString() ? `?${params.toString()}` : ""
@@ -180,5 +184,41 @@ export const productsApi = {
       const error = await response.json();
       throw new Error(error.message || "Erro ao deletar produto");
     }
+  },
+
+  // Arquivar produto (Admin)
+  async archive(id: string, token: string): Promise<Product> {
+    const response = await fetch(`${API_URL}/products/${id}/archive`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Erro ao arquivar produto");
+    }
+
+    const data = await response.json();
+    return data.data;
+  },
+
+  // Reativar produto (Admin)
+  async restore(id: string, token: string): Promise<Product> {
+    const response = await fetch(`${API_URL}/products/${id}/restore`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Erro ao reativar produto");
+    }
+
+    const data = await response.json();
+    return data.data;
   },
 };

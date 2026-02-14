@@ -40,6 +40,7 @@ export interface Product {
   sizes: ProductSize[];
   isNewDrop: boolean;
   isFeatured: boolean;
+  isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -68,6 +69,7 @@ export const createProductSchema = z.object({
     .min(1, "Produto deve ter ao menos 1 tamanho"),
   isNewDrop: z.boolean().default(false),
   isFeatured: z.boolean().default(false),
+  isActive: z.boolean().default(true),
 });
 
 /**
@@ -80,8 +82,9 @@ export const updateProductSchema = createProductSchema.partial();
  */
 export const listProductsQuerySchema = z.object({
   category: z.nativeEnum(ProductCategory).optional(),
-  isNewDrop: z.boolean().optional(),
-  isFeatured: z.boolean().optional(),
+  isNewDrop: z.coerce.boolean().optional(),
+  isFeatured: z.coerce.boolean().optional(),
+  includeInactive: z.coerce.boolean().optional(),
   minPrice: z.number().positive().optional(),
   maxPrice: z.number().positive().optional(),
 });

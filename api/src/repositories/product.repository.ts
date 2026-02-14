@@ -2,6 +2,7 @@ import { eq, and, gte, lte, desc } from "drizzle-orm";
 import { db } from "../db";
 import {
   products,
+  orderItems,
   type Product as DbProduct,
   type NewProduct,
 } from "../db/schema";
@@ -38,6 +39,7 @@ export class ProductRepository {
       sizes: dbProduct.sizes as any[],
       isNewDrop: dbProduct.isNewDrop,
       isFeatured: dbProduct.isFeatured,
+      isActive: dbProduct.isActive,
       createdAt: dbProduct.createdAt,
       updatedAt: dbProduct.updatedAt,
     };
@@ -48,6 +50,10 @@ export class ProductRepository {
    */
   async findAll(filters?: ListProductsQuery): Promise<Product[]> {
     const conditions = [];
+
+    if (!filters?.includeInactive) {
+      conditions.push(eq(products.isActive, true));
+    }
 
     if (filters?.category) {
       conditions.push(eq(products.category, filters.category));
@@ -85,12 +91,12 @@ export class ProductRepository {
   /**
    * Busca um produto por ID
    */
-  async findById(id: string): Promise<Product | null> {
-    const result = await db
-      .select()
-      .from(products)
-      .where(eq(products.id, id))
-      .limit(1);
+  async findById(id: string, includeInactive: boolean = false): Promise<Product | null> {
+    const whereClause = includeInactive
+      ? eq(products.id, id)
+      : and(eq(products.id, id), eq(products.isActive, true));
+
+    const result = await db.select().from(products).where(whereClause).limit(1);
 
     return result[0] ? this.toModel(result[0]) : null;
   }
@@ -98,12 +104,15 @@ export class ProductRepository {
   /**
    * Busca um produto por slug (para URLs amigáveis)
    */
-  async findBySlug(slug: string): Promise<Product | null> {
-    const result = await db
-      .select()
-      .from(products)
-      .where(eq(products.slug, slug))
-      .limit(1);
+  async findBySlug(
+    slug: string,
+    includeInactive: boolean = false
+  ): Promise<Product | null> {
+    const whereClause = includeInactive
+      ? eq(products.slug, slug)
+      : and(eq(products.slug, slug), eq(products.isActive, true));
+
+    const result = await db.select().from(products).where(whereClause).limit(1);
 
     return result[0] ? this.toModel(result[0]) : null;
   }
@@ -126,6 +135,7 @@ export class ProductRepository {
       sizes: product.sizes as string[],
       isNewDrop: product.isNewDrop,
       isFeatured: product.isFeatured,
+      isActive: product.isActive,
     };
 
     const result = await db.insert(products).values(newProduct).returning();
@@ -155,6 +165,8 @@ export class ProductRepository {
       updateData.isNewDrop = updates.isNewDrop;
     if (updates.isFeatured !== undefined)
       updateData.isFeatured = updates.isFeatured;
+    if (updates.isActive !== undefined)
+      updateData.isActive = updates.isActive;
 
     const result = await db
       .update(products)
@@ -181,13 +193,26 @@ export class ProductRepository {
   }
 
   /**
+   * Verifica se o produto esta associado a algum pedido
+   */
+  async hasOrderItems(productId: string): Promise<boolean> {
+    const result = await db
+      .select({ id: orderItems.id })
+      .from(orderItems)
+      .where(eq(orderItems.productId, productId))
+      .limit(1);
+
+    return result.length > 0;
+  }
+
+  /**
    * Busca produtos por categoria
    */
   async findByCategory(category: ProductCategory): Promise<Product[]> {
     const results = await db
       .select()
       .from(products)
-      .where(eq(products.category, category))
+      .where(and(eq(products.category, category), eq(products.isActive, true)))
       .orderBy(desc(products.createdAt));
 
     return results.map(this.toModel);
@@ -200,7 +225,7 @@ export class ProductRepository {
     const results = await db
       .select()
       .from(products)
-      .where(eq(products.isFeatured, true))
+      .where(and(eq(products.isFeatured, true), eq(products.isActive, true)))
       .orderBy(desc(products.createdAt));
 
     return results.map(this.toModel);
@@ -213,7 +238,7 @@ export class ProductRepository {
     const results = await db
       .select()
       .from(products)
-      .where(eq(products.isNewDrop, true))
+      .where(and(eq(products.isNewDrop, true), eq(products.isActive, true)))
       .orderBy(desc(products.createdAt));
 
     return results.map(this.toModel);

@@ -199,6 +199,7 @@ export class ProductController {
         stock: z.coerce.number().int().nonnegative().default(0),
         isNewDrop: z.coerce.boolean().default(false),
         isFeatured: z.coerce.boolean().default(false),
+        isActive: z.coerce.boolean().default(true),
       });
 
       const data = createProductSchema.parse(request.body);
@@ -276,6 +277,7 @@ export class ProductController {
         stock: z.number().int().nonnegative().optional(),
         isNewDrop: z.boolean().optional(),
         isFeatured: z.boolean().optional(),
+        isActive: z.boolean().optional(),
       });
 
       const data = updateProductSchema.parse(request.body);
@@ -339,6 +341,87 @@ export class ProductController {
       reply.send({
         success: true,
         message: "Produto deletado com sucesso",
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        const statusCode = (error as { statusCode?: number }).statusCode || 500;
+        reply.status(statusCode).send({
+          success: false,
+          error: error.message,
+        });
+      } else {
+        reply.status(500).send({
+          success: false,
+          error: "Erro interno do servidor",
+        });
+      }
+    }
+  }
+
+  /**
+   * PATCH /products/:id/archive - Arquiva um produto (Admin)
+   */
+  async archiveProduct(
+    request: FastifyRequest<{ Params: { id: string } }>,
+    reply: FastifyReply,
+  ): Promise<void> {
+    try {
+      const { id } = request.params;
+
+      const product = await this.service.archiveProduct(id);
+
+      if (!product) {
+        reply.status(404).send({
+          success: false,
+          error: "Produto não encontrado",
+        });
+        return;
+      }
+
+      reply.send({
+        success: true,
+        data: this.service.formatProductResponse(product),
+        message: "Produto arquivado com sucesso",
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        reply.status(500).send({
+          success: false,
+          error: error.message,
+        });
+      } else {
+        reply.status(500).send({
+          success: false,
+          error: "Erro interno do servidor",
+        });
+      }
+    }
+  }
+
+  /**
+   * PATCH /products/:id/restore - Reativa um produto (Admin)
+   */
+  async restoreProduct(
+    request: FastifyRequest<{ Params: { id: string } }>,
+    reply: FastifyReply,
+  ): Promise<void> {
+    try {
+      const { id } = request.params;
+
+      const product = await this.service.restoreProduct(id);
+
+      if (!product) {
+        reply.status(404).send({
+          success: false,
+          error: "Produto não encontrado",
+        });
+        return;
+      }
+
+      reply.send({
+        success: true,
+        data: this.service.formatProductResponse(product),
+        message: "Produto reativado com sucesso",
       });
     } catch (error) {
       if (error instanceof Error) {

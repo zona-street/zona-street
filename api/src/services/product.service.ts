@@ -40,7 +40,7 @@ export class ProductService {
    * Busca um produto por slug
    */
   async getProductBySlug(slug: string): Promise<Product | null> {
-    const product = await this.repository.findBySlug(slug);
+    const product = await this.repository.findBySlug(slug, false);
 
     if (!product) {
       return null;
@@ -58,7 +58,7 @@ export class ProductService {
    * Busca um produto por ID
    */
   async getProductById(id: string): Promise<Product | null> {
-    return this.repository.findById(id);
+    return this.repository.findById(id, false);
   }
 
   /**
@@ -120,6 +120,7 @@ export class ProductService {
       sizes: product.sizes,
       isNewDrop: product.isNewDrop,
       isFeatured: product.isFeatured,
+      isActive: product.isActive,
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
       discount: this.calculateDiscount(product),
@@ -169,7 +170,10 @@ export class ProductService {
     productData: Omit<Product, "id" | "createdAt" | "updatedAt">
   ): Promise<Product> {
     // Valida se o slug já existe
-    const existingProduct = await this.repository.findBySlug(productData.slug);
+    const existingProduct = await this.repository.findBySlug(
+      productData.slug,
+      true
+    );
     if (existingProduct) {
       throw new Error("Já existe um produto com este slug");
     }
@@ -194,7 +198,7 @@ export class ProductService {
     productData: Partial<Product>
   ): Promise<Product | null> {
     // Valida se o produto existe
-    const existingProduct = await this.repository.findById(id);
+    const existingProduct = await this.repository.findById(id, true);
     if (!existingProduct) {
       return null;
     }
@@ -202,7 +206,8 @@ export class ProductService {
     // Se estiver atualizando o slug, valida se já existe outro produto com o mesmo slug
     if (productData.slug && productData.slug !== existingProduct.slug) {
       const productWithSlug = await this.repository.findBySlug(
-        productData.slug
+        productData.slug,
+        true
       );
       if (productWithSlug && productWithSlug.id !== id) {
         throw new Error("Já existe um produto com este slug");
@@ -230,12 +235,53 @@ export class ProductService {
    */
   async deleteProduct(id: string): Promise<boolean> {
     // Verifica se o produto existe
-    const existingProduct = await this.repository.findById(id);
+    const existingProduct = await this.repository.findById(id, true);
     if (!existingProduct) {
       return false;
     }
 
+    const hasOrderItems = await this.repository.hasOrderItems(id);
+    if (hasOrderItems) {
+      const error = new Error(
+        "Produto possui pedidos associados e nao pode ser deletado",
+      );
+      (error as { statusCode?: number }).statusCode = 409;
+      throw error;
+    }
+
     return this.repository.delete(id);
+  }
+
+  /**
+   * Arquiva um produto (desativa e zera estoque)
+   */
+  async archiveProduct(id: string): Promise<Product | null> {
+    const existingProduct = await this.repository.findById(id, true);
+    if (!existingProduct) {
+      return null;
+    }
+
+    if (!existingProduct.isActive && existingProduct.stock === 0) {
+      return existingProduct;
+    }
+
+    return this.repository.update(id, { isActive: false, stock: 0 });
+  }
+
+  /**
+   * Reativa um produto
+   */
+  async restoreProduct(id: string): Promise<Product | null> {
+    const existingProduct = await this.repository.findById(id, true);
+    if (!existingProduct) {
+      return null;
+    }
+
+    if (existingProduct.isActive) {
+      return existingProduct;
+    }
+
+    return this.repository.update(id, { isActive: true });
   }
 }
 

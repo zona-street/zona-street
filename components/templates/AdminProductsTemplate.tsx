@@ -27,7 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, Pencil, Trash2, Loader2, Package } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Package, Archive } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   PRODUCT_CATEGORIES,
@@ -62,6 +62,7 @@ export function AdminProductsTemplate() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [showArchived, setShowArchived] = useState(false);
 
   const {
     register,
@@ -125,7 +126,7 @@ export function AdminProductsTemplate() {
   async function loadProducts() {
     try {
       setLoading(true);
-      const data = await productsApi.getAll();
+      const data = await productsApi.getAll({ includeInactive: true });
       setProducts(data);
     } catch (error) {
       toast.error("Erro ao carregar produtos");
@@ -214,6 +215,28 @@ export function AdminProductsTemplate() {
     }
   }
 
+  async function handleArchive(product: Product) {
+    if (!token) {
+      toast.error("Você precisa estar autenticado");
+      return;
+    }
+
+    try {
+      if (product.isActive) {
+        await productsApi.archive(product.id, token);
+        toast.success("Produto arquivado e estoque zerado!");
+      } else {
+        await productsApi.restore(product.id, token);
+        toast.success("Produto reativado com sucesso!");
+      }
+
+      await loadProducts();
+    } catch (error: any) {
+      toast.error(error.message || "Erro ao atualizar status do produto");
+      console.error(error);
+    }
+  }
+
   // Toggle tamanho
   function toggleSize(size: ProductSize) {
     const current = selectedSizes || [];
@@ -265,6 +288,10 @@ export function AdminProductsTemplate() {
     { value: "acessorios", label: "Acessórios" },
   ];
 
+  const visibleProducts = products.filter((product) =>
+    showArchived ? !product.isActive : product.isActive,
+  );
+
   return (
     <div className="space-y-6 sm:space-y-8">
       {/* Header */}
@@ -278,339 +305,355 @@ export function AdminProductsTemplate() {
           </p>
         </div>
 
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogTrigger asChild>
-            <Button
-              onClick={() => openDialog()}
-              className="w-full sm:w-auto border-2 border-gray-900 bg-gray-900 px-5 sm:px-6 py-2.5 sm:py-3 text-sm font-bold uppercase tracking-wide text-white hover:bg-orange-street hover:border-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95"
-            >
-              <Plus className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-              Novo Produto
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="w-[95vw] sm:w-full max-w-[600px] max-h-[90vh] overflow-y-auto overflow-x-hidden border-2 border-gray-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-            <DialogHeader>
-              <DialogTitle className="text-xl sm:text-2xl font-black uppercase">
-                {editingProduct ? "Editar Produto" : "Novo Produto"}
-              </DialogTitle>
-              <DialogDescription className="text-sm">
-                {editingProduct
-                  ? "Atualize as informações do produto"
-                  : "Preencha os dados para criar um novo produto"}
-              </DialogDescription>
-            </DialogHeader>
+        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setShowArchived((current) => !current)}
+            className={`w-full sm:w-auto border-2 hover:bg-gray-800 hover:text-primary border-gray-900 px-4 py-2.5 text-sm font-bold uppercase tracking-wide shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95 ${
+              showArchived ? "bg-gray-900 text-white " : "text-gray-900  "
+            }`}
+          >
+            <Archive className="mr-1 h-4 w-4 sm:h-5 sm:w-5" />
+            {showArchived ? "Arquivados" : "Ativos"}
+          </Button>
 
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="space-y-4 sm:space-y-6 w-full max-w-full box-border"
-            >
-              {/* Nome */}
-              <div>
-                <Label htmlFor="name" className="font-bold uppercase text-xs">
-                  Nome do Produto *
-                </Label>
-                <Input
-                  id="name"
-                  {...register("name")}
-                  className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
-                  placeholder="Ex: Camiseta Oversized Básica"
-                />
-                {errors.name && (
-                  <p className="mt-1 text-xs text-red-600">
-                    {errors.name.message}
-                  </p>
-                )}
-              </div>
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild>
+              <Button
+                onClick={() => openDialog()}
+                className="w-full sm:w-auto border-2 border-gray-900 bg-gray-900 px-5 sm:px-6 py-2.5 sm:py-3 text-sm font-bold uppercase tracking-wide text-white hover:bg-orange-street hover:border-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95"
+              >
+                <Plus className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                Novo Produto
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="w-[95vw] sm:w-full max-w-150 max-h-[90vh] overflow-y-auto overflow-x-hidden border-2 border-gray-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+              <DialogHeader>
+                <DialogTitle className="text-xl sm:text-2xl font-black uppercase">
+                  {editingProduct ? "Editar Produto" : "Novo Produto"}
+                </DialogTitle>
+                <DialogDescription className="text-sm">
+                  {editingProduct
+                    ? "Atualize as informações do produto"
+                    : "Preencha os dados para criar um novo produto"}
+                </DialogDescription>
+              </DialogHeader>
 
-              {/* Descrição */}
-              <div>
-                <Label
-                  htmlFor="description"
-                  className="font-bold uppercase text-xs"
-                >
-                  Descrição *
-                </Label>
-                <textarea
-                  id="description"
-                  {...register("description")}
-                  className="mt-1 w-full max-w-full border-2 border-gray-900 p-2 sm:p-3 min-h-25 box-border text-base rounded-md"
-                  placeholder="Descrição detalhada do produto..."
-                />
-                {errors.description && (
-                  <p className="mt-1 text-xs text-red-600">
-                    {errors.description.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Preço e Preço Antigo */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex-1">
-                  <Label
-                    htmlFor="price"
-                    className="font-bold uppercase text-xs"
-                  >
-                    Preço (R$) *
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="space-y-4 sm:space-y-6 w-full max-w-full box-border"
+              >
+                {/* Nome */}
+                <div>
+                  <Label htmlFor="name" className="font-bold uppercase text-xs">
+                    Nome do Produto *
                   </Label>
                   <Input
-                    id="price"
-                    type="number"
-                    step="0.01"
-                    {...register("price", { valueAsNumber: true })}
+                    id="name"
+                    {...register("name")}
                     className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
-                    placeholder="149.90"
+                    placeholder="Ex: Camiseta Oversized Básica"
                   />
-                  {errors.price && (
+                  {errors.name && (
                     <p className="mt-1 text-xs text-red-600">
-                      {errors.price.message}
+                      {errors.name.message}
                     </p>
                   )}
                 </div>
 
-                <div className="flex-1">
+                {/* Descrição */}
+                <div>
                   <Label
-                    htmlFor="oldPrice"
+                    htmlFor="description"
                     className="font-bold uppercase text-xs"
                   >
-                    Preço Antigo (R$)
+                    Descrição *
                   </Label>
-                  <Input
-                    id="oldPrice"
-                    type="number"
-                    step="0.01"
-                    {...register("oldPrice", { valueAsNumber: true })}
-                    className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
-                    placeholder="199.90"
+                  <textarea
+                    id="description"
+                    {...register("description")}
+                    className="mt-1 w-full max-w-full border-2 border-gray-900 p-2 sm:p-3 min-h-25 box-border text-base rounded-md"
+                    placeholder="Descrição detalhada do produto..."
                   />
-                  {errors.oldPrice && (
+                  {errors.description && (
                     <p className="mt-1 text-xs text-red-600">
-                      {errors.oldPrice.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {/* Categoria e Estoque */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex-1">
-                  <Label
-                    htmlFor="category"
-                    className="font-bold uppercase text-xs"
-                  >
-                    Categoria *
-                  </Label>
-                  <Select
-                    value={selectedCategory}
-                    onValueChange={(value) =>
-                      setValue("category", value as any)
-                    }
-                  >
-                    <SelectTrigger className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base">
-                      <SelectValue placeholder="Selecione..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map((cat) => (
-                        <SelectItem key={cat.value} value={cat.value}>
-                          {cat.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  {errors.category && (
-                    <p className="mt-1 text-xs text-red-600">
-                      {errors.category.message}
+                      {errors.description.message}
                     </p>
                   )}
                 </div>
 
-                <div className="flex-1">
-                  <Label
-                    htmlFor="stock"
-                    className="font-bold uppercase text-xs"
-                  >
-                    Estoque *
-                  </Label>
-                  <Input
-                    id="stock"
-                    type="number"
-                    {...register("stock", { valueAsNumber: true })}
-                    className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
-                    placeholder="100"
-                  />
-                  {errors.stock && (
-                    <p className="mt-1 text-xs text-red-600">
-                      {errors.stock.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {/* Slug */}
-              <div>
-                <Label htmlFor="slug" className="font-bold uppercase text-xs">
-                  Slug (URL) *
-                </Label>
-                <Input
-                  id="slug"
-                  {...register("slug")}
-                  className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
-                  placeholder="camiseta-oversized-basica"
-                />
-                <p className="mt-1 text-xs text-gray-500">
-                  Use apenas letras minúsculas, números e hífens
-                </p>
-                {errors.slug && (
-                  <p className="mt-1 text-xs text-red-600">
-                    {errors.slug.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Tamanhos */}
-              <div>
-                <Label className="font-bold uppercase text-xs">
-                  Tamanhos Disponíveis *
-                </Label>
-                <div className="mt-2 flex flex-wrap gap-2 max-w-full">
-                  {availableSizes.map((size) => (
-                    <button
-                      key={size}
-                      type="button"
-                      onClick={() => toggleSize(size)}
-                      className={`border-2 px-3 sm:px-2 py-2 sm:py-1 font-bold uppercase text-xs transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95 ${
-                        selectedSizes?.includes(size)
-                          ? "border-orange-street bg-orange-street text-white"
-                          : "border-gray-900 bg-white text-gray-900 hover:bg-gray-100"
-                      }`}
+                {/* Preço e Preço Antigo */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="flex-1">
+                    <Label
+                      htmlFor="price"
+                      className="font-bold uppercase text-xs"
                     >
-                      {size}
-                    </button>
-                  ))}
-                </div>
-                {errors.sizes && (
-                  <p className="mt-1 text-xs text-red-600">
-                    {errors.sizes.message}
-                  </p>
-                )}
-              </div>
+                      Preço (R$) *
+                    </Label>
+                    <Input
+                      id="price"
+                      type="number"
+                      step="0.01"
+                      {...register("price", { valueAsNumber: true })}
+                      className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
+                      placeholder="149.90"
+                    />
+                    {errors.price && (
+                      <p className="mt-1 text-xs text-red-600">
+                        {errors.price.message}
+                      </p>
+                    )}
+                  </div>
 
-              {/* Imagens */}
-              <div>
-                <Label className="font-bold uppercase text-xs">Imagens *</Label>
-                <div className="mt-2 space-y-3">
+                  <div className="flex-1">
+                    <Label
+                      htmlFor="oldPrice"
+                      className="font-bold uppercase text-xs"
+                    >
+                      Preço Antigo (R$)
+                    </Label>
+                    <Input
+                      id="oldPrice"
+                      type="number"
+                      step="0.01"
+                      {...register("oldPrice", { valueAsNumber: true })}
+                      className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
+                      placeholder="199.90"
+                    />
+                    {errors.oldPrice && (
+                      <p className="mt-1 text-xs text-red-600">
+                        {errors.oldPrice.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Categoria e Estoque */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="flex-1">
+                    <Label
+                      htmlFor="category"
+                      className="font-bold uppercase text-xs"
+                    >
+                      Categoria *
+                    </Label>
+                    <Select
+                      value={selectedCategory}
+                      onValueChange={(value) =>
+                        setValue("category", value as any)
+                      }
+                    >
+                      <SelectTrigger className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base">
+                        <SelectValue placeholder="Selecione..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categories.map((cat) => (
+                          <SelectItem key={cat.value} value={cat.value}>
+                            {cat.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {errors.category && (
+                      <p className="mt-1 text-xs text-red-600">
+                        {errors.category.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex-1">
+                    <Label
+                      htmlFor="stock"
+                      className="font-bold uppercase text-xs"
+                    >
+                      Estoque *
+                    </Label>
+                    <Input
+                      id="stock"
+                      type="number"
+                      {...register("stock", { valueAsNumber: true })}
+                      className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
+                      placeholder="100"
+                    />
+                    {errors.stock && (
+                      <p className="mt-1 text-xs text-red-600">
+                        {errors.stock.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Slug */}
+                <div>
+                  <Label htmlFor="slug" className="font-bold uppercase text-xs">
+                    Slug (URL) *
+                  </Label>
                   <Input
-                    id="image-upload-input"
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    disabled={
-                      isUploadingImages ||
-                      (imageUrls?.length ?? 0) >= MAX_IMAGES
-                    }
-                    className="w-full border-2 border-gray-900 hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 hover:bg-accent-foreground/10"
-                    onChange={(e) => {
-                      handleImageFiles(e.currentTarget.files);
-                      e.currentTarget.value = "";
-                    }}
+                    id="slug"
+                    {...register("slug")}
+                    className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
+                    placeholder="camiseta-oversized-basica"
                   />
-                  <p className="text-xs text-gray-500">
-                    Apenas 1 imagem (4MB máximo por enquanto). Apenas admins
-                    podem fazer upload.
+                  <p className="mt-1 text-xs text-gray-500">
+                    Use apenas letras minúsculas, números e hífens
                   </p>
-
-                  {/* Preview das imagens */}
-                  {imageUrls && imageUrls.length > 0 && (
-                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                      {imageUrls.map((url, index) => (
-                        <div
-                          key={`${url}-${index}`}
-                          className="relative overflow-hidden border-2 border-gray-900"
-                        >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={url}
-                            alt={`Imagem ${index + 1}`}
-                            className="h-24 w-full object-cover"
-                          />
-                          <Button
-                            type="button"
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => removeImageUrl(url)}
-                            className="absolute right-1 top-1 h-7 w-7 border border-gray-900 bg-white p-0 text-red-600 hover:bg-red-600 hover:text-white"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
+                  {errors.slug && (
+                    <p className="mt-1 text-xs text-red-600">
+                      {errors.slug.message}
+                    </p>
                   )}
                 </div>
-                {errors.images && (
-                  <p className="mt-1 text-xs text-red-600">
-                    {errors.images.message}
-                  </p>
-                )}
-              </div>
 
-              {/* Flags */}
-              <div className="flex flex-col gap-4">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={isNewDrop}
-                    onChange={(e) => setValue("isNewDrop", e.target.checked)}
-                    className="h-4 w-4 border-2 border-gray-900"
-                  />
-                  <span className="font-bold uppercase text-xs">
-                    Novo Lançamento
-                  </span>
-                </label>
-
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={isFeatured}
-                    onChange={(e) => setValue("isFeatured", e.target.checked)}
-                    className="h-4 w-4 border-2 border-gray-900"
-                  />
-                  <span className="font-bold uppercase text-xs">
-                    Produto em Destaque
-                  </span>
-                </label>
-              </div>
-
-              {/* Botµes */}
-              <div className="flex flex-col gap-3 pt-4">
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full border-2 border-gray-900 bg-gray-900 font-bold uppercase text-white hover:bg-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Salvando...
-                    </>
-                  ) : editingProduct ? (
-                    "Atualizar Produto"
-                  ) : (
-                    "Criar Produto"
+                {/* Tamanhos */}
+                <div>
+                  <Label className="font-bold uppercase text-xs">
+                    Tamanhos Disponíveis *
+                  </Label>
+                  <div className="mt-2 flex flex-wrap gap-2 max-w-full">
+                    {availableSizes.map((size) => (
+                      <button
+                        key={size}
+                        type="button"
+                        onClick={() => toggleSize(size)}
+                        className={`border-2 px-3 sm:px-2 py-2 sm:py-1 font-bold uppercase text-xs transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95 ${
+                          selectedSizes?.includes(size)
+                            ? "border-orange-street bg-orange-street text-white"
+                            : "border-gray-900 bg-white text-gray-900 hover:bg-gray-100"
+                        }`}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                  </div>
+                  {errors.sizes && (
+                    <p className="mt-1 text-xs text-red-600">
+                      {errors.sizes.message}
+                    </p>
                   )}
-                </Button>
+                </div>
 
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setDialogOpen(false)}
-                  className="border-2 border-gray-900 font-bold uppercase"
-                >
-                  Cancelar
-                </Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
+                {/* Imagens */}
+                <div>
+                  <Label className="font-bold uppercase text-xs">
+                    Imagens *
+                  </Label>
+                  <div className="mt-2 space-y-3">
+                    <Input
+                      id="image-upload-input"
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      disabled={
+                        isUploadingImages ||
+                        (imageUrls?.length ?? 0) >= MAX_IMAGES
+                      }
+                      className="w-full border-2 border-gray-900 hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 hover:bg-accent-foreground/10"
+                      onChange={(e) => {
+                        handleImageFiles(e.currentTarget.files);
+                        e.currentTarget.value = "";
+                      }}
+                    />
+                    <p className="text-xs text-gray-500">
+                      Apenas 1 imagem (4MB máximo por enquanto). Apenas admins
+                      podem fazer upload.
+                    </p>
+
+                    {/* Preview das imagens */}
+                    {imageUrls && imageUrls.length > 0 && (
+                      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                        {imageUrls.map((url, index) => (
+                          <div
+                            key={`${url}-${index}`}
+                            className="relative overflow-hidden border-2 border-gray-900"
+                          >
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={url}
+                              alt={`Imagem ${index + 1}`}
+                              className="h-24 w-full object-cover"
+                            />
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => removeImageUrl(url)}
+                              className="absolute right-1 top-1 h-7 w-7 border border-gray-900 bg-white p-0 text-red-600 hover:bg-red-600 hover:text-white"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  {errors.images && (
+                    <p className="mt-1 text-xs text-red-600">
+                      {errors.images.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* Flags */}
+                <div className="flex flex-col gap-4">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={isNewDrop}
+                      onChange={(e) => setValue("isNewDrop", e.target.checked)}
+                      className="h-4 w-4 border-2 border-gray-900"
+                    />
+                    <span className="font-bold uppercase text-xs">
+                      Novo Lançamento
+                    </span>
+                  </label>
+
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={isFeatured}
+                      onChange={(e) => setValue("isFeatured", e.target.checked)}
+                      className="h-4 w-4 border-2 border-gray-900"
+                    />
+                    <span className="font-bold uppercase text-xs">
+                      Produto em Destaque
+                    </span>
+                  </label>
+                </div>
+
+                {/* Botµes */}
+                <div className="flex flex-col gap-3 pt-4">
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full border-2 border-gray-900 bg-gray-900 font-bold uppercase text-white hover:bg-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Salvando...
+                      </>
+                    ) : editingProduct ? (
+                      "Atualizar Produto"
+                    ) : (
+                      "Criar Produto"
+                    )}
+                  </Button>
+
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setDialogOpen(false)}
+                    className="border-2 border-gray-900 font-bold uppercase"
+                  >
+                    Cancelar
+                  </Button>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
       {/* Tabela de produtos */}
@@ -618,14 +661,16 @@ export function AdminProductsTemplate() {
         <div className="flex items-center justify-center py-12">
           <Loader2 className="h-8 w-8 animate-spin text-orange-street" />
         </div>
-      ) : products.length === 0 ? (
+      ) : visibleProducts.length === 0 ? (
         <div className="border-2 border-gray-200 bg-white p-12 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
           <Package className="mx-auto h-16 w-16 text-gray-400" />
           <h3 className="mt-4 text-lg font-bold uppercase text-gray-900">
-            Nenhum produto cadastrado
+            {showArchived ? "Nenhum produto arquivado" : "Nenhum produto ativo"}
           </h3>
           <p className="mt-2 text-sm text-gray-600">
-            Clique em &quot;Novo Produto&quot; para começar
+            {showArchived
+              ? "Arquive um produto para aparecer aqui"
+              : 'Clique em "Novo Produto" para começar'}
           </p>
         </div>
       ) : (
@@ -657,7 +702,7 @@ export function AdminProductsTemplate() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {products.map((product) => (
+                  {visibleProducts.map((product) => (
                     <tr key={product.id} className="hover:bg-gray-50">
                       <td className="px-4 py-4">
                         <div className="flex items-center gap-3">
@@ -715,6 +760,15 @@ export function AdminProductsTemplate() {
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex flex-wrap gap-1">
+                          {product.isActive ? (
+                            <Badge className="border border-green-600 bg-green-600 text-xs uppercase text-white">
+                              Ativo
+                            </Badge>
+                          ) : (
+                            <Badge className="border border-gray-600 bg-gray-600 text-xs uppercase text-white">
+                              Arquivado
+                            </Badge>
+                          )}
                           {product.isNewDrop && (
                             <Badge className="border border-orange-600 bg-orange-600 text-xs uppercase text-white">
                               New
@@ -729,6 +783,18 @@ export function AdminProductsTemplate() {
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex justify-end gap-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleArchive(product)}
+                            className={`border-2 cursor-pointer ${
+                              product.isActive
+                                ? "border-gray-900 text-orange-700 hover:bg-orange-50"
+                                : "border-gray-900 text-yellow-600 hover:bg-green-50"
+                            }`}
+                          >
+                            <Archive className="h-4 w-4" />
+                          </Button>
                           <Button
                             size="sm"
                             variant="outline"
@@ -760,7 +826,7 @@ export function AdminProductsTemplate() {
 
           {/* Cards para mobile */}
           <div className="md:hidden grid gap-4">
-            {products.map((product) => (
+            {visibleProducts.map((product) => (
               <div
                 key={product.id}
                 className="border-2 border-gray-900 bg-white p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-shadow"
@@ -781,6 +847,15 @@ export function AdminProductsTemplate() {
                       {product.category}
                     </span>
                     <div className="flex flex-wrap gap-1">
+                      {product.isActive ? (
+                        <Badge className="border border-green-600 bg-green-600 text-xs uppercase text-white">
+                          Ativo
+                        </Badge>
+                      ) : (
+                        <Badge className="border border-gray-600 bg-gray-600 text-xs uppercase text-white">
+                          Arquivado
+                        </Badge>
+                      )}
                       {product.isNewDrop && (
                         <Badge className="border border-orange-600 bg-orange-600 text-xs uppercase text-white">
                           New
@@ -834,6 +909,19 @@ export function AdminProductsTemplate() {
                 </div>
 
                 <div className="flex gap-2 justify-end">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleArchive(product)}
+                    className={`border-2 cursor-pointer flex-1 ${
+                      product.isActive
+                        ? "border-gray-900 text-orange-700 hover:bg-orange-50"
+                        : "border-gray-900 text-green-700 hover:bg-green-50"
+                    }`}
+                  >
+                    <Archive className="h-4 w-4 mr-2" />
+                    {product.isActive ? "Arquivar" : "Reativar"}
+                  </Button>
                   <Button
                     size="sm"
                     variant="outline"
