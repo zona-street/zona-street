@@ -305,16 +305,16 @@ export function AdminProductsTemplate() {
           </p>
         </div>
 
-        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
+        <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
           <Button
             type="button"
             variant="outline"
             onClick={() => setShowArchived((current) => !current)}
-            className={`w-full sm:w-auto border-2 hover:bg-gray-800 hover:text-primary border-gray-900 px-4 py-2.5 text-sm font-bold uppercase tracking-wide shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95 ${
+            className={`w-full sm:w-auto border-2 hover:bg-gray-800 hover:text-primary border-gray-900 px-3 py-2.5 text-sm font-bold uppercase tracking-wide shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95 ${
               showArchived ? "bg-gray-900 text-white " : "text-gray-900  "
             }`}
           >
-            <Archive className="mr-1 h-4 w-4 sm:h-5 sm:w-5" />
+            <Archive className="mr-1 h-4 w-4" />
             {showArchived ? "Arquivados" : "Ativos"}
           </Button>
 
@@ -322,9 +322,9 @@ export function AdminProductsTemplate() {
             <DialogTrigger asChild>
               <Button
                 onClick={() => openDialog()}
-                className="w-full sm:w-auto border-2 border-gray-900 bg-gray-900 px-5 sm:px-6 py-2.5 sm:py-3 text-sm font-bold uppercase tracking-wide text-white hover:bg-orange-street hover:border-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95"
+                className="w-full sm:w-auto border-2 border-gray-900 bg-gray-900 px-4 sm:px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-white hover:bg-orange-street hover:border-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95"
               >
-                <Plus className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                <Plus className="mr-2 h-4 w-4" />
                 Novo Produto
               </Button>
             </DialogTrigger>
@@ -445,7 +445,7 @@ export function AdminProductsTemplate() {
                         setValue("category", value as any)
                       }
                     >
-                      <SelectTrigger className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base">
+                      <SelectTrigger className="mt-1 w-full border-2 data-[size=default]:h-10 sm:data-[size=default]:h-11 border-gray-900 h-10 sm:h-11 text-base">
                         <SelectValue placeholder="Selecione..." />
                       </SelectTrigger>
                       <SelectContent>
