@@ -140,10 +140,10 @@ export default function AdminLoginPage() {
         <div className="mb-6 sm:mb-8 text-center">
           <div className="mb-3 sm:mb-4 flex justify-center">
             <Image
-              src="/logo.png"
+              src="/new-logo.png"
               alt="Zona Street"
-              width={200}
-              height={80}
+              width={1382}
+              height={687}
               className="h-auto w-36 sm:w-48"
             />
           </div>

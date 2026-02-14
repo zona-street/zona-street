@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { authApi } from "@/lib/api/auth";
 import Image from "next/image";
+import { TriangleAlert } from "lucide-react";
 
 function ResetPasswordContent() {
   const [newPassword, setNewPassword] = useState("");
@@ -94,8 +95,8 @@ function ResetPasswordContent() {
       <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
         <Card className="w-full max-w-md border-2 border-red-600 bg-white p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           <div className="text-center">
-            <h1 className="text-2xl font-black uppercase text-red-600">
-              ⚠️ Token Inválido
+            <h1 className="text-2xl flex text-center items-center justify-center font-black uppercase text-red-600">
+              <TriangleAlert className="translate-y-0.5 mr-2" /> Token Inválido
             </h1>
             <p className="mt-4 text-sm text-gray-600">
               O link de redefinição está incompleto ou inválido.
@@ -117,10 +118,10 @@ function ResetPasswordContent() {
         <div className="mb-8 text-center">
           <div className="mb-4 flex justify-center">
             <Image
-              src="/logo.png"
+              src="/new-logo.png"
               alt="Zona Street"
-              width={200}
-              height={80}
+              width={1382}
+              height={687}
               className="h-auto w-48"
             />
           </div>

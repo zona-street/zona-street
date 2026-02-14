@@ -15,7 +15,7 @@ export function Hero() {
               alt="Wallabee - Identidade Zona Street"
               width={550}
               height={454}
-              className="h-16 w-auto sm:h-20 md:h-24 lg:h-32"
+              className="h-28 w-auto sm:h-20 md:h-24 lg:h-32 -mb-4 sm:mb-0"
             />
           </div>
           <Image
