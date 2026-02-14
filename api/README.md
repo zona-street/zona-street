@@ -181,6 +181,4 @@ A API está pronta para deploy em plataformas serverless:
 
 ## Próximas Features
 
-- Implementar exclusão de pedidos (orders) para permitir exclusão completa de produtos associados, melhorando a gestão de dados no admin.
-
 📚 **Documentação completa**: `docs/DATABASE_SETUP.md`
