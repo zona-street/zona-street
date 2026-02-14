@@ -157,7 +157,7 @@ export function CartSheet() {
       </SheetTrigger>
 
       <SheetContent className="flex w-[90vw] sm:w-full flex-col border-l-2 border-gray-900 bg-white sm:max-w-lg overflow-visible">
-        <SheetHeader className="pb-4">
+        <SheetHeader className="pb-2 sm:pb-4">
           <SheetTitle className="flex items-center justify-between text-lg sm:text-xl font-bold uppercase tracking-wide pr-8">
             <span>Carrinho</span>
             {items.length > 0 && (
@@ -190,14 +190,14 @@ export function CartSheet() {
           </div>
         ) : (
           <>
-            <div className="flex-1 space-y-3 sm:space-y-4 overflow-y-auto py-2 px-1">
+            <div className="flex-1 space-y-2 sm:space-y-4 overflow-y-auto py-1 sm:py-2 px-1">
               {items.map((item) => (
                 <div
                   key={`${item.id}-${item.size}`}
-                  className="group relative flex gap-3 sm:gap-4 border-2 border-gray-900 bg-white p-3 sm:p-4 transition-all hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                  className="group relative flex gap-2 sm:gap-4 border-2 border-gray-900 bg-white p-2 sm:p-4 transition-all hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                 >
                   {/* Imagem do produto */}
-                  <div className="flex h-20 w-20 sm:h-24 sm:w-24 shrink-0 items-center justify-center border-2 border-gray-900 bg-gray-50 overflow-hidden">
+                  <div className="flex h-16 w-16 sm:h-24 sm:w-24 shrink-0 items-center justify-center border-2 border-gray-900 bg-gray-50 overflow-hidden">
                     {item.image ? (
                       <Image
                         src={item.image}
@@ -228,11 +228,11 @@ export function CartSheet() {
                         R$ {(item.price * item.quantity).toFixed(2)}
                       </span>
 
-                      <div className="flex items-center gap-1.5 sm:gap-2">
+                      <div className="flex items-center gap-1 sm:gap-2">
                         <Button
                           variant="outline"
                           size="icon"
-                          className="h-8 w-8 sm:h-9 sm:w-9 border-2 border-gray-900 bg-white hover:bg-orange-street hover:text-white transition-colors active:scale-95"
+                          className="h-7 w-7 sm:h-9 sm:w-9 border-2 border-gray-900 bg-white hover:bg-orange-street hover:text-white transition-colors active:scale-95"
                           onClick={() =>
                             updateQuantity(
                               item.id,
@@ -241,15 +241,15 @@ export function CartSheet() {
                             )
                           }
                         >
-                          <Minus className="h-3 w-3" />
+                          <Minus className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                         </Button>
-                        <span className="w-7 sm:w-8 text-center text-sm font-bold">
+                        <span className="w-6 sm:w-8 text-center text-sm font-bold">
                           {item.quantity}
                         </span>
                         <Button
                           variant="outline"
                           size="icon"
-                          className="h-8 w-8 sm:h-9 sm:w-9 border-2 border-gray-900 bg-white hover:bg-orange-street hover:text-white transition-colors active:scale-95"
+                          className="h-7 w-7 sm:h-9 sm:w-9 border-2 border-gray-900 bg-white hover:bg-orange-street hover:text-white transition-colors active:scale-95"
                           onClick={() =>
                             updateQuantity(
                               item.id,
@@ -258,7 +258,7 @@ export function CartSheet() {
                             )
                           }
                         >
-                          <Plus className="h-3 w-3" />
+                          <Plus className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                         </Button>
                       </div>
                     </div>
@@ -268,18 +268,18 @@ export function CartSheet() {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="absolute right-2 top-2 h-8 w-8 sm:h-9 sm:w-9 border-2 border-gray-900 bg-white text-gray-900 hover:bg-red-600 hover:border-red-600 hover:text-white transition-colors active:scale-95"
+                    className="absolute right-1 top-1 sm:right-2 sm:top-2 h-7 w-7 sm:h-9 sm:w-9 border-2 border-gray-900 bg-white text-gray-900 hover:bg-red-600 hover:border-red-600 hover:text-white transition-colors active:scale-95"
                     onClick={() => removeItem(item.id, item.size)}
                   >
-                    <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Button>
                 </div>
               ))}
             </div>
 
-            <div className="space-y-3 sm:space-y-4 border-t-2 border-gray-200 pt-3 sm:pt-4 px-2 sm:px-4 pb-4 sm:pb-6">
+            <div className="space-y-2 sm:space-y-4 border-t-2 border-gray-200 pt-2 sm:pt-4 px-1 sm:px-4 pb-3 sm:pb-6">
               {/* Formulário de dados do cliente */}
-              <div className="space-y-2.5 sm:space-y-3 border-2 border-gray-900 p-3 sm:p-4 bg-gray-50">
+              <div className="space-y-2 sm:space-y-2.5 border-2 border-gray-900 p-2 sm:p-4 bg-gray-50">
                 <h3 className="text-xs sm:text-sm font-bold uppercase text-gray-900">
                   Seus Dados
                 </h3>
@@ -296,7 +296,7 @@ export function CartSheet() {
                     placeholder="Digite seu nome"
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
-                    className="mt-1 border-2 border-gray-900 h-10 sm:h-11 text-base"
+                    className="mt-1 border-2 border-gray-900 h-9 sm:h-11 text-sm sm:text-base"
                   />
                 </div>
                 <div>
@@ -312,7 +312,7 @@ export function CartSheet() {
                     placeholder="(00) 00000-0000"
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
-                    className="mt-1 border-2 border-gray-900 h-10 sm:h-11 text-base"
+                    className="mt-1 border-2 border-gray-900 h-9 sm:h-11 text-sm sm:text-base"
                   />
                 </div>
                 <div>
@@ -328,7 +328,7 @@ export function CartSheet() {
                     placeholder="seu@email.com"
                     value={customerEmail}
                     onChange={(e) => setCustomerEmail(e.target.value)}
-                    className="mt-1 border-2 border-gray-900 h-10 sm:h-11 text-base"
+                    className="mt-1 border-2 border-gray-900 h-9 sm:h-11 text-sm sm:text-base"
                   />
                 </div>
               </div>
@@ -352,20 +352,20 @@ export function CartSheet() {
               </div>
 
               <Button
-                className="w-full border-2 border-gray-900 bg-green-600 py-5 sm:py-6 text-sm sm:text-base font-bold uppercase tracking-wide text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-none active:translate-x-0 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full border-2 border-gray-900 bg-green-600 py-3 sm:py-6 text-sm sm:text-base font-bold uppercase tracking-wide text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-none active:translate-x-0 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleCheckout}
                 disabled={isCheckingOut}
               >
-                <FaWhatsapp className="mr-2 h-5 w-5" />
+                <FaWhatsapp className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 {isCheckingOut ? "Criando Pedido..." : "Finalizar no WhatsApp"}
               </Button>
 
               <Button
                 variant="outline"
-                className="w-full border-2 border-gray-900 bg-white py-3.5 sm:py-4 text-sm sm:text-base font-bold text-gray-900 hover:bg-red-600 hover:border-red-600 hover:text-white transition-colors active:scale-[0.98]"
+                className="w-full border-2 border-gray-900 bg-white py-2.5 sm:py-4 text-sm sm:text-base font-bold text-gray-900 hover:bg-red-600 hover:border-red-600 hover:text-white transition-colors active:scale-[0.98]"
                 onClick={clearCart}
               >
-                <Trash2 className="mr-2 h-4 w-4" />
+                <Trash2 className="mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 Limpar Carrinho
               </Button>
             </div>
