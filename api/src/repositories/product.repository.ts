@@ -39,7 +39,7 @@ export class ProductRepository {
       sizes: dbProduct.sizes as any[],
       isNewDrop: dbProduct.isNewDrop,
       isFeatured: dbProduct.isFeatured,
-      isActive: dbProduct.isActive,
+      isActive: dbProduct.isActive ?? true,
       createdAt: dbProduct.createdAt,
       updatedAt: dbProduct.updatedAt,
     };
@@ -138,7 +138,7 @@ export class ProductRepository {
       sizes: product.sizes as string[],
       isNewDrop: product.isNewDrop,
       isFeatured: product.isFeatured,
-      isActive: product.isActive,
+      isActive: product.isActive ?? true,
     };
 
     const result = await db.insert(products).values(newProduct).returning();

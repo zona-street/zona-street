@@ -187,7 +187,10 @@ export class ProductService {
       throw new Error("Preço antigo deve ser maior que o preço atual");
     }
 
-    return this.repository.create(productData);
+    return this.repository.create({
+      ...productData,
+      isActive: productData.isActive ?? true,
+    });
   }
 
   /**
