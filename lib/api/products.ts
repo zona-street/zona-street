@@ -36,8 +36,7 @@ export const productsApi = {
       if (filters?.category) params.append("category", filters.category);
       if (filters?.page) params.append("page", filters.page.toString());
       if (filters?.limit) params.append("limit", filters.limit.toString());
-      if (filters?.includeInactive)
-        params.append("includeInactive", "true");
+      if (filters?.includeInactive) params.append("includeInactive", "true");
 
       const url = `${API_URL}/products${
         params.toString() ? `?${params.toString()}` : ""
@@ -139,8 +138,9 @@ export const productsApi = {
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Erro ao criar produto");
+      const error = await response.json().catch(() => ({}));
+      const message = error.error || error.message;
+      throw new Error(message || "Erro ao criar produto");
     }
 
     const data = await response.json();
@@ -163,8 +163,9 @@ export const productsApi = {
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Erro ao atualizar produto");
+      const error = await response.json().catch(() => ({}));
+      const message = error.error || error.message;
+      throw new Error(message || "Erro ao atualizar produto");
     }
 
     const data = await response.json();
@@ -181,8 +182,9 @@ export const productsApi = {
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Erro ao deletar produto");
+      const error = await response.json().catch(() => ({}));
+      const message = error.error || error.message;
+      throw new Error(message || "Erro ao deletar produto");
     }
   },
 
@@ -196,8 +198,9 @@ export const productsApi = {
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Erro ao arquivar produto");
+      const error = await response.json().catch(() => ({}));
+      const message = error.error || error.message;
+      throw new Error(message || "Erro ao arquivar produto");
     }
 
     const data = await response.json();
@@ -214,8 +217,9 @@ export const productsApi = {
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Erro ao reativar produto");
+      const error = await response.json().catch(() => ({}));
+      const message = error.error || error.message;
+      throw new Error(message || "Erro ao reativar produto");
     }
 
     const data = await response.json();

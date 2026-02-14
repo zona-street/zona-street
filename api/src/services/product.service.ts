@@ -97,7 +97,7 @@ export class ProductService {
     }
 
     return Math.round(
-      ((product.oldPrice - product.price) / product.oldPrice) * 100
+      ((product.oldPrice - product.price) / product.oldPrice) * 100,
     );
   }
 
@@ -105,7 +105,7 @@ export class ProductService {
    * Formata produto para resposta (pode incluir campos calculados)
    */
   formatProductResponse(
-    product: Product
+    product: Product,
   ): Product & { discount?: number | null } {
     return {
       id: product.id,
@@ -147,7 +147,7 @@ export class ProductService {
    */
   async getRelatedProducts(
     slug: string,
-    limit: number = 4
+    limit: number = 4,
   ): Promise<Product[]> {
     const product = await this.repository.findBySlug(slug);
 
@@ -156,7 +156,7 @@ export class ProductService {
     }
 
     const relatedProducts = await this.repository.findByCategory(
-      product.category
+      product.category,
     );
 
     // Remove o produto atual e limita o resultado
@@ -167,12 +167,12 @@ export class ProductService {
    * Cria um novo produto
    */
   async createProduct(
-    productData: Omit<Product, "id" | "createdAt" | "updatedAt">
+    productData: Omit<Product, "id" | "createdAt" | "updatedAt">,
   ): Promise<Product> {
     // Valida se o slug já existe
     const existingProduct = await this.repository.findBySlug(
       productData.slug,
-      true
+      true,
     );
     if (existingProduct) {
       throw new Error("Já existe um produto com este slug");
@@ -195,7 +195,7 @@ export class ProductService {
    */
   async updateProduct(
     id: string,
-    productData: Partial<Product>
+    productData: Partial<Product>,
   ): Promise<Product | null> {
     // Valida se o produto existe
     const existingProduct = await this.repository.findById(id, true);
@@ -207,7 +207,7 @@ export class ProductService {
     if (productData.slug && productData.slug !== existingProduct.slug) {
       const productWithSlug = await this.repository.findBySlug(
         productData.slug,
-        true
+        true,
       );
       if (productWithSlug && productWithSlug.id !== id) {
         throw new Error("Já existe um produto com este slug");

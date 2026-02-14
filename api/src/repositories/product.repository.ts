@@ -91,7 +91,10 @@ export class ProductRepository {
   /**
    * Busca um produto por ID
    */
-  async findById(id: string, includeInactive: boolean = false): Promise<Product | null> {
+  async findById(
+    id: string,
+    includeInactive: boolean = false,
+  ): Promise<Product | null> {
     const whereClause = includeInactive
       ? eq(products.id, id)
       : and(eq(products.id, id), eq(products.isActive, true));
@@ -106,7 +109,7 @@ export class ProductRepository {
    */
   async findBySlug(
     slug: string,
-    includeInactive: boolean = false
+    includeInactive: boolean = false,
   ): Promise<Product | null> {
     const whereClause = includeInactive
       ? eq(products.slug, slug)
@@ -121,7 +124,7 @@ export class ProductRepository {
    * Cria um novo produto
    */
   async create(
-    product: Omit<Product, "id" | "createdAt" | "updatedAt">
+    product: Omit<Product, "id" | "createdAt" | "updatedAt">,
   ): Promise<Product> {
     const newProduct: NewProduct = {
       name: product.name,
@@ -165,8 +168,7 @@ export class ProductRepository {
       updateData.isNewDrop = updates.isNewDrop;
     if (updates.isFeatured !== undefined)
       updateData.isFeatured = updates.isFeatured;
-    if (updates.isActive !== undefined)
-      updateData.isActive = updates.isActive;
+    if (updates.isActive !== undefined) updateData.isActive = updates.isActive;
 
     const result = await db
       .update(products)
@@ -279,7 +281,7 @@ export class ProductRepository {
    * Adiciona múltiplos produtos (seed)
    */
   async seedProducts(
-    productsData: Array<Omit<Product, "id" | "createdAt" | "updatedAt">>
+    productsData: Array<Omit<Product, "id" | "createdAt" | "updatedAt">>,
   ): Promise<void> {
     if (productsData.length === 0) return;
 

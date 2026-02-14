@@ -62,7 +62,7 @@ export const createProductSchema = z.object({
     .string()
     .regex(
       /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-      "Slug deve estar em formato kebab-case"
+      "Slug deve estar em formato kebab-case",
     ),
   sizes: z
     .array(z.nativeEnum(ProductSize))

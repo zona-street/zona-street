@@ -556,8 +556,7 @@ export function AdminProductsTemplate() {
                       }}
                     />
                     <p className="text-xs text-gray-500">
-                      Apenas 1 imagem (4MB máximo por enquanto). Apenas admins
-                      podem fazer upload.
+                      Apenas 1 imagem (4MB máximo por enquanto).
                     </p>
 
                     {/* Preview das imagens */}
