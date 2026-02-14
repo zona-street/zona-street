@@ -246,7 +246,7 @@ export class ProductService {
     const hasOrderItems = await this.repository.hasOrderItems(id);
     if (hasOrderItems) {
       const error = new Error(
-        "Produto possui pedidos associados e nao pode ser deletado",
+        "Produto possui pedidos associados e nao pode ser deletado, apenas arquivado",
       );
       (error as { statusCode?: number }).statusCode = 409;
       throw error;
