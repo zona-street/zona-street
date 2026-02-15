@@ -39,6 +39,8 @@ export function CartSheet() {
   const [customerPhone, setCustomerPhone] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [lastWhatsAppUrl, setLastWhatsAppUrl] = useState<string | null>(null);
+  const [lastOrderId, setLastOrderId] = useState<string | null>(null);
 
   const handleCheckout = async () => {
     if (items.length === 0) {
@@ -87,18 +89,26 @@ export function CartSheet() {
       const message = formatWhatsAppMessage(result.order.id);
       const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
 
+      // Salvar URL para fallback
+      setLastWhatsAppUrl(whatsappUrl);
+      setLastOrderId(result.order.id);
+
       // Abrir WhatsApp
       window.open(whatsappUrl, "_blank");
 
       // Limpar carrinho e fechar sheet
       clearCart();
-      closeCart();
       setCustomerName("");
       setCustomerPhone("");
       setCustomerEmail("");
 
       toast.success("Pedido criado com sucesso!", {
         description: "Continue a conversa no WhatsApp para finalizar.",
+        duration: 8000,
+        action: {
+          label: "Reenviar WhatsApp",
+          onClick: () => window.open(whatsappUrl, "_blank"),
+        },
       });
     } catch (error: any) {
       toast.error("Erro ao criar pedido", {
@@ -187,6 +197,47 @@ export function CartSheet() {
                 Adicione produtos incríveis da Zona Street!
               </p>
             </div>
+
+            {/* Fallback para reenviar pedido no WhatsApp */}
+            {lastWhatsAppUrl && lastOrderId && (
+              <div className="w-full max-w-md border-2 border-green-600 bg-green-50 p-4 space-y-3">
+                <div className="flex items-start gap-2">
+                  <FaWhatsapp className="h-5 w-5 text-green-600 mt-0.5 shrink-0" />
+                  <div className="text-left flex-1">
+                    <p className="text-sm font-bold text-gray-900">
+                      Pedido #{lastOrderId.slice(0, 8)} criado!
+                    </p>
+                    <p className="text-xs text-gray-600 mt-1">
+                      Mensagem não foi enviada? Clique abaixo para abrir o WhatsApp novamente.
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  onClick={() => {
+                    if (lastWhatsAppUrl) {
+                      window.open(lastWhatsAppUrl, "_blank");
+                      toast.success("WhatsApp aberto!", {
+                        description: "Continue a conversa para finalizar o pedido.",
+                      });
+                    }
+                  }}
+                  className="w-full border-2 border-green-600 bg-green-600 font-bold uppercase text-white hover:bg-green-700 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-sm"
+                >
+                  <FaWhatsapp className="mr-2 h-4 w-4" />
+                  Abrir WhatsApp
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    setLastWhatsAppUrl(null);
+                    setLastOrderId(null);
+                  }}
+                  className="w-full text-xs text-gray-600 hover:text-gray-900"
+                >
+                  Dispensar
+                </Button>
+              </div>
+            )}
           </div>
         ) : (
           <>

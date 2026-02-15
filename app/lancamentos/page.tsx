@@ -1,6 +1,18 @@
 import { LancamentosTemplate } from "@/components/templates/LancamentosTemplate";
 import { productsApi } from "@/lib/api/products";
 import { Product } from "@/lib/types/product";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Lançamentos Streetwear",
+  description:
+    "Confira os últimos lançamentos da Zona Street! Novidades em moda streetwear e oversized. Seja o primeiro a ter as peças mais exclusivas!",
+  openGraph: {
+    title: "Lançamentos - Zona Street",
+    description:
+      "Confira os últimos lançamentos em moda streetwear. Novidades exclusivas!",
+  },
+};
 
 // Revalidar a cada 1 hora
 export const revalidate = 3600;

@@ -320,18 +320,18 @@ export function AdminOrdersTemplate() {
       {/* Dialog de detalhes do pedido */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="w-[95vw] max-w-4xl max-h-[90vh] overflow-y-auto overflow-x-hidden border-2 border-gray-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-black uppercase">
+          <DialogHeader className="pb-2 sm:pb-6">
+            <DialogTitle className="text-lg sm:text-2xl font-black uppercase">
               Detalhes do Pedido
             </DialogTitle>
-            <DialogDescription>Visualize e gerencie o pedido</DialogDescription>
+            <DialogDescription className="text-xs sm:text-sm">Visualize e gerencie o pedido</DialogDescription>
           </DialogHeader>
 
           {selectedOrder && (
-            <div className="space-y-6">
+            <div className="space-y-3 sm:space-y-6">
               {/* Info do pedido */}
-              <div className="border-2 border-gray-900 p-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="border-2 border-gray-900 p-3 sm:p-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <p className="text-xs font-bold uppercase text-gray-500">
                       Pedido
@@ -373,9 +373,9 @@ export function AdminOrdersTemplate() {
                 </div>
 
                 {selectedOrder.order.notes && (
-                  <div className="mt-4">
+                  <div className="mt-3 sm:mt-4">
                     <p className="text-xs font-bold uppercase text-gray-500">
-                      Observaes
+                      Observações
                     </p>
                     <p className="text-sm text-gray-700">
                       {selectedOrder.order.notes}
@@ -386,16 +386,16 @@ export function AdminOrdersTemplate() {
 
               {/* Itens do pedido */}
               <div>
-                <h3 className="mb-3 text-lg font-bold uppercase text-gray-900">
+                <h3 className="mb-2 sm:mb-3 text-base sm:text-lg font-bold uppercase text-gray-900">
                   Itens do Pedido
                 </h3>
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   {selectedOrder.items.map((item) => (
                     <div
                       key={item.id}
-                      className="flex items-center gap-4 border-2 border-gray-200 p-3"
+                      className="flex items-center gap-2 sm:gap-4 border-2 border-gray-200 p-2 sm:p-3"
                     >
-                      <div className="relative h-16 w-16 flex-shrink-0">
+                      <div className="relative h-12 w-12 sm:h-16 sm:w-16 flex-shrink-0">
                         <Image
                           src={item.productImage}
                           alt={item.productName}
@@ -403,16 +403,16 @@ export function AdminOrdersTemplate() {
                           className="object-cover"
                         />
                       </div>
-                      <div className="flex-1">
-                        <p className="font-bold text-gray-900">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-bold text-gray-900 text-sm sm:text-base line-clamp-1">
                           {item.productName}
                         </p>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-xs sm:text-sm text-gray-600">
                           Tamanho: {item.size} | Qtd: {item.quantity}
                         </p>
                       </div>
-                      <div className="text-right">
-                        <p className="font-bold text-gray-900">
+                      <div className="text-right shrink-0">
+                        <p className="font-bold text-gray-900 text-sm sm:text-base">
                           R$ {Number(item.subtotal).toFixed(2)}
                         </p>
                         <p className="text-xs text-gray-500">
@@ -424,25 +424,25 @@ export function AdminOrdersTemplate() {
                 </div>
 
                 {/* Total */}
-                <div className="mt-4 border-t-2 border-gray-900 pt-4">
+                <div className="mt-3 sm:mt-4 border-t-2 border-gray-900 pt-3 sm:pt-4">
                   <div className="flex items-center justify-between">
-                    <p className="text-lg font-black uppercase text-gray-900">
+                    <p className="text-base sm:text-lg font-black uppercase text-gray-900">
                       Total
                     </p>
-                    <p className="text-2xl font-black text-gray-900">
+                    <p className="text-xl sm:text-2xl font-black text-gray-900">
                       R$ {Number(selectedOrder.order.total).toFixed(2)}
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Aes */}
+              {/* Ações */}
               {selectedOrder.order.status === "PENDENTE" && (
-                <div className="flex gap-3 pt-4">
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2 sm:pt-4">
                   <Button
                     onClick={() => handleValidate(selectedOrder.order.id)}
                     disabled={actionLoading}
-                    className="flex-1 border-2 border-green-600 bg-green-600 font-bold uppercase text-white hover:bg-green-700 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                    className="flex-1 border-2 border-green-600 bg-green-600 font-bold uppercase text-white hover:bg-green-700 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-sm sm:text-base py-2 sm:py-3"
                   >
                     {actionLoading ? (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -455,7 +455,7 @@ export function AdminOrdersTemplate() {
                     onClick={() => handleCancel(selectedOrder.order.id)}
                     disabled={actionLoading}
                     variant="outline"
-                    className="flex-1 border-2 border-gray-900 font-bold uppercase hover:bg-gray-100"
+                    className="flex-1 border-2 border-gray-900 font-bold uppercase hover:bg-gray-100 text-sm sm:text-base py-2 sm:py-3"
                   >
                     <X className="mr-2 h-4 w-4" />
                     Cancelar

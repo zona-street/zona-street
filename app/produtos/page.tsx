@@ -3,6 +3,18 @@ import { Footer } from "@/components/shared/Footer";
 import { ProductCard } from "@/components/shared/ProductCard";
 import { productsApi } from "@/lib/api/products";
 import { Product } from "@/lib/types/product";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Produtos Streetwear e Oversized",
+  description:
+    "Explore todos os produtos da Zona Street: camisetas, moletons, calças e acessórios streetwear. Estilo urbano com qualidade e exclusividade.",
+  openGraph: {
+    title: "Produtos - Zona Street",
+    description:
+      "Explore todos os produtos streetwear da Zona Street. Camisetas, moletons, calças e muito mais!",
+  },
+};
 
 // Revalidar a cada 1 minuto
 export const revalidate = 60;

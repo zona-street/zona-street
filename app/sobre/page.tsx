@@ -4,6 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Package, RefreshCcw, Store } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sobre a Zona Street",
+  description:
+    "Conheça a história da Zona Street, nascida em Resende-RJ. Desde 2023 oferecendo moda streetwear e oversized com qualidade e estilo único. Descubra nossa jornada!",
+  openGraph: {
+    title: "Sobre - Zona Street",
+    description:
+      "Conheça a história da Zona Street e nossa jornada na moda streetwear brasileira.",
+  },
+};
 
 export default function SobrePage() {
   return (

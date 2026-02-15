@@ -1,6 +1,27 @@
 import { HomeTemplate } from "@/components/templates/HomeTemplate";
 import { productsApi } from "@/lib/api/products";
 import { Product } from "@/lib/types/product";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Zona Street - Moda Streetwear e Oversized | Loja Online",
+  description:
+    "A melhor loja de moda streetwear e oversized do Brasil. Camisetas, moletons, calças e acessórios com estilo urbano único. Lançamentos exclusivos e entrega para todo Brasil!",
+  keywords: [
+    "loja streetwear",
+    "comprar streetwear online",
+    "moda streetwear brasil",
+    "roupas oversized",
+    "street style brasil",
+    "moda urbana online",
+  ],
+  openGraph: {
+    title: "Zona Street - Moda Streetwear e Oversized",
+    description:
+      "A melhor loja de moda streetwear e oversized do Brasil. Lançamentos exclusivos!",
+    type: "website",
+  },
+};
 
 // Revalidar a cada 1 hora
 export const revalidate = 3600;
