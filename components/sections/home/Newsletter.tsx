@@ -66,28 +66,28 @@ export function Newsletter() {
         <p className="mb-8 text-lg font-medium text-gray-600 md:text-xl">
           Receba notificações sobre nossos lançamentos
         </p>
-        <div className="mb-10 grid gap-4 text-left sm:grid-cols-3">
-          <div className="border border-gray-200 bg-gray-50 p-6">
-            <h3 className="mb-2 text-sm font-bold uppercase tracking-wide text-gray-900">
+        <div className="mb-8 grid gap-3 text-left sm:grid-cols-3 sm:gap-4 sm:mb-10">
+          <div className="border border-gray-200 bg-gray-50 p-4 sm:p-6">
+            <h3 className="mb-1 text-sm font-bold uppercase tracking-wide text-gray-900 sm:mb-2">
               Novos Produtos
             </h3>
-            <p className="text-sm font-medium text-gray-600">
+            <p className="text-xs font-medium text-gray-600 sm:text-sm">
               Seja o primeiro a saber
             </p>
           </div>
-          <div className="border border-gray-200 bg-gray-50 p-6">
-            <h3 className="mb-2 text-sm font-bold uppercase tracking-wide text-gray-900">
+          <div className="border border-gray-200 bg-gray-50 p-4 sm:p-6">
+            <h3 className="mb-1 text-sm font-bold uppercase tracking-wide text-gray-900 sm:mb-2">
               Lançamentos
             </h3>
-            <p className="text-sm font-medium text-gray-600">
+            <p className="text-xs font-medium text-gray-600 sm:text-sm">
               Acesso exclusivo às novidades
             </p>
           </div>
-          <div className="border border-gray-200 bg-gray-50 p-6">
-            <h3 className="mb-2 text-sm font-bold uppercase tracking-wide text-gray-900">
+          <div className="border border-gray-200 bg-gray-50 p-4 sm:p-6">
+            <h3 className="mb-1 text-sm font-bold uppercase tracking-wide text-gray-900 sm:mb-2">
               Conteúdo
             </h3>
-            <p className="text-sm font-medium text-gray-600">
+            <p className="text-xs font-medium text-gray-600 sm:text-sm">
               Novidades direto no seu e-mail
             </p>
           </div>

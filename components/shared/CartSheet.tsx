@@ -166,7 +166,7 @@ export function CartSheet() {
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="flex w-[90vw] sm:w-full flex-col border-l-2 border-gray-900 bg-white sm:max-w-lg overflow-visible">
+      <SheetContent className="flex w-[90vw] sm:w-full flex-col border-l-2 border-gray-900 bg-white sm:max-w-lg overflow-visible data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right duration-300">
         <SheetHeader className="pb-2 sm:pb-4">
           <SheetTitle className="flex items-center justify-between text-lg sm:text-xl font-bold uppercase tracking-wide pr-8">
             <span>Carrinho</span>
@@ -208,7 +208,8 @@ export function CartSheet() {
                       Pedido #{lastOrderId.slice(0, 8)} criado!
                     </p>
                     <p className="text-xs text-gray-600 mt-1">
-                      Mensagem não foi enviada? Clique abaixo para abrir o WhatsApp novamente.
+                      Mensagem não foi enviada? Clique abaixo para abrir o
+                      WhatsApp novamente.
                     </p>
                   </div>
                 </div>
@@ -217,7 +218,8 @@ export function CartSheet() {
                     if (lastWhatsAppUrl) {
                       window.open(lastWhatsAppUrl, "_blank");
                       toast.success("WhatsApp aberto!", {
-                        description: "Continue a conversa para finalizar o pedido.",
+                        description:
+                          "Continue a conversa para finalizar o pedido.",
                       });
                     }
                   }}

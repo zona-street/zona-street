@@ -324,7 +324,9 @@ export function AdminOrdersTemplate() {
             <DialogTitle className="text-lg sm:text-2xl font-black uppercase">
               Detalhes do Pedido
             </DialogTitle>
-            <DialogDescription className="text-xs sm:text-sm">Visualize e gerencie o pedido</DialogDescription>
+            <DialogDescription className="text-xs sm:text-sm">
+              Visualize e gerencie o pedido
+            </DialogDescription>
           </DialogHeader>
 
           {selectedOrder && (

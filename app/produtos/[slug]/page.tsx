@@ -32,7 +32,9 @@ export async function generateMetadata({
 
   return {
     title: `${product.name} - ${product.category}`,
-    description: product.description || `Compre ${product.name} na Zona Street. Moda streetwear e oversized com qualidade e estilo único. Confira!`,
+    description:
+      product.description ||
+      `Compre ${product.name} na Zona Street. Moda streetwear e oversized com qualidade e estilo único. Confira!`,
     keywords: [
       product.name,
       product.category,
@@ -42,7 +44,8 @@ export async function generateMetadata({
     ],
     openGraph: {
       title: `${product.name} - Zona Street`,
-      description: product.description || `Compre ${product.name} na Zona Street`,
+      description:
+        product.description || `Compre ${product.name} na Zona Street`,
       images: [
         {
           url: productImage,
@@ -56,7 +59,8 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: `${product.name} - Zona Street`,
-      description: product.description || `Compre ${product.name} na Zona Street`,
+      description:
+        product.description || `Compre ${product.name} na Zona Street`,
       images: [productImage],
     },
   };
