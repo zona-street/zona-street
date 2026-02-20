@@ -6,6 +6,9 @@ import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
 import { toast } from "sonner";
 
+// Força renderização dinâmica (necessário por useSearchParams)
+export const dynamic = "force-dynamic";
+
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/v1";
 
