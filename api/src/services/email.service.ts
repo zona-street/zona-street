@@ -44,6 +44,26 @@ export class EmailService {
     // Query param para fácil desinscrita
     const unsubscribeLink = `${FRONTEND_URL}/unsubscribe?email=${encodeURIComponent(to)}`;
 
+    const priceFormatted = `R$ ${productPrice.toFixed(2).replace(".", ",")}`;
+    const productUrl = `${FRONTEND_URL}/produtos/${productSlug}`;
+
+    // Versão plain-text (reduz spam score significativamente)
+    const plainText = [
+      `ZONA STREET - Novo Lançamento`,
+      ``,
+      `${productName}`,
+      `${priceFormatted}`,
+      ``,
+      productDescription,
+      ``,
+      `Ver produto: ${productUrl}`,
+      ``,
+      `---`,
+      `Você recebeu este e-mail porque se inscreveu na newsletter da Zona Street.`,
+      `Para cancelar inscrição: ${unsubscribeLink}`,
+      `© ${new Date().getFullYear()} Zona Street. Todos os direitos reservados.`,
+    ].join("\n");
+
     console.log("📧 Enviando email de novo produto:", {
       to,
       productName,
@@ -54,14 +74,27 @@ export class EmailService {
     try {
       await resend.emails.send({
         from: FROM_EMAIL,
+        replyTo: process.env.RESEND_FROM_EMAIL || FROM_EMAIL,
         to,
-        subject: `🔥 Novo Lançamento: ${productName}`,
+        subject: `Novo Lançamento: ${productName} | Zona Street`,
+        text: plainText,
+        headers: {
+          // RFC 2369 - sinaliza email legítimo para Gmail/Outlook
+          "List-Unsubscribe": `<${unsubscribeLink}>, <mailto:${process.env.RESEND_FROM_EMAIL || "contato@zonastreet.com.br"}?subject=unsubscribe>`,
+          "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+          Precedence: "bulk",
+          "X-Entity-Ref-ID": `zona-street-newsletter-${Date.now()}`,
+        },
         html: `
           <!DOCTYPE html>
-          <html>
+          <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
             <head>
               <meta charset="utf-8">
+              <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <meta name="x-apple-disable-message-reformatting">
+              <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+              <title>Novo Lançamento: ${productName} | Zona Street</title>
               <style>
                 body {
                   font-family: Arial, sans-serif;
@@ -154,38 +187,40 @@ export class EmailService {
                 }
               </style>
             </head>
-            <body>
-              <div class="container">
-                <div class="header">
-                  <h1>ZONA STREET</h1>
-                  <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: 600; letter-spacing: 1px;">NOVO LANÇAMENTO🔥</p>
+            <body style="font-family: Arial, sans-serif; background-color: #F5F5F5; margin: 0; padding: 0;">
+              <!-- preheader oculto: aparece no preview do cliente de email -->
+              <div style="display: none; max-height: 0; overflow: hidden; mso-hide: all;">
+                Novo lançamento exclusivo disponível agora na Zona Street — ${productName} por ${priceFormatted}
+              </div>
+              <div class="container" style="max-width: 600px; margin: 20px auto; background-color: #FFFFFF; border: 2px solid #171717;">
+                <div class="header" style="background-color: #171717; color: #FFFFFF; padding: 30px 20px; text-align: center;">
+                  <h1 style="margin: 0; font-size: 28px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #FFFFFF;">ZONA STREET</h1>
+                  <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: 600; letter-spacing: 1px; color: #FFFFFF;">NOVO LANÇAMENTO 🔥</p>
                 </div>
-                <div class="content">
+                <div class="content" style="padding: 40px 20px;">
                   <img 
                     src="${imageUrl}" 
                     alt="${productName}" 
                     class="product-image"
                     width="400"
                     height="400"
-                    style="border: 2px solid #171717; margin: 0 auto 20px; display: block; max-width: 100%; height: auto;"
+                    style="border: 2px solid #171717; margin: 0 auto 20px; display: block; max-width: 100%; height: auto; width: 100%;"
                   />
-                  <h2 class="product-name">${productName}</h2>
-                  <div class="product-price">R$ ${productPrice
-                    .toFixed(2)
-                    .replace(".", ",")}</div>
-                  <p class="product-description">${productDescription}</p>
+                  <h2 class="product-name" style="font-size: 24px; font-weight: 900; text-transform: uppercase; margin: 0 0 10px 0; color: #171717;">${productName}</h2>
+                  <div class="product-price" style="font-size: 32px; font-weight: 900; color: #F57C00; margin: 10px 0 20px 0;">${priceFormatted}</div>
+                  <p class="product-description" style="font-size: 16px; color: #4D4D4D; margin: 0 0 30px 0; line-height: 1.8;">${productDescription}</p>
                   <center>
-                    <a href="https://www.zonastreet.com.br/produtos/${productSlug}" class="cta-button">
+                    <a href="${productUrl}" class="cta-button" style="display: inline-block; background-color: #F57C00; color: #FFFFFF; padding: 16px 40px; text-decoration: none; font-weight: 900; text-transform: uppercase; border: 2px solid #171717; box-shadow: 4px 4px 0px 0px rgba(0,0,0,1); font-size: 14px; letter-spacing: 1px;">
                       VER PRODUTO
                     </a>
                   </center>
                 </div>
-                <div class="footer">
-                  <p>Você está recebendo este e-mail porque se inscreveu na newsletter da Zona Street.</p>
-                  <p>
-                    <a href="${unsubscribeLink}" class="unsubscribe">Cancelar inscrição</a>
+                <div class="footer" style="background-color: #F5F5F5; padding: 20px; text-align: center; font-size: 12px; color: #737373; border-top: 2px solid #E3E3E3;">
+                  <p style="margin: 0 0 8px 0;">Você está recebendo este e-mail porque se inscreveu na newsletter da Zona Street.</p>
+                  <p style="margin: 0 0 8px 0;">
+                    <a href="${unsubscribeLink}" class="unsubscribe" style="color: #737373; text-decoration: underline;">Cancelar inscrição</a>
                   </p>
-                  <p style="margin-top: 10px;">© 2025 Zona Street. Todos os direitos reservados.</p>
+                  <p style="margin-top: 10px;">© ${new Date().getFullYear()} Zona Street. Todos os direitos reservados.</p>
                 </div>
               </div>
             </body>
