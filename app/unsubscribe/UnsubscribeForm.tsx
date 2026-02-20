@@ -136,10 +136,6 @@ export default function UnsubscribeForm() {
               segurança em nosso banco de dados e não são compartilhados com
               terceiros.
             </p>
-            <p className="text-sm text-gray-600">
-              Se tiver dúvidas sobre nossos practices de dados, entre em contato
-              conosco pelo WhatsApp.
-            </p>
           </div>
         </div>
       )}
