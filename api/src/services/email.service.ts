@@ -138,8 +138,8 @@ export class EmailService {
             <body>
               <div class="container">
                 <div class="header">
-                  <h1>🔥 ZONA STREET</h1>
-                  <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: 600; letter-spacing: 1px;">NOVO LANÇAMENTO</p>
+                  <h1>ZONA STREET</h1>
+                  <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: 600; letter-spacing: 1px;">NOVO LANÇAMENTO🔥</p>
                 </div>
                 <div class="content">
                   <img src="${productImage}" alt="${productName}" class="product-image" />
@@ -149,7 +149,7 @@ export class EmailService {
                     .replace(".", ",")}</div>
                   <p class="product-description">${productDescription}</p>
                   <center>
-                    <a href="https://zonastreet.com/produto/${productSlug}" class="cta-button">
+                    <a href="https://www.zonastreet.com.br/produtos/${productSlug}" class="cta-button">
                       VER PRODUTO
                     </a>
                   </center>
@@ -157,7 +157,7 @@ export class EmailService {
                 <div class="footer">
                   <p>Você está recebendo este e-mail porque se inscreveu na newsletter da Zona Street.</p>
                   <p>
-                    <a href="https://zonastreet.com/unsubscribe" class="unsubscribe">Cancelar inscrição</a>
+                    <a href="https://www.zonastreet.com.br/unsubscribe" class="unsubscribe">Cancelar inscrição</a>
                   </p>
                   <p style="margin-top: 10px;">© 2025 Zona Street. Todos os direitos reservados.</p>
                 </div>
@@ -284,7 +284,7 @@ export class EmailService {
             <body>
               <div class="container">
                 <div class="header">
-                  <h1>🔥 Zona Street</h1>
+                  <h1>Zona Street</h1>
                 </div>
                 <div class="content">
                   <h2 style="font-size: 22px; font-weight: 900; text-transform: uppercase; margin: 0 0 20px 0;">

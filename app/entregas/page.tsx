@@ -4,8 +4,7 @@ import { Footer } from "@/components/shared/Footer";
 
 export const metadata: Metadata = {
   title: "Entregas | Zona Street",
-  description:
-    "Informações sobre prazos e formas de entrega da Zona Street.",
+  description: "Informações sobre prazos e formas de entrega da Zona Street.",
 };
 
 export default function EntregasPage() {

@@ -33,10 +33,10 @@ export function FeaturedProduct({ product }: FeaturedProductProps) {
               Lançamento Exclusivo
             </h2>
             {product.stock !== undefined && product.stock > 0 && (
-            <p className="mt-2 text-sm font-medium text-gray-600">
-              Edição Limitada - Apenas {product.stock} unidades
-            </p>
-          )}
+              <p className="mt-2 text-sm font-medium text-gray-600">
+                Edição Limitada - Apenas {product.stock} unidades
+              </p>
+            )}
           </div>
           <div className="flex flex-wrap gap-2 sm:gap-3">
             <span className="border border-orange-600 bg-orange-600 px-3 sm:px-4 py-1.5 sm:py-2 text-xs font-bold uppercase tracking-wide text-white">

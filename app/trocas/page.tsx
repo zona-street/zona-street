@@ -58,9 +58,7 @@ export default function TrocasPage() {
             <h2 className="text-xl font-bold mb-2">Condições gerais</h2>
             <ul className="list-disc pl-5 space-y-1">
               <li>Produtos com sinais de uso não serão aceitos para troca.</li>
-              <li>
-                A etiqueta original deve estar intacta e afixada na peça.
-              </li>
+              <li>A etiqueta original deve estar intacta e afixada na peça.</li>
               <li>
                 O custo de envio para troca pode ser de responsabilidade do
                 cliente, exceto em casos de defeito ou erro nosso.
