@@ -556,7 +556,9 @@ export function AdminProductsTemplate() {
                       }}
                     />
                     <p className="text-xs text-gray-500">
-                      Apenas 1 imagem (4MB máximo por enquanto).
+                      No máximo 4 imagens (4MB máximo por enquanto).
+                      <br />
+                      Resolução recomendada: 800x800px. PNG, JPG ou JPEG.
                     </p>
 
                     {/* Preview das imagens */}
