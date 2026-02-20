@@ -2,6 +2,9 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+const FRONTEND_URL =
+  process.env.FRONTEND_URL || "https://www.zonastreet.com.br";
+
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL
   ? `Zona Street <${process.env.RESEND_FROM_EMAIL}>`
   : "onboarding@resend.dev";
@@ -32,6 +35,14 @@ export class EmailService {
       productImage,
       productSlug,
     } = productData;
+
+    // Garante que a imagem é uma URL absoluta
+    const imageUrl = productImage.startsWith("http")
+      ? productImage
+      : `${FRONTEND_URL}${productImage}`;
+
+    // Query param para fácil desinscrita
+    const unsubscribeLink = `${FRONTEND_URL}/unsubscribe?email=${encodeURIComponent(to)}`;
 
     try {
       await resend.emails.send({
@@ -142,7 +153,7 @@ export class EmailService {
                   <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: 600; letter-spacing: 1px;">NOVO LANÇAMENTO🔥</p>
                 </div>
                 <div class="content">
-                  <img src="${productImage}" alt="${productName}" class="product-image" />
+                  <img src="${imageUrl}" alt="${productName}" class="product-image" />
                   <h2 class="product-name">${productName}</h2>
                   <div class="product-price">R$ ${productPrice
                     .toFixed(2)
@@ -157,7 +168,7 @@ export class EmailService {
                 <div class="footer">
                   <p>Você está recebendo este e-mail porque se inscreveu na newsletter da Zona Street.</p>
                   <p>
-                    <a href="https://www.zonastreet.com.br/unsubscribe" class="unsubscribe">Cancelar inscrição</a>
+                    <a href="${unsubscribeLink}" class="unsubscribe">Cancelar inscrição</a>
                   </p>
                   <p style="margin-top: 10px;">© 2025 Zona Street. Todos os direitos reservados.</p>
                 </div>
