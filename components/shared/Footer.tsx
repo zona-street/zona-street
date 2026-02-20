@@ -1,7 +1,10 @@
 import { FaInstagram } from "react-icons/fa";
+import { FaTiktok } from "react-icons/fa6";
 import Image from "next/image";
 import Link from "next/link";
 import { SettingsIcon } from "lucide-react";
+
+const WHATSAPP_NUMBER = "5524992060913";
 
 export function Footer() {
   return (
@@ -24,7 +27,7 @@ export function Footer() {
           </div>
           <div>
             <h4 className="mb-3 font-bold text-base">CATEGORIAS</h4>
-            <ul className="space-y-2 text-sm font-medium text-gray-400">
+            <ul className="space-y-2 text-xs sm:text-sm font-medium text-gray-400">
               <li>
                 <Link
                   href="/categorias/camisetas"
@@ -61,32 +64,38 @@ export function Footer() {
           </div>
           <div>
             <h4 className="mb-3 font-bold text-base">AJUDA</h4>
-            <ul className="space-y-2 text-sm font-medium text-gray-400">
+            <ul className="space-y-2 text-xs sm:text-sm font-medium text-gray-400">
               <li>
-                <span className="cursor-not-allowed opacity-60 inline-block py-0.5">
+                <Link
+                  href="/trocas"
+                  className="hover:text-orange-street transition-colors inline-block py-0.5"
+                >
                   Trocas e Devoluções
-                </span>
+                </Link>
               </li>
               <li>
-                <span className="cursor-not-allowed opacity-60 inline-block py-0.5">
+                <Link
+                  href="/entregas"
+                  className="hover:text-orange-street transition-colors inline-block py-0.5"
+                >
                   Entregas
-                </span>
+                </Link>
               </li>
               <li>
-                <span className="cursor-not-allowed opacity-60 inline-block py-0.5">
-                  Tabela de Medidas
-                </span>
-              </li>
-              <li>
-                <span className="cursor-not-allowed opacity-60 inline-block py-0.5">
+                <a
+                  href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-orange-street transition-colors inline-block py-0.5"
+                >
                   Contato
-                </span>
+                </a>
               </li>
             </ul>
           </div>
           <div>
             <h4 className="mb-3 font-bold text-base">REDES SOCIAIS</h4>
-            <ul className="space-y-2 text-sm font-medium text-gray-400">
+            <ul className="space-y-2 text-xs sm:text-sm font-medium text-gray-400">
               <li>
                 <a
                   href="https://instagram.com/zonastreet01"
@@ -98,10 +107,21 @@ export function Footer() {
                   Instagram
                 </a>
               </li>
+              <li>
+                <a
+                  href="https://tiktok.com/@zonastreet01"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-orange-street transition-colors inline-flex items-center py-0.5"
+                >
+                  <FaTiktok className="inline mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                  TikTok
+                </a>
+              </li>
             </ul>
           </div>
         </div>
-        <div className="mt-6 sm:mt-8 border-t-2 border-gray-800 pt-4 sm:pt-6 text-center text-sm font-medium text-gray-400">
+        <div className="mt-6 sm:mt-8 border-t-2 border-gray-800 pt-4 sm:pt-6 text-center text-xs sm:text-sm font-medium text-gray-400">
           <p className="mb-2">
             © 2025 Zona Street. Todos os direitos reservados.
           </p>

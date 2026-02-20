@@ -18,6 +18,7 @@ interface HomeTemplateProps {
     category: string;
     slug: string;
     sizes?: string[];
+    stock?: number;
   } | null;
   newDropProducts: Array<{
     id: string;

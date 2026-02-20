@@ -15,13 +15,32 @@ export function ProtectedRoute({
   requireAdmin = false,
 }: ProtectedRouteProps) {
   const router = useRouter();
-  const { isAuthenticated, isAdmin } = useAuth();
+  const { isAuthenticated, isAdmin, token, logout } = useAuth();
   const [isChecking, setIsChecking] = useState(true);
+
+  const isTokenExpired = (jwt: string | null): boolean => {
+    if (!jwt) return true;
+    try {
+      const payload = JSON.parse(atob(jwt.split(".")[1]));
+      return payload.exp < Math.floor(Date.now() / 1000);
+    } catch {
+      return true;
+    }
+  };
 
   useEffect(() => {
     // Dar tempo para o Zustand carregar do localStorage
     const timer = setTimeout(() => {
       setIsChecking(false);
+
+      if (isTokenExpired(token)) {
+        logout();
+        toast.error("Sessão expirada", {
+          description: "Faça login novamente para continuar",
+        });
+        router.push("/admin/login");
+        return;
+      }
 
       if (!isAuthenticated) {
         toast.error("Acesso negado", {
@@ -40,7 +59,7 @@ export function ProtectedRoute({
     }, 100);
 
     return () => clearTimeout(timer);
-  }, [isAuthenticated, isAdmin, requireAdmin, router]);
+  }, [isAuthenticated, isAdmin, token, logout, requireAdmin, router]);
 
   // Loading enquanto verifica autenticação
   if (isChecking) {

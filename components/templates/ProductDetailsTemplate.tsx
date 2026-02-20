@@ -24,6 +24,7 @@ export function ProductDetailsTemplate({
 }: ProductDetailsTemplateProps) {
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [isFavorite, setIsFavorite] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [transformOrigin, setTransformOrigin] = useState("center center");
   const [isZoomed, setIsZoomed] = useState(false);
   const imageRef = useRef<HTMLImageElement>(null);
@@ -147,7 +148,7 @@ export function ProductDetailsTemplate({
         {/* Produto */}
         <div className="mb-12 sm:mb-16 grid gap-6 sm:gap-8 lg:grid-cols-2">
           {/* Imagens */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             <div
               className="relative aspect-square overflow-hidden border-2 border-gray-900 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] cursor-zoom-in"
               onMouseMove={handleMouseMove}
@@ -155,7 +156,7 @@ export function ProductDetailsTemplate({
             >
               <Image
                 ref={imageRef}
-                src={product.images?.[0] || "/placeholder.jpg"}
+                src={product.images?.[selectedImageIndex] || "/placeholder.jpg"}
                 alt={product.name}
                 fill
                 className="object-cover transition-transform duration-300"
@@ -175,6 +176,30 @@ export function ProductDetailsTemplate({
                 </Badge>
               )}
             </div>
+
+            {/* Thumbnails */}
+            {product.images && product.images.length > 1 && (
+              <div className="flex gap-2 overflow-x-auto pb-1">
+                {product.images.map((img, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedImageIndex(index)}
+                    className={`relative h-16 w-16 flex-shrink-0 overflow-hidden border-2 transition-all ${
+                      selectedImageIndex === index
+                        ? "border-gray-900 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                        : "border-gray-300 opacity-60 hover:opacity-100 hover:border-gray-600"
+                    }`}
+                  >
+                    <Image
+                      src={img}
+                      alt={`${product.name} - imagem ${index + 1}`}
+                      fill
+                      className="object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Informaes */}
@@ -259,10 +284,10 @@ export function ProductDetailsTemplate({
                 Informações do Produto
               </h3>
               <ul className="space-y-2 text-sm text-gray-700">
-                <li>• Envio para Resende/RJ e região</li>
+                <li>• Envio para todo o Brasil</li>
+                <li>• Envio grátis para Resende e região</li>
                 <li>• 10% OFF no pagamento via PIX</li>
                 <li>• Parcelamento em até 10x sem juros</li>
-                <li>• Troca grátis em até 30 dias</li>
               </ul>
             </div>
           </div>

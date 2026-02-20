@@ -7,14 +7,7 @@ export function Promotions() {
             <span className="text-sm text-gray-900">•</span>
             <span>10% OFF no PIX</span>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-900">•</span>
-            <span>Frete Grátis +R$299</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-900">•</span>
-            <span>Primeira Troca Grátis</span>
-          </div>
+
           <div className="flex items-center gap-2">
             <span className="text-sm text-gray-900">•</span>
             <span>Parcelamento em 10x</span>

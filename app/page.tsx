@@ -81,6 +81,7 @@ export default async function Home() {
         category: featuredProduct.category,
         slug: featuredProduct.slug,
         sizes: featuredProduct.sizes,
+        stock: featuredProduct.stock,
       }
     : null;
 
