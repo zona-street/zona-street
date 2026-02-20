@@ -44,6 +44,13 @@ export class EmailService {
     // Query param para fácil desinscrita
     const unsubscribeLink = `${FRONTEND_URL}/unsubscribe?email=${encodeURIComponent(to)}`;
 
+    console.log("📧 Enviando email de novo produto:", {
+      to,
+      productName,
+      imageUrl,
+      unsubscribeLink,
+    });
+
     try {
       await resend.emails.send({
         from: FROM_EMAIL,
@@ -94,6 +101,7 @@ export class EmailService {
                   border: 2px solid #171717;
                   margin: 0 auto 20px;
                   display: block;
+                  border-radius: 0;
                 }
                 .product-name {
                   font-size: 24px;
@@ -153,7 +161,14 @@ export class EmailService {
                   <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: 600; letter-spacing: 1px;">NOVO LANÇAMENTO🔥</p>
                 </div>
                 <div class="content">
-                  <img src="${imageUrl}" alt="${productName}" class="product-image" />
+                  <img 
+                    src="${imageUrl}" 
+                    alt="${productName}" 
+                    class="product-image"
+                    width="400"
+                    height="400"
+                    style="border: 2px solid #171717; margin: 0 auto 20px; display: block; max-width: 100%; height: auto;"
+                  />
                   <h2 class="product-name">${productName}</h2>
                   <div class="product-price">R$ ${productPrice
                     .toFixed(2)
