@@ -44,7 +44,23 @@ const productSchema = z.object({
   oldPrice: z.number().optional(),
   category: z.enum(PRODUCT_CATEGORIES),
   stock: z.number().min(0, "Estoque não pode ser negativo"),
-  slug: z.string().min(3, "Slug deve ter no mínimo 3 caracteres"),
+  slug: z
+    .string()
+    .min(3, "Slug deve ter no mínimo 3 caracteres")
+    .transform((val) => {
+      // Sanitiza o slug: remove espaços extras, converte para lowercase e substitui espaços por hífens
+      return val
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, "-") // Substitui espaços por hífens
+        .replace(/[^a-z0-9-]/g, "") // Remove caracteres não permitidos
+        .replace(/-+/g, "-") // Remove hífens duplicados
+        .replace(/^-+|-+$/g, ""); // Remove hífens no início/fim
+    })
+    .refine(
+      (val) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(val),
+      "Slug deve estar em formato kebab-case (ex: camiseta-oversized)"
+    ),
   sizes: z
     .array(z.enum(PRODUCT_SIZES))
     .min(1, "Selecione pelo menos um tamanho"),
@@ -87,6 +103,9 @@ export function AdminProductsTemplate() {
   const imageUrls = watch("images");
   const isNewDrop = watch("isNewDrop");
   const isFeatured = watch("isFeatured");
+  const productName = watch("name");
+
+  const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
 
   const MAX_IMAGES = 4;
   const { startUpload, isUploading: isUploadingImages } = useUploadThing(
@@ -118,6 +137,28 @@ export function AdminProductsTemplate() {
     },
   );
 
+  // Função para gerar slug a partir do nome
+  function generateSlugFromName(name: string): string {
+    if (!name) return "";
+    return name
+      .trim()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+      .replace(/[^a-z0-9\s-]/g, "") // Remove caracteres especiais
+      .replace(/\s+/g, "-") // Substitui espaços por hífens
+      .replace(/-+/g, "-") // Remove hífens duplicados
+      .replace(/^-+|-+$/g, ""); // Remove hífens no início/fim
+  }
+
+  // Gerar slug automaticamente a partir do nome (apenas se não foi editado manualmente)
+  useEffect(() => {
+    if (!slugManuallyEdited && productName && !editingProduct) {
+      const generatedSlug = generateSlugFromName(productName);
+      setValue("slug", generatedSlug, { shouldValidate: false });
+    }
+  }, [productName, slugManuallyEdited, setValue, editingProduct]);
+
   // Carregar produtos
   useEffect(() => {
     loadProducts();
@@ -140,6 +181,7 @@ export function AdminProductsTemplate() {
   function openDialog(product?: Product) {
     if (product) {
       setEditingProduct(product);
+      setSlugManuallyEdited(true); // Ao editar, considera que o slug já existe
       reset({
         name: product.name,
         description: product.description,
@@ -155,6 +197,7 @@ export function AdminProductsTemplate() {
       });
     } else {
       setEditingProduct(null);
+      setSlugManuallyEdited(false); // Ao criar novo, permite geração automática
       reset({
         sizes: [],
         images: [],
@@ -493,11 +536,17 @@ export function AdminProductsTemplate() {
                   <Input
                     id="slug"
                     {...register("slug")}
+                    onChange={(e) => {
+                      register("slug").onChange(e);
+                      setSlugManuallyEdited(true); // Marca como editado manualmente
+                    }}
                     className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
                     placeholder="camiseta-oversized-basica"
                   />
                   <p className="mt-1 text-xs text-gray-500">
-                    Use apenas letras minúsculas, números e hífens
+                    {!editingProduct && !slugManuallyEdited
+                      ? "Gerado automaticamente a partir do nome. Você pode editar se quiser."
+                      : "Espaços serão convertidos automaticamente em hífens. Ex: &quot;Camiseta Nova&quot; → &quot;camiseta-nova&quot;"}
                   </p>
                   {errors.slug && (
                     <p className="mt-1 text-xs text-red-600">

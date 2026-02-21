@@ -191,7 +191,23 @@ export class ProductController {
         price: z.coerce.number().positive("Preço deve ser positivo"),
         oldPrice: z.coerce.number().positive().optional(),
         category: z.nativeEnum(ProductCategory),
-        slug: z.string().min(3, "Slug inválido"),
+        slug: z
+          .string()
+          .min(3, "Slug deve ter no mínimo 3 caracteres")
+          .transform((val) => {
+            // Sanitiza o slug: remove espaços, converte para lowercase
+            return val
+              .trim()
+              .toLowerCase()
+              .replace(/\s+/g, "-")
+              .replace(/[^a-z0-9-]/g, "")
+              .replace(/-+/g, "-")
+              .replace(/^-+|-+$/g, "");
+          })
+          .refine(
+            (val) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(val),
+            "Slug deve estar em formato kebab-case"
+          ),
         images: z.array(z.string()).min(1, "Adicione pelo menos uma imagem"),
         sizes: z
           .array(z.nativeEnum(ProductSize))
@@ -271,7 +287,24 @@ export class ProductController {
         price: z.number().positive().optional(),
         oldPrice: z.number().positive().optional(),
         category: z.nativeEnum(ProductCategory).optional(),
-        slug: z.string().min(3).optional(),
+        slug: z
+          .string()
+          .min(3)
+          .transform((val) => {
+            // Sanitiza o slug: remove espaços, converte para lowercase
+            return val
+              .trim()
+              .toLowerCase()
+              .replace(/\s+/g, "-")
+              .replace(/[^a-z0-9-]/g, "")
+              .replace(/-+/g, "-")
+              .replace(/^-+|-+$/g, "");
+          })
+          .refine(
+            (val) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(val),
+            "Slug deve estar em formato kebab-case"
+          )
+          .optional(),
         images: z.array(z.string()).min(1).optional(),
         sizes: z.array(z.nativeEnum(ProductSize)).min(1).optional(),
         stock: z.number().int().nonnegative().optional(),
