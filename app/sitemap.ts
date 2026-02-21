@@ -1,6 +1,35 @@
 import { MetadataRoute } from "next";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+interface Product {
+  id: string;
+  slug: string;
+  updatedAt: string;
+  isActive: boolean;
+}
+
+async function getProducts(): Promise<Product[]> {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/v1";
+    const url = `${apiUrl}/products`;
+    
+    const response = await fetch(url, {
+      next: { revalidate: 3600 }, // Revalidar a cada 1 hora
+    });
+
+    if (!response.ok) {
+      console.warn("Erro ao buscar produtos para sitemap:", response.statusText);
+      return [];
+    }
+
+    const data = await response.json();
+    return Array.isArray(data?.data) ? data.data : [];
+  } catch (error) {
+    console.warn("Erro ao buscar produtos para sitemap:", error);
+    return [];
+  }
+}
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://zonastreet.com.br";
 
   // Páginas estáticas
@@ -38,7 +67,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   // Categorias
-  const categories = ["camisetas", "moletons", "calcas", "acessorios"];
+  const categories = ["camisetas", "moletons", "calcas", "acessorios", "jaquetas"];
   const categoryPages = categories.map((category) => ({
     url: `${baseUrl}/categorias/${category}`,
     lastModified: new Date(),
@@ -46,5 +75,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticPages, ...categoryPages];
+  // Produtos dinâmicos
+  const products = await getProducts();
+  const productPages = products
+    .filter((product) => product.isActive) // Apenas produtos ativos
+    .map((product) => ({
+      url: `${baseUrl}/produtos/${product.slug}`,
+      lastModified: new Date(product.updatedAt),
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    }));
+
+  return [...staticPages, ...categoryPages, ...productPages];
 }
