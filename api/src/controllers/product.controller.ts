@@ -206,7 +206,7 @@ export class ProductController {
           })
           .refine(
             (val) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(val),
-            "Slug deve estar em formato kebab-case"
+            "Slug deve estar em formato kebab-case",
           ),
         images: z.array(z.string()).min(1, "Adicione pelo menos uma imagem"),
         sizes: z
@@ -302,7 +302,7 @@ export class ProductController {
           })
           .refine(
             (val) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(val),
-            "Slug deve estar em formato kebab-case"
+            "Slug deve estar em formato kebab-case",
           )
           .optional(),
         images: z.array(z.string()).min(1).optional(),

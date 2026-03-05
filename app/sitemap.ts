@@ -9,15 +9,19 @@ interface Product {
 
 async function getProducts(): Promise<Product[]> {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/v1";
+    const apiUrl =
+      process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/v1";
     const url = `${apiUrl}/products`;
-    
+
     const response = await fetch(url, {
       next: { revalidate: 3600 }, // Revalidar a cada 1 hora
     });
 
     if (!response.ok) {
-      console.warn("Erro ao buscar produtos para sitemap:", response.statusText);
+      console.warn(
+        "Erro ao buscar produtos para sitemap:",
+        response.statusText,
+      );
       return [];
     }
 
@@ -67,7 +71,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   // Categorias
-  const categories = ["camisetas", "moletons", "calcas", "acessorios", "jaquetas"];
+  const categories = [
+    "camisetas",
+    "moletons",
+    "calcas",
+    "acessorios",
+    "jaquetas",
+  ];
   const categoryPages = categories.map((category) => ({
     url: `${baseUrl}/categorias/${category}`,
     lastModified: new Date(),

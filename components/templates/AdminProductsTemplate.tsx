@@ -59,7 +59,7 @@ const productSchema = z.object({
     })
     .refine(
       (val) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(val),
-      "Slug deve estar em formato kebab-case (ex: camiseta-oversized)"
+      "Slug deve estar em formato kebab-case (ex: camiseta-oversized)",
     ),
   sizes: z
     .array(z.enum(PRODUCT_SIZES))
@@ -546,7 +546,7 @@ export function AdminProductsTemplate() {
                   <p className="mt-1 text-xs text-gray-500">
                     {!editingProduct && !slugManuallyEdited
                       ? "Gerado automaticamente a partir do nome. Você pode editar se quiser."
-                      : "Espaços serão convertidos automaticamente em hífens. Ex: &quot;Camiseta Nova&quot; → &quot;camiseta-nova&quot;"}
+                      : "Espaços serão convertidos automaticamente em hífens. Ex: 'camiseta-oversized-basica'"}
                   </p>
                   {errors.slug && (
                     <p className="mt-1 text-xs text-red-600">
