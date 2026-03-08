@@ -97,12 +97,16 @@ export function Newsletter() {
           className="flex flex-col gap-4 sm:flex-row sm:justify-center"
         >
           <input
+            id="newsletter-email"
+            name="email"
             type="email"
             placeholder="Digite seu melhor e-mail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
             disabled={isLoading}
+            autoComplete="email"
+            aria-label="E-mail para newsletter"
             className="border border-gray-300 bg-white px-8 py-4 text-base font-medium text-gray-900 focus:border-gray-900 focus:outline-none disabled:opacity-50"
           />
           <button

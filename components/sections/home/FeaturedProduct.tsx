@@ -49,7 +49,7 @@ export function FeaturedProduct({ product }: FeaturedProductProps) {
             )}
           </div>
         </div>
-        <div className="mx-auto max-w-xl">
+        <div className="mx-auto max-w-lg">
           <ProductCardFeatured {...product} />
         </div>
       </div>

@@ -83,7 +83,7 @@ export function CategoriasTemplate({
     <div className="flex min-h-screen flex-col bg-gray-50">
       <Navbar />
 
-      <main className="mx-auto flex-grow max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <main className="mx-auto flex-grow max-w-7xl w-full px-4 py-12 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8 border-b-2 border-gray-900 pb-8">
           <h1 className="mb-2 text-4xl font-bold uppercase tracking-tight text-gray-900 md:text-5xl">
@@ -108,10 +108,14 @@ export function CategoriasTemplate({
           {/* Busca */}
           <div className="relative">
             <input
+              id="categorias-search"
+              name="search"
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Buscar produtos..."
+              autoComplete="off"
+              aria-label="Buscar produtos"
               className="w-full border-2 border-gray-900 bg-white px-4 py-3 text-base font-medium placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
             />
             {searchQuery && (

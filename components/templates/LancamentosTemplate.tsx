@@ -92,10 +92,14 @@ export function LancamentosTemplate({
           {/* Busca */}
           <div className="relative">
             <input
+              id="lancamentos-search"
+              name="search"
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Buscar lançamentos..."
+              autoComplete="off"
+              aria-label="Buscar lançamentos"
               className="w-full border-2 border-gray-900 bg-white px-4 py-3 text-base font-medium placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
             />
             {searchQuery && (
