@@ -180,5 +180,3 @@ A API está pronta para deploy em plataformas serverless:
 ---
 
 ## Próximas Features
-
-📚 **Documentação completa**: `docs/DATABASE_SETUP.md`
