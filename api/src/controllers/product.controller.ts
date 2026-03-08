@@ -216,6 +216,7 @@ export class ProductController {
         isNewDrop: z.coerce.boolean().default(false),
         isFeatured: z.coerce.boolean().default(false),
         isActive: z.coerce.boolean().default(true),
+        subcategory: z.string().optional().nullable(),
       });
 
       const data = createProductSchema.parse(request.body);
@@ -311,6 +312,7 @@ export class ProductController {
         isNewDrop: z.boolean().optional(),
         isFeatured: z.boolean().optional(),
         isActive: z.boolean().optional(),
+        subcategory: z.string().optional().nullable(),
       });
 
       const data = updateProductSchema.parse(request.body);

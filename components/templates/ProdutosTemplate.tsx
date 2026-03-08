@@ -6,31 +6,27 @@ import { Footer } from "@/components/shared/Footer";
 import { ProductCard } from "@/components/shared/ProductCard";
 import { Product } from "@/lib/types/product";
 import {
-  CATEGORY_LABELS,
-  SUBCATEGORIES,
+  PRODUCT_CATEGORIES,
   PRODUCT_SIZES,
+  SUBCATEGORIES,
+  CATEGORY_LABELS,
   type ProductCategory,
 } from "@/lib/constants/product";
 import { productsApi } from "@/lib/api/products";
 
-interface CategoriasTemplateProps {
-  slug: string;
+interface ProdutosTemplateProps {
   products: Product[];
-  loading?: boolean;
+  initialCategory?: string;
 }
 
-export function CategoriasTemplate({
-  slug,
+export function ProdutosTemplate({
   products: initialProducts,
-  loading: initialLoading = false,
-}: CategoriasTemplateProps) {
-  const categoryName =
-    CATEGORY_LABELS[slug as ProductCategory] ||
-    slug.charAt(0).toUpperCase() + slug.slice(1);
-
-  const subcategoryOptions = SUBCATEGORIES[slug as ProductCategory] ?? [];
-
+  initialCategory,
+}: ProdutosTemplateProps) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState<string | null>(
+    initialCategory ?? null,
+  );
   const [activeSubcategory, setActiveSubcategory] = useState<string | null>(
     null,
   );
@@ -39,8 +35,13 @@ export function CategoriasTemplate({
     useState<Product[]>(initialProducts);
   const [isFiltering, setIsFiltering] = useState(false);
 
+  const subcategoryOptions = activeCategory
+    ? (SUBCATEGORIES[activeCategory as ProductCategory] ?? [])
+    : [];
+
   const hasActiveFilters =
     searchQuery.trim() !== "" ||
+    activeCategory !== null ||
     activeSubcategory !== null ||
     selectedSizes.length > 0;
 
@@ -48,9 +49,9 @@ export function CategoriasTemplate({
     setIsFiltering(true);
     try {
       const results = await productsApi.getAll({
-        category: slug,
-        search: searchQuery.trim() || undefined,
+        category: activeCategory ?? undefined,
         subcategory: activeSubcategory ?? undefined,
+        search: searchQuery.trim() || undefined,
         sizes: selectedSizes.length > 0 ? selectedSizes : undefined,
       });
       setDisplayedProducts(results);
@@ -59,7 +60,7 @@ export function CategoriasTemplate({
     } finally {
       setIsFiltering(false);
     }
-  }, [slug, searchQuery, activeSubcategory, selectedSizes]);
+  }, [activeCategory, activeSubcategory, searchQuery, selectedSizes]);
 
   useEffect(() => {
     if (!hasActiveFilters) {
@@ -70,14 +71,30 @@ export function CategoriasTemplate({
     return () => clearTimeout(timer);
   }, [hasActiveFilters, fetchFiltered, initialProducts]);
 
+  function handleCategoryChange(category: string | null) {
+    setActiveCategory(category);
+    setActiveSubcategory(null); // reset subcategory when category changes
+  }
+
   function toggleSize(size: string) {
     setSelectedSizes((prev) =>
       prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size],
     );
   }
 
-  const loading = initialLoading || isFiltering;
+  function clearAllFilters() {
+    setSearchQuery("");
+    setActiveCategory(null);
+    setActiveSubcategory(null);
+    setSelectedSizes([]);
+  }
+
+  const loading = isFiltering;
   const products = displayedProducts;
+
+  const title = activeCategory
+    ? CATEGORY_LABELS[activeCategory as ProductCategory] || activeCategory
+    : "Todos os Produtos";
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
@@ -85,26 +102,19 @@ export function CategoriasTemplate({
 
       <main className="mx-auto flex-grow max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8 border-b-2 border-gray-900 pb-8">
-          <h1 className="mb-2 text-4xl font-bold uppercase tracking-tight text-gray-900 md:text-5xl">
-            {categoryName}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold uppercase tracking-tight text-gray-900 md:text-5xl">
+            {title}
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="mt-2 text-gray-600">
             {loading
               ? "Carregando..."
-              : products.length + " produtos encontrados"}
-          </p>
-        </div>
-
-        {/* Banner Promocional */}
-        <div className="mb-8 border-2 border-gray-900 bg-gray-900 p-4 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-          <p className="text-sm font-medium uppercase tracking-wide text-white">
-            10% OFF no PIX + Parcelamento em até 10x sem juros
+              : `${products.length} ${products.length === 1 ? "produto encontrado" : "produtos encontrados"}`}
           </p>
         </div>
 
         {/* Filtros */}
-        <div className="mb-8 space-y-4">
+        <div className="mb-10 space-y-4">
           {/* Busca */}
           <div className="relative">
             <input
@@ -124,7 +134,36 @@ export function CategoriasTemplate({
             )}
           </div>
 
-          {/* Subcategorias (somente se a categoria tiver subcategorias) */}
+          {/* Categorias */}
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => handleCategoryChange(null)}
+              className={`border-2 px-4 py-1.5 text-xs font-bold uppercase tracking-wide shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-colors active:scale-95 ${
+                activeCategory === null
+                  ? "border-gray-900 bg-gray-900 text-white"
+                  : "border-gray-900 bg-white text-gray-900 hover:bg-gray-100"
+              }`}
+            >
+              Todos
+            </button>
+            {PRODUCT_CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                onClick={() =>
+                  handleCategoryChange(activeCategory === cat ? null : cat)
+                }
+                className={`border-2 px-4 py-1.5 text-xs font-bold uppercase tracking-wide shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-colors active:scale-95 ${
+                  activeCategory === cat
+                    ? "border-orange-street bg-orange-street text-white"
+                    : "border-gray-900 bg-white text-gray-900 hover:bg-gray-100"
+                }`}
+              >
+                {CATEGORY_LABELS[cat]}
+              </button>
+            ))}
+          </div>
+
+          {/* Subcategorias (somente quando a categoria selecionada tem subcategorias) */}
           {subcategoryOptions.length > 0 && (
             <div className="flex flex-wrap gap-2">
               <button
@@ -184,11 +223,23 @@ export function CategoriasTemplate({
               </button>
             )}
           </div>
+
+          {/* Botão de limpar tudo */}
+          {hasActiveFilters && (
+            <div>
+              <button
+                onClick={clearAllFilters}
+                className="text-xs font-bold uppercase text-gray-500 hover:text-gray-900 border-b border-gray-400 hover:border-gray-900"
+              >
+                Limpar todos os filtros
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* Loading State */}
+        {/* Loading skeleton */}
         {loading && (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="animate-pulse">
                 <div className="aspect-square bg-gray-200" />
@@ -199,38 +250,37 @@ export function CategoriasTemplate({
           </div>
         )}
 
-        {/* Empty State */}
-        {!loading && products.length === 0 && (
-          <div className="border-2 border-gray-900 bg-white p-12 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-            <h3 className="mb-2 text-xl font-bold uppercase text-gray-900">
+        {/* Produtos */}
+        {!loading && products.length === 0 ? (
+          <div className="border-2 border-gray-200 bg-white p-16 text-center">
+            <p className="text-xl font-bold uppercase text-gray-500">
               Nenhum produto encontrado
-            </h3>
-            <p className="text-gray-600">
+            </p>
+            <p className="mt-2 text-sm text-gray-400">
               {hasActiveFilters
                 ? "Tente outros filtros ou limpe a busca."
-                : "Estamos preparando novidades incríveis para esta categoria!"}
+                : "Tente outra categoria ou volte em breve!"}
             </p>
           </div>
-        )}
-
-        {/* Products Grid */}
-        {!loading && products.length > 0 && (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                name={product.name}
-                price={product.price}
-                oldPrice={product.oldPrice}
-                image={product.images?.[0] || "/placeholder.jpg"}
-                category={product.category}
-                slug={product.slug}
-                isNewDrop={product.isNewDrop}
-                sizes={product.sizes}
-              />
-            ))}
-          </div>
+        ) : (
+          !loading && (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {products.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  price={product.price}
+                  oldPrice={product.oldPrice}
+                  image={product.images?.[0] || "/placeholder.jpg"}
+                  category={product.category}
+                  slug={product.slug}
+                  isNewDrop={product.isNewDrop}
+                  sizes={product.sizes}
+                />
+              ))}
+            </div>
+          )
         )}
       </main>
 

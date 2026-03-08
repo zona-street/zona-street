@@ -115,6 +115,7 @@ export class ProductService {
       oldPrice: product.oldPrice,
       images: product.images,
       category: product.category,
+      subcategory: product.subcategory,
       stock: product.stock,
       slug: product.slug,
       sizes: product.sizes,

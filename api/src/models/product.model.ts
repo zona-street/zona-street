@@ -4,11 +4,12 @@ import { z } from "zod";
  * Categoria de produto
  */
 export enum ProductCategory {
-  CAMISETAS = "camisetas",
-  MOLETONS = "moletons",
+  CAMISAS = "camisas",
+  CASACOS = "casacos",
+  TENIS = "tenis",
+  BONES = "bones",
+  BERMUDAS = "bermudas",
   CALCAS = "calcas",
-  JAQUETAS = "jaquetas",
-  ACESSORIOS = "acessorios",
 }
 
 /**
@@ -38,6 +39,7 @@ export interface Product {
   stock: number;
   slug: string;
   sizes: ProductSize[];
+  subcategory?: string | null;
   isNewDrop: boolean;
   isFeatured: boolean;
   isActive: boolean;
@@ -67,6 +69,7 @@ export const createProductSchema = z.object({
   sizes: z
     .array(z.nativeEnum(ProductSize))
     .min(1, "Produto deve ter ao menos 1 tamanho"),
+  subcategory: z.string().optional().nullable(),
   isNewDrop: z.boolean().default(false),
   isFeatured: z.boolean().default(false),
   isActive: z.boolean().default(true),
@@ -82,6 +85,15 @@ export const updateProductSchema = createProductSchema.partial();
  */
 export const listProductsQuerySchema = z.object({
   category: z.nativeEnum(ProductCategory).optional(),
+  subcategory: z.string().optional(),
+  search: z.string().optional(),
+  sizes: z
+    .union([z.string(), z.array(z.string())])
+    .optional()
+    .transform((val) => {
+      if (!val) return undefined;
+      return Array.isArray(val) ? val : [val];
+    }),
   isNewDrop: z.coerce.boolean().optional(),
   isFeatured: z.coerce.boolean().optional(),
   includeInactive: z.coerce.boolean().optional(),

@@ -11,6 +11,7 @@ export interface CreateProductData {
   oldPrice?: number;
   images: string[];
   category: ProductCategory;
+  subcategory?: string | null;
   stock: number;
   slug: string;
   sizes: ProductSize[];
@@ -23,6 +24,11 @@ export interface UpdateProductData extends Partial<CreateProductData> {}
 
 export interface ProductFilters {
   category?: string;
+  subcategory?: string;
+  search?: string;
+  sizes?: string[];
+  isNewDrop?: boolean;
+  isFeatured?: boolean;
   page?: number;
   limit?: number;
   includeInactive?: boolean;
@@ -34,6 +40,16 @@ export const productsApi = {
     try {
       const params = new URLSearchParams();
       if (filters?.category) params.append("category", filters.category);
+      if (filters?.subcategory)
+        params.append("subcategory", filters.subcategory);
+      if (filters?.search) params.append("search", filters.search);
+      if (filters?.sizes && filters.sizes.length > 0) {
+        filters.sizes.forEach((s) => params.append("sizes", s));
+      }
+      if (filters?.isNewDrop !== undefined)
+        params.append("isNewDrop", filters.isNewDrop.toString());
+      if (filters?.isFeatured !== undefined)
+        params.append("isFeatured", filters.isFeatured.toString());
       if (filters?.page) params.append("page", filters.page.toString());
       if (filters?.limit) params.append("limit", filters.limit.toString());
       if (filters?.includeInactive) params.append("includeInactive", "true");

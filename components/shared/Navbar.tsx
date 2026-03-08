@@ -27,10 +27,12 @@ import { useFavorites } from "@/lib/hooks/useFavorites";
 import { Heart } from "lucide-react";
 
 const categories = [
-  { name: "Camisetas", href: "/categorias/camisetas" },
-  { name: "Moletons", href: "/categorias/moletons" },
+  { name: "Camisas", href: "/categorias/camisas" },
+  { name: "Casacos", href: "/categorias/casacos" },
+  { name: "Tênis", href: "/categorias/tenis" },
+  { name: "Bonés", href: "/categorias/bones" },
+  { name: "Bermudas", href: "/categorias/bermudas" },
   { name: "Calças", href: "/categorias/calcas" },
-  { name: "Acessórios", href: "/categorias/acessorios" },
 ];
 
 const newDrops = [{ name: "Ver Todos os Lançamentos", href: "/lancamentos" }];

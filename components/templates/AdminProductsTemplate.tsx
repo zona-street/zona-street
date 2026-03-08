@@ -32,6 +32,8 @@ import { Badge } from "@/components/ui/badge";
 import {
   PRODUCT_CATEGORIES,
   PRODUCT_SIZES,
+  SUBCATEGORIES,
+  CATEGORY_LABELS,
   type ProductCategory,
   type ProductSize,
 } from "@/lib/constants/product";
@@ -67,6 +69,7 @@ const productSchema = z.object({
   images: z.array(z.string()).min(1, "Adicione pelo menos uma imagem"),
   isNewDrop: z.boolean().optional(),
   isFeatured: z.boolean().optional(),
+  subcategory: z.string().optional().nullable(),
 });
 
 type ProductFormData = z.infer<typeof productSchema>;
@@ -104,8 +107,15 @@ export function AdminProductsTemplate() {
   const isNewDrop = watch("isNewDrop");
   const isFeatured = watch("isFeatured");
   const productName = watch("name");
+  const selectedSubcategory = watch("subcategory");
 
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
+
+  // Reset subcategory when category changes
+  useEffect(() => {
+    setValue("subcategory", null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCategory]);
 
   const MAX_IMAGES = 4;
   const { startUpload, isUploading: isUploadingImages } = useUploadThing(
@@ -194,6 +204,7 @@ export function AdminProductsTemplate() {
         images: product.images,
         isNewDrop: product.isNewDrop,
         isFeatured: product.isFeatured,
+        subcategory: product.subcategory ?? null,
       });
     } else {
       setEditingProduct(null);
@@ -203,6 +214,7 @@ export function AdminProductsTemplate() {
         images: [],
         isNewDrop: false,
         isFeatured: false,
+        subcategory: null,
       });
     }
     setDialogOpen(true);
@@ -323,13 +335,15 @@ export function AdminProductsTemplate() {
   }
 
   const availableSizes = PRODUCT_SIZES;
-  const categories: { value: ProductCategory; label: string }[] = [
-    { value: "camisetas", label: "Camisetas" },
-    { value: "moletons", label: "Moletons" },
-    { value: "calcas", label: "Calças" },
-    { value: "jaquetas", label: "Jaquetas" },
-    { value: "acessorios", label: "Acessórios" },
-  ];
+  const categories: { value: ProductCategory; label: string }[] =
+    PRODUCT_CATEGORIES.map((cat) => ({
+      value: cat,
+      label: CATEGORY_LABELS[cat],
+    }));
+
+  const availableSubcategories = selectedCategory
+    ? (SUBCATEGORIES[selectedCategory as ProductCategory] ?? [])
+    : [];
 
   const visibleProducts = products.filter((product) =>
     showArchived ? !product.isActive : product.isActive,
@@ -527,6 +541,39 @@ export function AdminProductsTemplate() {
                     )}
                   </div>
                 </div>
+
+                {/* Subcategoria (opcional, depende da categoria selecionada) */}
+                {availableSubcategories.length > 0 && (
+                  <div>
+                    <Label
+                      htmlFor="subcategory"
+                      className="font-bold uppercase text-xs"
+                    >
+                      Subcategoria
+                    </Label>
+                    <Select
+                      value={selectedSubcategory ?? "__none__"}
+                      onValueChange={(value) =>
+                        setValue(
+                          "subcategory",
+                          value === "__none__" ? null : value,
+                        )
+                      }
+                    >
+                      <SelectTrigger className="mt-1 w-full border-2 data-[size=default]:h-10 sm:data-[size=default]:h-11 border-gray-900 h-10 sm:h-11 text-base">
+                        <SelectValue placeholder="Nenhuma (opcional)" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="__none__">Nenhuma</SelectItem>
+                        {availableSubcategories.map((sub) => (
+                          <SelectItem key={sub.value} value={sub.value}>
+                            {sub.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
 
                 {/* Slug */}
                 <div>

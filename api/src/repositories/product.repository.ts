@@ -1,4 +1,4 @@
-import { eq, and, gte, lte, desc } from "drizzle-orm";
+import { eq, and, gte, lte, desc, or, ilike, sql } from "drizzle-orm";
 import { db } from "../db";
 import {
   products,
@@ -34,6 +34,7 @@ export class ProductRepository {
       oldPrice: dbProduct.oldPrice ? parseFloat(dbProduct.oldPrice) : undefined,
       images: dbProduct.images,
       category: dbProduct.category as ProductCategory,
+      subcategory: dbProduct.subcategory ?? undefined,
       stock: parseInt(dbProduct.stock) || 0,
       slug: dbProduct.slug,
       sizes: dbProduct.sizes as any[],
@@ -57,6 +58,26 @@ export class ProductRepository {
 
     if (filters?.category) {
       conditions.push(eq(products.category, filters.category));
+    }
+
+    if (filters?.subcategory) {
+      conditions.push(eq(products.subcategory, filters.subcategory));
+    }
+
+    if (filters?.search) {
+      const term = `%${filters.search}%`;
+      conditions.push(
+        or(ilike(products.name, term), ilike(products.description, term))!,
+      );
+    }
+
+    if (filters?.sizes && filters.sizes.length > 0) {
+      conditions.push(
+        sql`${products.sizes} && ARRAY[${sql.join(
+          filters.sizes.map((s) => sql`${s}`),
+          sql`, `,
+        )}]::text[]`,
+      );
     }
 
     if (filters?.isNewDrop !== undefined) {
@@ -133,6 +154,7 @@ export class ProductRepository {
       oldPrice: product.oldPrice?.toString(),
       images: product.images,
       category: product.category,
+      subcategory: product.subcategory ?? null,
       stock: product.stock.toString(),
       slug: product.slug,
       sizes: product.sizes as string[],
@@ -160,6 +182,8 @@ export class ProductRepository {
       updateData.oldPrice = updates.oldPrice?.toString();
     if (updates.images) updateData.images = updates.images;
     if (updates.category) updateData.category = updates.category;
+    if ("subcategory" in updates)
+      updateData.subcategory = updates.subcategory ?? null;
     if (updates.stock !== undefined)
       updateData.stock = updates.stock.toString();
     if (updates.slug) updateData.slug = updates.slug;

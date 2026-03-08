@@ -30,18 +30,42 @@ export function Footer() {
             <ul className="space-y-2 text-xs sm:text-sm font-medium text-gray-400">
               <li>
                 <Link
-                  href="/categorias/camisetas"
+                  href="/categorias/camisas"
                   className="hover:text-orange-street transition-colors inline-block py-0.5"
                 >
-                  Camisetas
+                  Camisas
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/categorias/moletons"
+                  href="/categorias/casacos"
                   className="hover:text-orange-street transition-colors inline-block py-0.5"
                 >
-                  Moletons
+                  Casacos
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/categorias/tenis"
+                  className="hover:text-orange-street transition-colors inline-block py-0.5"
+                >
+                  Tênis
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/categorias/bones"
+                  className="hover:text-orange-street transition-colors inline-block py-0.5"
+                >
+                  Bonés
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/categorias/bermudas"
+                  className="hover:text-orange-street transition-colors inline-block py-0.5"
+                >
+                  Bermudas
                 </Link>
               </li>
               <li>
@@ -50,14 +74,6 @@ export function Footer() {
                   className="hover:text-orange-street transition-colors inline-block py-0.5"
                 >
                   Calças
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/categorias/acessorios"
-                  className="hover:text-orange-street transition-colors inline-block py-0.5"
-                >
-                  Acessórios
                 </Link>
               </li>
             </ul>

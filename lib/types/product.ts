@@ -8,6 +8,7 @@ export interface Product {
   oldPrice?: number;
   images: string[];
   category: ProductCategory;
+  subcategory?: string | null;
   stock: number;
   slug: string;
   sizes: ProductSize[];

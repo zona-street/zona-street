@@ -11,49 +11,89 @@ const categoryInfo: Record<
   string,
   { title: string; description: string; keywords: string[] }
 > = {
-  camisetas: {
-    title: "Camisetas Streetwear e Oversized",
+  camisas: {
+    title: "Camisas Streetwear e Oversized",
     description:
-      "Explore nossa coleção de camisetas streetwear e oversized. Estilo urbano com qualidade premium. Diversos modelos e estampas exclusivas!",
+      "Explore nossa coleção de camisas streetwear e oversized. Estilo urbano com qualidade premium. Diversos modelos exclusivos!",
     keywords: [
-      "camisetas streetwear",
-      "camisetas oversized",
-      "camisetas urbanas",
-      "camisetas estampadas",
+      "camisas streetwear",
+      "camisas oversized",
+      "camisas urbanas",
+      "camisas estampadas",
     ],
   },
-  moletons: {
-    title: "Moletons Streetwear e Oversized",
+  casacos: {
+    title: "Casacos Streetwear",
     description:
-      "Moletons streetwear com estilo e conforto. Peças oversized perfeitas para o seu visual urbano. Qualidade e exclusividade!",
+      "Casacos streetwear com estilo e conforto. Moletons, corta-ventos e casacos com zíper. Qualidade e exclusividade!",
     keywords: [
-      "moletons streetwear",
+      "casacos streetwear",
       "moletons oversized",
-      "moletom urbano",
-      "hoodies streetwear",
+      "corta-vento urbano",
+      "casacos urbanos",
+    ],
+  },
+  tenis: {
+    title: "Tênis Streetwear",
+    description:
+      "Tênis streetwear para completar seu look urbano. Conforto e estilo em cada par. Confira nossa coleção!",
+    keywords: [
+      "tênis streetwear",
+      "tênis urbanos",
+      "sneakers streetwear",
+      "calçados urbanos",
+    ],
+  },
+  bones: {
+    title: "Bonés Streetwear",
+    description:
+      "Bonés streetwear para finalizar seu visual. Aba curva, aba reta e five panel. Estilo e atitude!",
+    keywords: [
+      "bonés streetwear",
+      "boné aba curva",
+      "boné aba reta",
+      "bonés urbanos",
+    ],
+  },
+  bermudas: {
+    title: "Bermudas Streetwear",
+    description:
+      "Bermudas streetwear para o seu estilo urbano. Dri fit, sarja e cargo. Conforto e estilo garantidos!",
+    keywords: [
+      "bermudas streetwear",
+      "bermuda cargo",
+      "bermuda dri-fit",
+      "bermudas urbanas",
     ],
   },
   calcas: {
     title: "Calças Streetwear",
     description:
-      "Calças streetwear para completar seu look urbano. Conforto e estilo em cada peça. Confira nossa coleção!",
+      "Calças streetwear para completar seu look urbano. Jogger, baggy e dri fit. Confira nossa coleção!",
     keywords: [
       "calças streetwear",
       "calças urbanas",
-      "calças cargo",
-      "pants streetwear",
+      "calça jogger",
+      "calça baggy",
     ],
+  },
+  // Legacy category mappings for backward compatibility
+  camisetas: {
+    title: "Camisetas Streetwear e Oversized",
+    description:
+      "Explore nossa coleção de camisetas streetwear e oversized. Estilo urbano com qualidade premium.",
+    keywords: ["camisetas streetwear", "camisetas oversized"],
+  },
+  moletons: {
+    title: "Moletons Streetwear e Oversized",
+    description:
+      "Moletons streetwear com estilo e conforto. Peças oversized perfeitas para o seu visual urbano.",
+    keywords: ["moletons streetwear", "moletons oversized"],
   },
   acessorios: {
     title: "Acessórios Streetwear",
-    description:
-      "Acessórios streetwear para complementar seu estilo. Bonés, bolsas, meias e muito mais. Finalize seu look com atitude!",
-    keywords: [
-      "acessórios streetwear",
-      "bonés streetwear",
-      "bolsas urbanas",
-      "acessórios urbanos",
-    ],
+    description: "Acessórios streetwear para complementar seu estilo.",
+    keywords: ["acessórios streetwear", "bonés streetwear"],
   },
 };
 

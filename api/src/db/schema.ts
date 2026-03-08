@@ -9,17 +9,6 @@ import {
 } from "drizzle-orm/pg-core";
 
 /**
- * Enum para categorias de produtos
- */
-export const categoryEnum = pgEnum("category", [
-  "camisetas",
-  "moletons",
-  "calcas",
-  "jaquetas",
-  "acessorios",
-]);
-
-/**
  * Enum para tamanhos
  */
 export const sizeEnum = pgEnum("size", [
@@ -56,7 +45,8 @@ export const products = pgTable("products", {
   price: numeric("price", { precision: 10, scale: 2 }).notNull(),
   oldPrice: numeric("old_price", { precision: 10, scale: 2 }),
   images: text("images").array().notNull(),
-  category: categoryEnum("category").notNull(),
+  category: text("category").notNull(),
+  subcategory: text("subcategory"),
   stock: numeric("stock", { precision: 10, scale: 0 }).notNull().default("0"),
   slug: text("slug").notNull().unique(),
   sizes: text("sizes").array().notNull(), // Array de strings para tamanhos
