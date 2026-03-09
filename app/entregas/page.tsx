@@ -3,8 +3,40 @@ import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
 
 export const metadata: Metadata = {
-  title: "Entregas | Zona Street",
-  description: "Informações sobre prazos e formas de entrega da Zona Street.",
+  title: "Entregas e Frete",
+  description:
+    "Enviamos para todo o Brasil via Correios e transportadoras. Frete grátis para Resende e região! Prazo de 1 a 2 dias úteis localmente e até 15 dias para demais regiões.",
+  keywords: [
+    "frete zona street",
+    "entrega streetwear",
+    "frete grátis resende",
+    "prazo entrega zona street",
+    "entrega todo brasil",
+  ],
+  alternates: {
+    canonical: "/entregas",
+  },
+  openGraph: {
+    title: "Entregas e Frete - Zona Street",
+    description:
+      "Enviamos para todo o Brasil. Frete grátis para Resende e região! Confira nossos prazos.",
+    url: "https://zonastreet.com.br/entregas",
+    images: [
+      {
+        url: "/new-logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Entregas e Frete - Zona Street",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Entregas e Frete - Zona Street",
+    description:
+      "Enviamos para todo o Brasil. Frete grátis para Resende e região!",
+    images: ["/new-logo.png"],
+  },
 };
 
 export default function EntregasPage() {

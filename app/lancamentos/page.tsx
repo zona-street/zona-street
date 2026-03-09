@@ -4,13 +4,41 @@ import { Product } from "@/lib/types/product";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Lançamentos Streetwear",
+  title: "Lançamentos Streetwear | New Drops",
   description:
-    "Confira os últimos lançamentos da Zona Street! Novidades em moda streetwear e oversized. Seja o primeiro a ter as peças mais exclusivas!",
+    "Confira os últimos lançamentos da Zona Street! Novidades em moda streetwear e oversized — camisas, casacos, tênis, bonés e muito mais. Seja o primeiro a garantir as peças mais exclusivas!",
+  keywords: [
+    "lançamentos streetwear",
+    "new drops streetwear",
+    "novidades moda urbana",
+    "drops zona street",
+    "camisas novas streetwear",
+    "casacos novos oversized",
+    "lançamentos 2025",
+  ],
+  alternates: {
+    canonical: "/lancamentos",
+  },
   openGraph: {
     title: "Lançamentos - Zona Street",
     description:
+      "Confira os últimos lançamentos em moda streetwear. Novidades exclusivas na Zona Street!",
+    url: "https://zonastreet.com.br/lancamentos",
+    images: [
+      {
+        url: "/new-logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Lançamentos Zona Street",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Lançamentos - Zona Street",
+    description:
       "Confira os últimos lançamentos em moda streetwear. Novidades exclusivas!",
+    images: ["/new-logo.png"],
   },
 };
 

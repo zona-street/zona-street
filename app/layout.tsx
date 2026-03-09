@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.png",
+        url: "/new-logo.png",
         width: 1200,
         height: 630,
         alt: "Zona Street - Moda Streetwear",
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     title: "Zona Street - Moda Streetwear e Oversized",
     description:
       "Descubra a melhor moda streetwear e oversized do Brasil. Compre online na Zona Street!",
-    images: ["/og-image.png"],
+    images: ["/new-logo.png"],
   },
   robots: {
     index: true,
@@ -95,42 +95,89 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "ClothingStore",
-    name: "Zona Street",
-    description:
-      "Loja online de moda streetwear e oversized com os melhores produtos do Brasil",
-    url: "https://zonastreet.com.br",
-    logo: "https://zonastreet.com.br/logo-branca.png",
-    image: "https://zonastreet.com.br/og-image.png",
-    telephone: "+55-24-99206-0913",
-    priceRange: "$$",
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "BR",
-      addressLocality: "Resende",
-      addressRegion: "RJ",
-    },
-    sameAs: ["https://instagram.com/zonastreet01"],
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday",
-        ],
-        opens: "00:00",
-        closes: "23:59",
+  const structuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "ClothingStore",
+      name: "Zona Street",
+      description:
+        "Loja online de moda streetwear e oversized com os melhores produtos do Brasil. Fundada em 2023 em Resende-RJ, agora 100% online.",
+      url: "https://zonastreet.com.br",
+    logo: "https://zonastreet.com.br/new-logo.png",
+    image: "https://zonastreet.com.br/zona-street-sobre.png",
+      telephone: "+55-24-99206-0913",
+      priceRange: "$$",
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "BR",
+        addressLocality: "Resende",
+        addressRegion: "RJ",
       },
-    ],
-    paymentAccepted: ["Credit Card", "Debit Card", "PIX"],
-  };
+      sameAs: ["https://instagram.com/zonastreet01"],
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+          ],
+          opens: "00:00",
+          closes: "23:59",
+        },
+      ],
+      paymentAccepted: ["Credit Card", "Debit Card", "PIX"],
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Coleção Zona Street",
+        itemListElement: [
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Product", name: "Camisas Streetwear" },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Product", name: "Casacos Streetwear" },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Product", name: "Tênis Streetwear" },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Product", name: "Bonés Streetwear" },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Product", name: "Bermudas Streetwear" },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Product", name: "Calças Streetwear" },
+          },
+        ],
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "Zona Street",
+      url: "https://zonastreet.com.br",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate:
+            "https://zonastreet.com.br/produtos?search={search_term_string}",
+        },
+        "query-input": "required name=search_term_string",
+      },
+    },
+  ];
 
   return (
     <html lang="pt-BR">

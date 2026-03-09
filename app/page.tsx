@@ -6,7 +6,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Zona Street - Moda Streetwear e Oversized | Loja Online",
   description:
-    "A melhor loja de moda streetwear e oversized do Brasil. Camisetas, moletons, calças e acessórios com estilo urbano único. Lançamentos exclusivos e entrega para todo Brasil!",
+    "A melhor loja de moda streetwear e oversized do Brasil. Camisas, casacos, tênis, bonés, bermudas e calças urbanas. 10% OFF no PIX, parcelamento em 10x e entrega para todo Brasil!",
   keywords: [
     "loja streetwear",
     "comprar streetwear online",
@@ -14,12 +14,39 @@ export const metadata: Metadata = {
     "roupas oversized",
     "street style brasil",
     "moda urbana online",
+    "camisas streetwear",
+    "casacos streetwear",
+    "tênis streetwear",
+    "bonés streetwear",
+    "bermudas streetwear",
+    "calças streetwear",
+    "zona street resende",
+    "loja streetwear resende rj",
   ],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Zona Street - Moda Streetwear e Oversized",
     description:
-      "A melhor loja de moda streetwear e oversized do Brasil. Lançamentos exclusivos!",
+      "A melhor loja de moda streetwear e oversized do Brasil. 10% OFF no PIX e entrega para todo Brasil!",
     type: "website",
+    url: "https://zonastreet.com.br",
+    images: [
+      {
+        url: "/new-logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Zona Street - Moda Streetwear e Oversized",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Zona Street - Moda Streetwear e Oversized",
+    description:
+      "A melhor loja de moda streetwear e oversized do Brasil. 10% OFF no PIX e entrega para todo Brasil!",
+    images: ["/new-logo.png"],
   },
 };
 

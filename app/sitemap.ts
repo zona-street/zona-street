@@ -57,26 +57,33 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/favoritos`,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 0.7,
-    },
-    {
       url: `${baseUrl}/sobre`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.6,
     },
+    {
+      url: `${baseUrl}/entregas`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/trocas`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+    },
   ];
 
   // Categorias
   const categories = [
-    "camisetas",
-    "moletons",
+    "camisas",
+    "casacos",
+    "tenis",
+    "bones",
+    "bermudas",
     "calcas",
-    "acessorios",
-    "jaquetas",
   ];
   const categoryPages = categories.map((category) => ({
     url: `${baseUrl}/categorias/${category}`,

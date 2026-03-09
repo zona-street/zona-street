@@ -4,13 +4,44 @@ import { Metadata } from "next";
 import { ProdutosTemplate } from "@/components/templates/ProdutosTemplate";
 
 export const metadata: Metadata = {
-  title: "Produtos Streetwear e Oversized",
+  title: "Todos os Produtos Streetwear e Oversized",
   description:
-    "Explore todos os produtos da Zona Street: camisas, casacos, tênis, bonés, bermudas e calças streetwear. Estilo urbano com qualidade e exclusividade.",
+    "Explore toda a coleção da Zona Street: camisas, casacos, tênis, bonés, bermudas e calças streetwear. Estilo urbano com qualidade e exclusividade. 10% OFF no PIX!",
+  keywords: [
+    "produtos streetwear",
+    "camisas streetwear",
+    "casacos streetwear",
+    "tênis streetwear",
+    "bonés streetwear",
+    "bermudas streetwear",
+    "calças streetwear",
+    "roupas oversized",
+    "moda urbana online",
+    "comprar streetwear",
+  ],
+  alternates: {
+    canonical: "/produtos",
+  },
   openGraph: {
-    title: "Produtos - Zona Street",
+    title: "Todos os Produtos - Zona Street",
     description:
-      "Explore todos os produtos streetwear da Zona Street. Camisas, casacos, tênis e muito mais!",
+      "Explore toda a coleção streetwear da Zona Street. Camisas, casacos, tênis, bonés, bermudas e calças!",
+    url: "https://zonastreet.com.br/produtos",
+    images: [
+      {
+        url: "/new-logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Produtos Zona Street",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Todos os Produtos - Zona Street",
+    description:
+      "Explore toda a coleção streetwear da Zona Street. Camisas, casacos, tênis e muito mais!",
+    images: ["/new-logo.png"],
   },
 };
 

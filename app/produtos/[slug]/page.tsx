@@ -31,21 +31,26 @@ export async function generateMetadata({
   const productImage = product.images?.[0] || "/placeholder.jpg";
 
   return {
-    title: `${product.name} - ${product.category}`,
+    title: product.name,
     description:
       product.description ||
-      `Compre ${product.name} na Zona Street. Moda streetwear e oversized com qualidade e estilo único. Confira!`,
+      `Compre ${product.name} na Zona Street. Moda streetwear e oversized com qualidade e estilo único. 10% OFF no PIX!`,
     keywords: [
       product.name,
       product.category,
       "streetwear",
       "oversized",
       "zona street",
+      "comprar online",
     ],
+    alternates: {
+      canonical: `/produtos/${product.slug}`,
+    },
     openGraph: {
       title: `${product.name} - Zona Street`,
       description:
-        product.description || `Compre ${product.name} na Zona Street`,
+        product.description ||
+        `Compre ${product.name} na Zona Street. 10% OFF no PIX!`,
       images: [
         {
           url: productImage,
@@ -55,12 +60,14 @@ export async function generateMetadata({
         },
       ],
       type: "website",
+      url: `https://zonastreet.com.br/produtos/${product.slug}`,
     },
     twitter: {
       card: "summary_large_image",
       title: `${product.name} - Zona Street`,
       description:
-        product.description || `Compre ${product.name} na Zona Street`,
+        product.description ||
+        `Compre ${product.name} na Zona Street. 10% OFF no PIX!`,
       images: [productImage],
     },
   };

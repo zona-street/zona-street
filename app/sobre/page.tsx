@@ -9,11 +9,37 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Sobre a Zona Street",
   description:
-    "Conheça a história da Zona Street, nascida em Resende-RJ. Desde 2023 oferecendo moda streetwear e oversized com qualidade e estilo único. Descubra nossa jornada!",
+    "Conheça a história da Zona Street, nascida em Resende-RJ em 2023. Após 3 anos de loja física, agora somos 100% online — levando moda streetwear e oversized com qualidade para todo o Brasil!",
+  keywords: [
+    "sobre zona street",
+    "história zona street",
+    "loja streetwear resende rj",
+    "loja online streetwear brasil",
+    "marca streetwear brasileira",
+  ],
+  alternates: {
+    canonical: "/sobre",
+  },
   openGraph: {
-    title: "Sobre - Zona Street",
+    title: "Sobre a Zona Street",
     description:
-      "Conheça a história da Zona Street e nossa jornada na moda streetwear brasileira.",
+      "Nascida em Resende-RJ em 2023, agora 100% online. Conheça a história da Zona Street e nossa jornada na moda streetwear.",
+    url: "https://zonastreet.com.br/sobre",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Sobre a Zona Street",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sobre a Zona Street",
+    description:
+      "Nascida em Resende-RJ em 2023, agora 100% online. Moda streetwear e oversized com qualidade para todo o Brasil.",
+    images: ["/new-logo.png"],
   },
 };
 

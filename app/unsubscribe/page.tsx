@@ -6,6 +6,7 @@ import UnsubscribeForm from "./UnsubscribeForm";
 export const metadata = {
   title: "Cancelar Inscrição | Zona Street",
   description: "Cancelar sua inscrição na newsletter da Zona Street.",
+  robots: { index: false, follow: false },
 };
 
 export default function UnsubscribePage() {

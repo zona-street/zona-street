@@ -3,9 +3,39 @@ import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
 
 export const metadata: Metadata = {
-  title: "Trocas e Devoluções | Zona Street",
+  title: "Trocas e Devoluções",
   description:
-    "Saiba como funciona nossa política de trocas e devoluções na Zona Street.",
+    "Política de trocas e devoluções da Zona Street. Aceitamos trocas em até 30 dias corridos. Produto com defeito ou enviado incorretamente? Fazemos devolução com reembolso integral.",
+  keywords: [
+    "troca zona street",
+    "devolução zona street",
+    "política troca streetwear",
+    "trocar roupa online",
+  ],
+  alternates: {
+    canonical: "/trocas",
+  },
+  openGraph: {
+    title: "Trocas e Devoluções - Zona Street",
+    description:
+      "Política de trocas e devoluções da Zona Street. Aceitamos trocas em até 30 dias corridos.",
+    url: "https://zonastreet.com.br/trocas",
+    images: [
+      {
+        url: "/new-logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Trocas e Devoluções - Zona Street",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Trocas e Devoluções - Zona Street",
+    description:
+      "Política de trocas e devoluções da Zona Street. Aceitamos trocas em até 30 dias corridos.",
+    images: ["/new-logo.png"],
+  },
 };
 
 export default function TrocasPage() {
