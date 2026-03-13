@@ -100,7 +100,7 @@ export function ProdutosTemplate({
     : "Todos os Produtos";
 
   return (
-    <PageLayout>
+    <PageLayout mainClassName="py-12">
       <div className="mb-8">
         <h1 className="text-4xl font-bold uppercase tracking-tight text-gray-900 md:text-5xl">
           {title}
@@ -187,7 +187,9 @@ export function ProdutosTemplate({
         )}
       </div>
 
-      {loading && <ProductGridSkeleton />}
+      {loading && (
+        <ProductGridSkeleton grid="sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" />
+      )}
 
       {!loading && products.length === 0 ? (
         <div className="border-2 border-gray-200 bg-white p-16 text-center">

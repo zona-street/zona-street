@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 interface FilterChipProps {
   active: boolean;
   activeVariant?: "dark" | "orange";
+  compact?: boolean;
   onClick: () => void;
   children: React.ReactNode;
   className?: string;
@@ -13,6 +14,7 @@ interface FilterChipProps {
 export function FilterChip({
   active,
   activeVariant = "dark",
+  compact = false,
   onClick,
   children,
   className,
@@ -21,7 +23,9 @@ export function FilterChip({
     <button
       onClick={onClick}
       className={cn(
-        "border-2 px-4 py-1.5 text-xs font-bold uppercase tracking-wide shadow-brutal-sm transition-colors active:scale-95",
+        compact
+          ? "border-2 px-3 py-1.5 text-xs font-bold uppercase shadow-brutal-sm transition-colors active:scale-95"
+          : "border-2 px-4 py-1.5 text-xs font-bold uppercase tracking-wide shadow-brutal-sm transition-colors active:scale-95",
         active
           ? activeVariant === "orange"
             ? "border-orange-street bg-orange-street text-white"

@@ -83,7 +83,7 @@ export function CategoriasTemplate({
   const products = displayedProducts;
 
   return (
-    <PageLayout>
+    <PageLayout mainClassName="py-12">
       <div className="mb-8 border-b-2 border-gray-900 pb-8">
         <h1 className="mb-2 text-4xl font-bold uppercase tracking-tight text-gray-900 md:text-5xl">
           {categoryName}

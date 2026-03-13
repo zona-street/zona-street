@@ -3,14 +3,16 @@ import { cn } from "@/lib/utils";
 interface ProductGridSkeletonProps {
   count?: number;
   bordered?: boolean;
+  grid?: string;
 }
 
 export function ProductGridSkeleton({
   count = 4,
   bordered = false,
+  grid = "sm:grid-cols-2 lg:grid-cols-4",
 }: ProductGridSkeletonProps) {
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <div className={cn("grid gap-6", grid)}>
       {Array.from({ length: count }).map((_, i) => (
         <div key={i} className="animate-pulse">
           <div

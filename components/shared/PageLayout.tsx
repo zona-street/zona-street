@@ -13,7 +13,7 @@ export function PageLayout({ children, mainClassName }: PageLayoutProps) {
       <Navbar />
       <main
         className={cn(
-          "mx-auto flex-grow max-w-7xl w-full px-4 py-12 sm:px-6 lg:px-8",
+          "mx-auto flex-grow max-w-7xl w-full px-4 sm:px-6 lg:px-8",
           mainClassName,
         )}
       >

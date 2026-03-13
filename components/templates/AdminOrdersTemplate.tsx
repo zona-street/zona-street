@@ -254,7 +254,7 @@ export function AdminOrdersTemplate() {
             {orders.map((order) => (
               <div
                 key={order.id}
-                className="border-2 border-gray-900 bg-white p-4 shadow-brutal hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-shadow"
+                className="border-2 border-gray-900 bg-white p-4 shadow-brutal hover:shadow-brutal-lg transition-shadow"
               >
                 <div className="flex justify-between items-start mb-3">
                   <div>

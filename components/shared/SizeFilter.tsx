@@ -3,8 +3,8 @@
 import { FilterChip } from "./FilterChip";
 
 interface SizeFilterProps {
-  sizes: string[];
-  selectedSizes: string[];
+  sizes: readonly string[];
+  selectedSizes: readonly string[];
   onToggle: (size: string) => void;
   onClear: () => void;
 }
@@ -25,8 +25,8 @@ export function SizeFilter({
           key={size}
           active={selectedSizes.includes(size)}
           activeVariant="orange"
+          compact
           onClick={() => onToggle(size)}
-          className="px-3"
         >
           {size}
         </FilterChip>

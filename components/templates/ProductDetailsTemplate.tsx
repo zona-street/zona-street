@@ -140,7 +140,7 @@ export function ProductDetailsTemplate({
     : 0;
 
   return (
-    <PageLayout mainClassName="mx-auto flex-grow max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
+    <PageLayout mainClassName="py-8 sm:py-12">
       <div className="mb-12 sm:mb-16 grid gap-6 sm:gap-8 lg:grid-cols-2">
         <div className="space-y-3">
           <div

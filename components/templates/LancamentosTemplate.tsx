@@ -63,7 +63,7 @@ export function LancamentosTemplate({
   const products = displayedProducts;
 
   return (
-    <PageLayout mainClassName="mx-auto flex-grow-2 max-w-7xl w-full px-4 py-12 sm:px-6 lg:px-8">
+    <PageLayout mainClassName="py-12">
       <div className="mb-8 border-b-2 border-gray-900 pb-8">
         <div className="mb-4 inline-flex items-center gap-2 border-2 border-orange-600 bg-orange-600 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white shadow-brutal-sm">
           Novos Lançamentos
