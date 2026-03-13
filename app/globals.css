@@ -190,6 +190,37 @@
   --sidebar-ring: 32 100% 48%;
 }
 
+@layer utilities {
+  .shadow-brutal {
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  }
+  .shadow-brutal-sm {
+    box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+  }
+  .shadow-brutal-lg {
+    box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1);
+  }
+  .page-main {
+    @apply mx-auto flex-grow max-w-7xl w-full px-4 py-12 sm:px-6 lg:px-8;
+  }
+  .search-input {
+    @apply w-full border-2 border-gray-900 bg-white px-4 py-3 text-base font-medium placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900;
+    box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+  }
+  .admin-table-header {
+    @apply px-4 py-3 text-left text-xs font-bold uppercase tracking-wide text-white;
+  }
+  .form-error {
+    @apply mt-1 text-xs text-red-600;
+  }
+  .form-label {
+    @apply font-bold uppercase text-xs;
+  }
+  .form-input {
+    @apply mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

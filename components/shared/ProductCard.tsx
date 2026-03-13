@@ -36,6 +36,45 @@ interface ProductCardProps {
   sizes?: string[];
 }
 
+function useAddToCart({
+  id,
+  name,
+  price,
+  image,
+  slug,
+}: {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  slug: string;
+}) {
+  const [selectedSize, setSelectedSize] = useState<string>("");
+  const addItem = useCart((state) => state.addItem);
+  const openCart = useCartSheet((state) => state.openCart);
+
+  function handleAddToCart() {
+    if (!selectedSize) {
+      toast.error("Selecione um tamanho", {
+        description:
+          "Por favor, escolha o tamanho desejado antes de adicionar ao carrinho.",
+      });
+      return;
+    }
+
+    addItem({ id, name, price, size: selectedSize, image, slug });
+
+    toast.success("Adicionado ao carrinho!", {
+      description: `${name} - Tamanho ${selectedSize}`,
+    });
+
+    setSelectedSize("");
+    setTimeout(() => openCart(), 300);
+  }
+
+  return { selectedSize, setSelectedSize, handleAddToCart };
+}
+
 export function ProductCard({
   id,
   name,
@@ -47,12 +86,8 @@ export function ProductCard({
   slug,
   sizes = [],
 }: ProductCardProps) {
-  const [selectedSize, setSelectedSize] = useState<string>("");
   const { isFavorite, toggleFavorite: toggleFav } = useFavorites();
-  const addItem = useCart((state) => state.addItem);
-  const openCart = useCartSheet((state) => state.openCart);
 
-  // Verificaes de segurana
   const safeImage = image || "/placeholder-product.png";
   const safeName = name || "Produto sem nome";
   const safePrice =
@@ -73,8 +108,16 @@ export function ProductCard({
     ? Math.round(((safeOldPrice - safePrice) / safeOldPrice) * 100)
     : 0;
 
+  const { selectedSize, setSelectedSize, handleAddToCart } = useAddToCart({
+    id,
+    name,
+    price,
+    image,
+    slug,
+  });
+
   const handleToggleFavorite = (e: React.MouseEvent) => {
-    e.preventDefault(); // Impede navegao ao clicar
+    e.preventDefault();
     const isAdded = toggleFav(id);
 
     if (isAdded) {
@@ -84,42 +127,13 @@ export function ProductCard({
     }
   };
 
-  const handleAddToCart = () => {
-    if (!selectedSize) {
-      toast.error("Selecione um tamanho", {
-        description:
-          "Por favor, escolha o tamanho desejado antes de adicionar ao carrinho.",
-      });
-      return;
-    }
-
-    addItem({
-      id,
-      name,
-      price,
-      size: selectedSize,
-      image,
-      slug,
-    });
-
-    toast.success("Adicionado ao carrinho!", {
-      description: `${name} - Tamanho ${selectedSize}`,
-    });
-
-    setSelectedSize("");
-
-    // Abre o carrinho automaticamente
-    setTimeout(() => openCart(), 300);
-  };
-
   return (
-    <Card className="group relative overflow-hidden border-2 border-gray-900 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none py-0 gap-0 rounded-none">
+    <Card className="group relative overflow-hidden border-2 border-gray-900 bg-white shadow-brutal transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none py-0 gap-0 rounded-none">
       <CardHeader className="p-0">
         <Link
           href={`/produtos/${slug}`}
           className="relative block aspect-square"
         >
-          {/* Imagem do produto */}
           {safeImage ? (
             <Image
               src={safeImage}
@@ -134,21 +148,18 @@ export function ProductCard({
             </div>
           )}
 
-          {/* Badge de novidade */}
           {isNewDrop && (
-            <Badge className="absolute left-2 sm:left-3 top-2 sm:top-3 border-2 border-orange-600 bg-orange-600 px-2 sm:px-3 py-0.5 sm:py-1 text-xs font-bold uppercase tracking-wide text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+            <Badge className="absolute left-2 sm:left-3 top-2 sm:top-3 border-2 border-orange-600 bg-orange-600 px-2 sm:px-3 py-0.5 sm:py-1 text-xs font-bold uppercase tracking-wide text-white shadow-brutal-sm">
               New
             </Badge>
           )}
 
-          {/* Badge de desconto */}
           {discountPercentage > 0 && (
-            <Badge className="absolute right-2 sm:right-3 top-2 sm:top-3 border-2 border-gray-900 bg-gray-900 px-2 sm:px-3 py-0.5 sm:py-1 text-xs font-bold uppercase tracking-wide text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+            <Badge className="absolute right-2 sm:right-3 top-2 sm:top-3 border-2 border-gray-900 bg-gray-900 px-2 sm:px-3 py-0.5 sm:py-1 text-xs font-bold uppercase tracking-wide text-white shadow-brutal-sm">
               -{discountPercentage}%
             </Badge>
           )}
 
-          {/* Botão de favoritar - sempre visível no mobile, hover no desktop */}
           <Button
             variant="ghost"
             size="icon"
@@ -167,19 +178,16 @@ export function ProductCard({
       </CardHeader>
 
       <CardContent className="p-3 sm:p-4">
-        {/* Categoria */}
         <p className="mb-1.5 sm:mb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
           {category || "Categoria"}
         </p>
 
-        {/* Nome do produto */}
         <Link href={`/produtos/${slug || ""}`}>
           <h3 className="mb-2 sm:mb-3 line-clamp-2 text-sm sm:text-base font-bold leading-tight text-gray-900 transition-colors hover:text-orange-600">
             {safeName}
           </h3>
         </Link>
 
-        {/* Preos */}
         <div className="flex items-baseline gap-2">
           <span className="text-lg sm:text-xl font-bold text-gray-900">
             R$ {safePrice.toFixed(2)}
@@ -211,7 +219,7 @@ export function ProductCard({
         </Select>
 
         <Button
-          className="cursor-pointer w-full border-2 border-gray-900 bg-gray-900 py-2.5 sm:py-2 text-xs sm:text-xs font-bold uppercase tracking-wide text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none active:scale-[0.98]"
+          className="cursor-pointer w-full border-2 border-gray-900 bg-gray-900 py-2.5 sm:py-2 text-xs sm:text-xs font-bold uppercase tracking-wide text-white shadow-brutal-sm transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none active:scale-[0.98]"
           onClick={handleAddToCart}
         >
           <ShoppingCart className="mr-1.5 sm:mr-2 h-4 w-4" />
@@ -222,7 +230,6 @@ export function ProductCard({
   );
 }
 
-// Variante alternativa com destaque especial (para hero/featured products)
 export function ProductCardFeatured({
   id,
   name,
@@ -233,9 +240,6 @@ export function ProductCardFeatured({
   slug,
   sizes = [],
 }: ProductCardProps) {
-  const [selectedSize, setSelectedSize] = useState<string>("");
-  const addItem = useCart((state) => state.addItem);
-  const openCart = useCartSheet((state) => state.openCart);
   const safeSizes =
     Array.isArray(sizes) && sizes.length > 0 ? sizes : ["P", "M", "G"];
   const safePrice = typeof price === "string" ? parseFloat(price) : price;
@@ -245,33 +249,14 @@ export function ProductCardFeatured({
       : oldPrice
     : undefined;
 
-  const handleAddToCart = () => {
-    if (!selectedSize) {
-      toast.error("Selecione um tamanho", {
-        description:
-          "Por favor, escolha o tamanho desejado antes de adicionar ao carrinho.",
-      });
-      return;
-    }
+  const { selectedSize, setSelectedSize, handleAddToCart } = useAddToCart({
+    id,
+    name,
+    price: safePrice,
+    image,
+    slug,
+  });
 
-    addItem({
-      id,
-      name,
-      price: safePrice,
-      size: selectedSize,
-      image,
-      slug,
-    });
-
-    toast.success("Adicionado ao carrinho!", {
-      description: `${name} - Tamanho ${selectedSize}`,
-    });
-
-    setSelectedSize("");
-
-    // Abre o carrinho automaticamente
-    setTimeout(() => openCart(), 300);
-  };
   return (
     <Card className="group pt-0 relative overflow-hidden border-2 border-gray-900 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[6px] hover:translate-y-[6px] hover:shadow-none gap-0 rounded-none">
       <CardHeader className="p-0">
@@ -279,7 +264,6 @@ export function ProductCardFeatured({
           href={`/produtos/${slug}`}
           className="relative block aspect-square"
         >
-          {/* Imagem do produto em destaque */}
           {image ? (
             <Image
               src={image}
@@ -295,8 +279,7 @@ export function ProductCardFeatured({
             </div>
           )}
 
-          {/* Badge especial para featured */}
-          <Badge className="absolute left-3 sm:left-4 top-3 sm:top-4 border-2 border-gray-900 bg-gray-900 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold uppercase tracking-wide text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+          <Badge className="absolute left-3 sm:left-4 top-3 sm:top-4 border-2 border-gray-900 bg-gray-900 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold uppercase tracking-wide text-white shadow-brutal-sm">
             Destaque
           </Badge>
         </Link>
@@ -344,7 +327,7 @@ export function ProductCardFeatured({
         </Select>
 
         <Button
-          className="w-full border-2 border-gray-900 bg-gray-900 py-5 sm:py-6 text-sm sm:text-base font-bold uppercase tracking-wide text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none active:scale-[0.98]"
+          className="w-full border-2 border-gray-900 bg-gray-900 py-5 sm:py-6 text-sm sm:text-base font-bold uppercase tracking-wide text-white shadow-brutal transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none active:scale-[0.98]"
           onClick={handleAddToCart}
         >
           <ShoppingCart className="mr-2 sm:mr-3 h-5 w-5 sm:h-6 sm:w-6" />

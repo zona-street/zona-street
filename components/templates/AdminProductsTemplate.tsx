@@ -38,7 +38,6 @@ import {
   type ProductSize,
 } from "@/lib/constants/product";
 
-// Schema de validação
 const productSchema = z.object({
   name: z.string().min(3, "Nome deve ter no mínimo 3 caracteres"),
   description: z.string().min(10, "Descrição deve ter no mínimo 10 caracteres"),
@@ -50,14 +49,13 @@ const productSchema = z.object({
     .string()
     .min(3, "Slug deve ter no mínimo 3 caracteres")
     .transform((val) => {
-      // Sanitiza o slug: remove espaços extras, converte para lowercase e substitui espaços por hífens
       return val
         .trim()
         .toLowerCase()
-        .replace(/\s+/g, "-") // Substitui espaços por hífens
-        .replace(/[^a-z0-9-]/g, "") // Remove caracteres não permitidos
-        .replace(/-+/g, "-") // Remove hífens duplicados
-        .replace(/^-+|-+$/g, ""); // Remove hífens no início/fim
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, "")
+        .replace(/-+/g, "-")
+        .replace(/^-+|-+$/g, "");
     })
     .refine(
       (val) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(val),
@@ -73,6 +71,42 @@ const productSchema = z.object({
 });
 
 type ProductFormData = z.infer<typeof productSchema>;
+
+function formatPrice(value: number | string): string {
+  return (typeof value === "string" ? parseFloat(value) : value).toFixed(2);
+}
+
+function stockColorClass(stock: number): string {
+  if (Number(stock) > 10) return "text-green-600";
+  if (Number(stock) > 0) return "text-orange-600";
+  return "text-red-600";
+}
+
+function ProductStatusBadges({ product }: { product: Product }) {
+  return (
+    <div className="flex flex-wrap gap-1">
+      {product.isActive ? (
+        <Badge className="border border-green-600 bg-green-600 text-xs uppercase text-white">
+          Ativo
+        </Badge>
+      ) : (
+        <Badge className="border border-gray-600 bg-gray-600 text-xs uppercase text-white">
+          Arquivado
+        </Badge>
+      )}
+      {product.isNewDrop && (
+        <Badge className="border border-orange-600 bg-orange-600 text-xs uppercase text-white">
+          New
+        </Badge>
+      )}
+      {product.isFeatured && (
+        <Badge className="border border-blue-600 bg-blue-600 text-xs uppercase text-white">
+          Destaque
+        </Badge>
+      )}
+    </div>
+  );
+}
 
 export function AdminProductsTemplate() {
   const { token } = useAuth();
@@ -111,7 +145,6 @@ export function AdminProductsTemplate() {
 
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
 
-  // Reset subcategory when category changes
   useEffect(() => {
     setValue("subcategory", null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -147,21 +180,19 @@ export function AdminProductsTemplate() {
     },
   );
 
-  // Função para gerar slug a partir do nome
   function generateSlugFromName(name: string): string {
     if (!name) return "";
     return name
       .trim()
       .toLowerCase()
       .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-      .replace(/[^a-z0-9\s-]/g, "") // Remove caracteres especiais
-      .replace(/\s+/g, "-") // Substitui espaços por hífens
-      .replace(/-+/g, "-") // Remove hífens duplicados
-      .replace(/^-+|-+$/g, ""); // Remove hífens no início/fim
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-+|-+$/g, "");
   }
 
-  // Gerar slug automaticamente a partir do nome (apenas se não foi editado manualmente)
   useEffect(() => {
     if (!slugManuallyEdited && productName && !editingProduct) {
       const generatedSlug = generateSlugFromName(productName);
@@ -169,7 +200,6 @@ export function AdminProductsTemplate() {
     }
   }, [productName, slugManuallyEdited, setValue, editingProduct]);
 
-  // Carregar produtos
   useEffect(() => {
     loadProducts();
   }, []);
@@ -187,11 +217,10 @@ export function AdminProductsTemplate() {
     }
   }
 
-  // Abrir modal para criar/editar
   function openDialog(product?: Product) {
     if (product) {
       setEditingProduct(product);
-      setSlugManuallyEdited(true); // Ao editar, considera que o slug já existe
+      setSlugManuallyEdited(true);
       reset({
         name: product.name,
         description: product.description,
@@ -208,7 +237,7 @@ export function AdminProductsTemplate() {
       });
     } else {
       setEditingProduct(null);
-      setSlugManuallyEdited(false); // Ao criar novo, permite geração automática
+      setSlugManuallyEdited(false);
       reset({
         sizes: [],
         images: [],
@@ -220,7 +249,6 @@ export function AdminProductsTemplate() {
     setDialogOpen(true);
   }
 
-  // Submeter formulário
   async function onSubmit(data: ProductFormData) {
     if (!token) {
       toast.error("Você precisa estar autenticado");
@@ -245,7 +273,6 @@ export function AdminProductsTemplate() {
     }
   }
 
-  // Deletar produto
   async function handleDelete(productId: string) {
     if (!token) {
       toast.error("Você precisa estar autenticado");
@@ -292,7 +319,6 @@ export function AdminProductsTemplate() {
     }
   }
 
-  // Toggle tamanho
   function toggleSize(size: ProductSize) {
     const current = selectedSizes || [];
     if (current.includes(size)) {
@@ -305,7 +331,6 @@ export function AdminProductsTemplate() {
     }
   }
 
-  // Remover URL de imagem
   function removeImageUrl(url: string) {
     const current = imageUrls || [];
     setValue(
@@ -351,7 +376,6 @@ export function AdminProductsTemplate() {
 
   return (
     <div className="space-y-6 sm:space-y-8">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b-2 border-gray-900 pb-4 sm:pb-6 gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight text-gray-900">
@@ -367,7 +391,7 @@ export function AdminProductsTemplate() {
             type="button"
             variant="outline"
             onClick={() => setShowArchived((current) => !current)}
-            className={`w-full sm:w-auto border-2 hover:bg-gray-800 hover:text-primary border-gray-900 px-3 py-2.5 text-sm font-bold uppercase tracking-wide shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95 ${
+            className={`w-full sm:w-auto border-2 hover:bg-gray-800 hover:text-primary border-gray-900 px-3 py-2.5 text-sm font-bold uppercase tracking-wide shadow-brutal-sm active:scale-95 ${
               showArchived ? "bg-gray-900 text-white " : "text-gray-900  "
             }`}
           >
@@ -379,13 +403,13 @@ export function AdminProductsTemplate() {
             <DialogTrigger asChild>
               <Button
                 onClick={() => openDialog()}
-                className="w-full sm:w-auto border-2 border-gray-900 bg-gray-900 px-4 sm:px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-white hover:bg-orange-street hover:border-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95"
+                className="w-full sm:w-auto border-2 border-gray-900 bg-gray-900 px-4 sm:px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-white hover:bg-orange-street hover:border-orange-street shadow-brutal-sm active:scale-95"
               >
                 <Plus className="mr-2 h-4 w-4" />
                 Novo Produto
               </Button>
             </DialogTrigger>
-            <DialogContent className="w-[95vw] sm:w-full max-w-150 max-h-[90vh] overflow-y-auto overflow-x-hidden border-2 border-gray-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <DialogContent className="w-[95vw] sm:w-full max-w-150 max-h-[90vh] overflow-y-auto overflow-x-hidden border-2 border-gray-900 shadow-brutal">
               <DialogHeader>
                 <DialogTitle className="text-xl sm:text-2xl font-black uppercase">
                   {editingProduct ? "Editar Produto" : "Novo Produto"}
@@ -401,30 +425,23 @@ export function AdminProductsTemplate() {
                 onSubmit={handleSubmit(onSubmit)}
                 className="space-y-4 sm:space-y-6 w-full max-w-full box-border"
               >
-                {/* Nome */}
                 <div>
-                  <Label htmlFor="name" className="font-bold uppercase text-xs">
+                  <Label htmlFor="name" className="form-label">
                     Nome do Produto *
                   </Label>
                   <Input
                     id="name"
                     {...register("name")}
-                    className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
+                    className="form-input"
                     placeholder="Ex: Camiseta Oversized Básica"
                   />
                   {errors.name && (
-                    <p className="mt-1 text-xs text-red-600">
-                      {errors.name.message}
-                    </p>
+                    <p className="form-error">{errors.name.message}</p>
                   )}
                 </div>
 
-                {/* Descrição */}
                 <div>
-                  <Label
-                    htmlFor="description"
-                    className="font-bold uppercase text-xs"
-                  >
+                  <Label htmlFor="description" className="form-label">
                     Descrição *
                   </Label>
                   <textarea
@@ -434,19 +451,13 @@ export function AdminProductsTemplate() {
                     placeholder="Descrição detalhada do produto..."
                   />
                   {errors.description && (
-                    <p className="mt-1 text-xs text-red-600">
-                      {errors.description.message}
-                    </p>
+                    <p className="form-error">{errors.description.message}</p>
                   )}
                 </div>
 
-                {/* Preço e Preço Antigo */}
                 <div className="flex flex-col sm:flex-row gap-4">
                   <div className="flex-1">
-                    <Label
-                      htmlFor="price"
-                      className="font-bold uppercase text-xs"
-                    >
+                    <Label htmlFor="price" className="form-label">
                       Preço (R$) *
                     </Label>
                     <Input
@@ -454,21 +465,16 @@ export function AdminProductsTemplate() {
                       type="number"
                       step="0.01"
                       {...register("price", { valueAsNumber: true })}
-                      className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
+                      className="form-input"
                       placeholder="149.90"
                     />
                     {errors.price && (
-                      <p className="mt-1 text-xs text-red-600">
-                        {errors.price.message}
-                      </p>
+                      <p className="form-error">{errors.price.message}</p>
                     )}
                   </div>
 
                   <div className="flex-1">
-                    <Label
-                      htmlFor="oldPrice"
-                      className="font-bold uppercase text-xs"
-                    >
+                    <Label htmlFor="oldPrice" className="form-label">
                       Preço Antigo (R$)
                     </Label>
                     <Input
@@ -476,24 +482,18 @@ export function AdminProductsTemplate() {
                       type="number"
                       step="0.01"
                       {...register("oldPrice", { valueAsNumber: true })}
-                      className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
+                      className="form-input"
                       placeholder="199.90"
                     />
                     {errors.oldPrice && (
-                      <p className="mt-1 text-xs text-red-600">
-                        {errors.oldPrice.message}
-                      </p>
+                      <p className="form-error">{errors.oldPrice.message}</p>
                     )}
                   </div>
                 </div>
 
-                {/* Categoria e Estoque */}
                 <div className="flex flex-col sm:flex-row gap-4">
                   <div className="flex-1">
-                    <Label
-                      htmlFor="category"
-                      className="font-bold uppercase text-xs"
-                    >
+                    <Label htmlFor="category" className="form-label">
                       Categoria *
                     </Label>
                     <Select
@@ -514,41 +514,30 @@ export function AdminProductsTemplate() {
                       </SelectContent>
                     </Select>
                     {errors.category && (
-                      <p className="mt-1 text-xs text-red-600">
-                        {errors.category.message}
-                      </p>
+                      <p className="form-error">{errors.category.message}</p>
                     )}
                   </div>
 
                   <div className="flex-1">
-                    <Label
-                      htmlFor="stock"
-                      className="font-bold uppercase text-xs"
-                    >
+                    <Label htmlFor="stock" className="form-label">
                       Estoque *
                     </Label>
                     <Input
                       id="stock"
                       type="number"
                       {...register("stock", { valueAsNumber: true })}
-                      className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
+                      className="form-input"
                       placeholder="100"
                     />
                     {errors.stock && (
-                      <p className="mt-1 text-xs text-red-600">
-                        {errors.stock.message}
-                      </p>
+                      <p className="form-error">{errors.stock.message}</p>
                     )}
                   </div>
                 </div>
 
-                {/* Subcategoria (opcional, depende da categoria selecionada) */}
                 {availableSubcategories.length > 0 && (
                   <div>
-                    <Label
-                      htmlFor="subcategory"
-                      className="font-bold uppercase text-xs"
-                    >
+                    <Label htmlFor="subcategory" className="form-label">
                       Subcategoria
                     </Label>
                     <Select
@@ -575,9 +564,8 @@ export function AdminProductsTemplate() {
                   </div>
                 )}
 
-                {/* Slug */}
                 <div>
-                  <Label htmlFor="slug" className="font-bold uppercase text-xs">
+                  <Label htmlFor="slug" className="form-label">
                     Slug (URL) *
                   </Label>
                   <Input
@@ -585,9 +573,9 @@ export function AdminProductsTemplate() {
                     {...register("slug")}
                     onChange={(e) => {
                       register("slug").onChange(e);
-                      setSlugManuallyEdited(true); // Marca como editado manualmente
+                      setSlugManuallyEdited(true);
                     }}
-                    className="mt-1 w-full border-2 border-gray-900 h-10 sm:h-11 text-base"
+                    className="form-input"
                     placeholder="camiseta-oversized-basica"
                   />
                   <p className="mt-1 text-xs text-gray-500">
@@ -596,24 +584,19 @@ export function AdminProductsTemplate() {
                       : "Espaços serão convertidos automaticamente em hífens. Ex: 'camiseta-oversized-basica'"}
                   </p>
                   {errors.slug && (
-                    <p className="mt-1 text-xs text-red-600">
-                      {errors.slug.message}
-                    </p>
+                    <p className="form-error">{errors.slug.message}</p>
                   )}
                 </div>
 
-                {/* Tamanhos */}
                 <div>
-                  <Label className="font-bold uppercase text-xs">
-                    Tamanhos Disponíveis *
-                  </Label>
+                  <Label className="form-label">Tamanhos Disponíveis *</Label>
                   <div className="mt-2 flex flex-wrap gap-2 max-w-full">
                     {availableSizes.map((size) => (
                       <button
                         key={size}
                         type="button"
                         onClick={() => toggleSize(size)}
-                        className={`border-2 px-3 sm:px-2 py-2 sm:py-1 font-bold uppercase text-xs transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95 ${
+                        className={`border-2 px-3 sm:px-2 py-2 sm:py-1 font-bold uppercase text-xs transition-colors shadow-brutal-sm active:scale-95 ${
                           selectedSizes?.includes(size)
                             ? "border-orange-street bg-orange-street text-white"
                             : "border-gray-900 bg-white text-gray-900 hover:bg-gray-100"
@@ -624,17 +607,12 @@ export function AdminProductsTemplate() {
                     ))}
                   </div>
                   {errors.sizes && (
-                    <p className="mt-1 text-xs text-red-600">
-                      {errors.sizes.message}
-                    </p>
+                    <p className="form-error">{errors.sizes.message}</p>
                   )}
                 </div>
 
-                {/* Imagens */}
                 <div>
-                  <Label className="font-bold uppercase text-xs">
-                    Imagens *
-                  </Label>
+                  <Label className="form-label">Imagens *</Label>
                   <div className="mt-2 space-y-3">
                     <Input
                       id="image-upload-input"
@@ -657,7 +635,6 @@ export function AdminProductsTemplate() {
                       Resolução recomendada: 800x800px. PNG, JPG ou JPEG.
                     </p>
 
-                    {/* Preview das imagens */}
                     {imageUrls && imageUrls.length > 0 && (
                       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                         {imageUrls.map((url, index) => (
@@ -686,13 +663,10 @@ export function AdminProductsTemplate() {
                     )}
                   </div>
                   {errors.images && (
-                    <p className="mt-1 text-xs text-red-600">
-                      {errors.images.message}
-                    </p>
+                    <p className="form-error">{errors.images.message}</p>
                   )}
                 </div>
 
-                {/* Flags */}
                 <div className="flex flex-col gap-4">
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
@@ -701,30 +675,27 @@ export function AdminProductsTemplate() {
                       onChange={(e) => setValue("isNewDrop", e.target.checked)}
                       className="h-4 w-4 border-2 border-gray-900"
                     />
-                    <span className="font-bold uppercase text-xs">
-                      Novo Lançamento
-                    </span>
+                    <span className="form-label">Novo Lançamento</span>
                   </label>
 
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={isFeatured}
-                      onChange={(e) => setValue("isFeatured", e.target.checked)}
+                      onChange={(e) =>
+                        setValue("isFeatured", e.target.checked)
+                      }
                       className="h-4 w-4 border-2 border-gray-900"
                     />
-                    <span className="font-bold uppercase text-xs">
-                      Produto em Destaque
-                    </span>
+                    <span className="form-label">Produto em Destaque</span>
                   </label>
                 </div>
 
-                {/* Botµes */}
                 <div className="flex flex-col gap-3 pt-4">
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full border-2 border-gray-900 bg-gray-900 font-bold uppercase text-white hover:bg-orange-street shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                    className="w-full border-2 border-gray-900 bg-gray-900 font-bold uppercase text-white hover:bg-orange-street shadow-brutal-sm"
                   >
                     {isSubmitting ? (
                       <>
@@ -753,13 +724,12 @@ export function AdminProductsTemplate() {
         </div>
       </div>
 
-      {/* Tabela de produtos */}
       {loading ? (
         <div className="flex items-center justify-center py-12">
           <Loader2 className="h-8 w-8 animate-spin text-orange-street" />
         </div>
       ) : visibleProducts.length === 0 ? (
-        <div className="border-2 border-gray-200 bg-white p-12 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+        <div className="border-2 border-gray-200 bg-white p-12 text-center shadow-brutal">
           <Package className="mx-auto h-16 w-16 text-gray-400" />
           <h3 className="mt-4 text-lg font-bold uppercase text-gray-900">
             {showArchived ? "Nenhum produto arquivado" : "Nenhum produto ativo"}
@@ -772,27 +742,16 @@ export function AdminProductsTemplate() {
         </div>
       ) : (
         <>
-          {/* Tabela para desktop */}
-          <div className="hidden md:block border-2 border-gray-900 bg-white overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <div className="hidden md:block border-2 border-gray-900 bg-white overflow-hidden shadow-brutal">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="border-b-2 border-gray-900 bg-gray-900">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wide text-white">
-                      Produto
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wide text-white">
-                      Categoria
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wide text-white">
-                      Preço
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wide text-white">
-                      Estoque
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wide text-white">
-                      Status
-                    </th>
+                    <th className="admin-table-header">Produto</th>
+                    <th className="admin-table-header">Categoria</th>
+                    <th className="admin-table-header">Preço</th>
+                    <th className="admin-table-header">Estoque</th>
+                    <th className="admin-table-header">Status</th>
                     <th className="px-4 py-3 text-right text-xs font-bold uppercase tracking-wide text-white">
                       Ações
                     </th>
@@ -827,56 +786,24 @@ export function AdminProductsTemplate() {
                       <td className="px-4 py-4">
                         <div>
                           <p className="font-bold text-sm text-gray-900">
-                            R${" "}
-                            {typeof product.price === "string"
-                              ? parseFloat(product.price).toFixed(2)
-                              : product.price.toFixed(2)}
+                            R$ {formatPrice(product.price)}
                           </p>
                           {product.oldPrice && (
                             <p className="text-xs text-gray-500 line-through">
-                              R${" "}
-                              {typeof product.oldPrice === "string"
-                                ? parseFloat(product.oldPrice).toFixed(2)
-                                : product.oldPrice.toFixed(2)}
+                              R$ {formatPrice(product.oldPrice)}
                             </p>
                           )}
                         </div>
                       </td>
                       <td className="px-4 py-4">
                         <span
-                          className={`font-bold text-sm ${
-                            Number(product.stock) > 10
-                              ? "text-green-600"
-                              : Number(product.stock) > 0
-                                ? "text-orange-600"
-                                : "text-red-600"
-                          }`}
+                          className={`font-bold text-sm ${stockColorClass(product.stock)}`}
                         >
                           {product.stock}
                         </span>
                       </td>
                       <td className="px-4 py-4">
-                        <div className="flex flex-wrap gap-1">
-                          {product.isActive ? (
-                            <Badge className="border border-green-600 bg-green-600 text-xs uppercase text-white">
-                              Ativo
-                            </Badge>
-                          ) : (
-                            <Badge className="border border-gray-600 bg-gray-600 text-xs uppercase text-white">
-                              Arquivado
-                            </Badge>
-                          )}
-                          {product.isNewDrop && (
-                            <Badge className="border border-orange-600 bg-orange-600 text-xs uppercase text-white">
-                              New
-                            </Badge>
-                          )}
-                          {product.isFeatured && (
-                            <Badge className="border border-blue-600 bg-blue-600 text-xs uppercase text-white">
-                              Destaque
-                            </Badge>
-                          )}
-                        </div>
+                        <ProductStatusBadges product={product} />
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex justify-end gap-2">
@@ -921,12 +848,11 @@ export function AdminProductsTemplate() {
             </div>
           </div>
 
-          {/* Cards para mobile */}
           <div className="md:hidden grid gap-4">
             {visibleProducts.map((product) => (
               <div
                 key={product.id}
-                className="border-2 border-gray-900 bg-white p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-shadow"
+                className="border-2 border-gray-900 bg-white p-4 shadow-brutal hover:shadow-brutal-lg transition-shadow"
               >
                 <div className="flex gap-4 mb-4">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -943,27 +869,7 @@ export function AdminProductsTemplate() {
                     <span className="text-xs font-medium uppercase text-gray-700 block mb-2">
                       {product.category}
                     </span>
-                    <div className="flex flex-wrap gap-1">
-                      {product.isActive ? (
-                        <Badge className="border border-green-600 bg-green-600 text-xs uppercase text-white">
-                          Ativo
-                        </Badge>
-                      ) : (
-                        <Badge className="border border-gray-600 bg-gray-600 text-xs uppercase text-white">
-                          Arquivado
-                        </Badge>
-                      )}
-                      {product.isNewDrop && (
-                        <Badge className="border border-orange-600 bg-orange-600 text-xs uppercase text-white">
-                          New
-                        </Badge>
-                      )}
-                      {product.isFeatured && (
-                        <Badge className="border border-blue-600 bg-blue-600 text-xs uppercase text-white">
-                          Destaque
-                        </Badge>
-                      )}
-                    </div>
+                    <ProductStatusBadges product={product} />
                   </div>
                 </div>
 
@@ -972,17 +878,11 @@ export function AdminProductsTemplate() {
                     <div>
                       <p className="text-xs text-gray-600 mb-1">Preço</p>
                       <p className="font-bold text-sm text-gray-900">
-                        R${" "}
-                        {typeof product.price === "string"
-                          ? parseFloat(product.price).toFixed(2)
-                          : product.price.toFixed(2)}
+                        R$ {formatPrice(product.price)}
                       </p>
                       {product.oldPrice && (
                         <p className="text-xs text-gray-500 line-through">
-                          R${" "}
-                          {typeof product.oldPrice === "string"
-                            ? parseFloat(product.oldPrice).toFixed(2)
-                            : product.oldPrice.toFixed(2)}
+                          R$ {formatPrice(product.oldPrice)}
                         </p>
                       )}
                     </div>
@@ -991,13 +891,7 @@ export function AdminProductsTemplate() {
                         Estoque
                       </p>
                       <span
-                        className={`font-bold text-sm block ${
-                          Number(product.stock) > 10
-                            ? "text-green-600"
-                            : Number(product.stock) > 0
-                              ? "text-orange-600"
-                              : "text-red-600"
-                        }`}
+                        className={`font-bold text-sm block ${stockColorClass(product.stock)}`}
                       >
                         {product.stock}
                       </span>

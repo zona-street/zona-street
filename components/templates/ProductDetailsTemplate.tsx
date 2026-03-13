@@ -2,6 +2,7 @@
 
 import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
+import { PageLayout } from "@/components/shared/PageLayout";
 import { ProductCard } from "@/components/shared/ProductCard";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -31,7 +32,6 @@ export function ProductDetailsTemplate({
   const addItem = useCart((state) => state.addItem);
   const { openCart } = useCartSheet();
 
-  // Verificar se o produto tem dados essenciais
   if (!product || !product.id) {
     return (
       <div className="min-h-screen bg-white">
@@ -51,7 +51,6 @@ export function ProductDetailsTemplate({
     );
   }
 
-  // Gerenciar favoritos no localStorage
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     setIsFavorite(favorites.includes(product.id));
@@ -141,185 +140,174 @@ export function ProductDetailsTemplate({
     : 0;
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50">
-      <Navbar />
-
-      <main className="mx-auto flex-grow max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
-        {/* Produto */}
-        <div className="mb-12 sm:mb-16 grid gap-6 sm:gap-8 lg:grid-cols-2">
-          {/* Imagens */}
-          <div className="space-y-3">
-            <div
-              className="relative aspect-square overflow-hidden border-2 border-gray-900 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] cursor-zoom-in"
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-            >
-              <Image
-                ref={imageRef}
-                src={product.images?.[selectedImageIndex] || "/placeholder.jpg"}
-                alt={product.name}
-                fill
-                className="object-cover transition-transform duration-300"
-                style={{
-                  transformOrigin,
-                  transform: isZoomed ? "scale(2)" : "scale(1)",
-                }}
-              />
-              {product.isNewDrop && (
-                <Badge className="absolute left-3 sm:left-4 top-3 sm:top-4 border-2 border-orange-600 bg-orange-600 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-xs sm:text-sm px-2 sm:px-3 py-1">
-                  NOVO
-                </Badge>
-              )}
-              {discount > 0 && (
-                <Badge className="absolute right-3 sm:right-4 top-3 sm:top-4 border-2 border-gray-900 bg-gray-900 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-xs sm:text-sm px-2 sm:px-3 py-1">
-                  -{discount}%
-                </Badge>
-              )}
-            </div>
-
-            {/* Thumbnails */}
-            {product.images && product.images.length > 1 && (
-              <div className="flex gap-2 overflow-x-auto pb-1">
-                {product.images.map((img, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setSelectedImageIndex(index)}
-                    className={`relative h-16 w-16 flex-shrink-0 overflow-hidden border-2 transition-all ${
-                      selectedImageIndex === index
-                        ? "border-gray-900 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                        : "border-gray-300 opacity-60 hover:opacity-100 hover:border-gray-600"
-                    }`}
-                  >
-                    <Image
-                      src={img}
-                      alt={`${product.name} - imagem ${index + 1}`}
-                      fill
-                      className="object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
+    <PageLayout mainClassName="mx-auto flex-grow max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
+      <div className="mb-12 sm:mb-16 grid gap-6 sm:gap-8 lg:grid-cols-2">
+        <div className="space-y-3">
+          <div
+            className="relative aspect-square overflow-hidden border-2 border-gray-900 bg-white shadow-brutal cursor-zoom-in"
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+          >
+            <Image
+              ref={imageRef}
+              src={product.images?.[selectedImageIndex] || "/placeholder.jpg"}
+              alt={product.name}
+              fill
+              className="object-cover transition-transform duration-300"
+              style={{
+                transformOrigin,
+                transform: isZoomed ? "scale(2)" : "scale(1)",
+              }}
+            />
+            {product.isNewDrop && (
+              <Badge className="absolute left-3 sm:left-4 top-3 sm:top-4 border-2 border-orange-600 bg-orange-600 text-white shadow-brutal-sm text-xs sm:text-sm px-2 sm:px-3 py-1">
+                NOVO
+              </Badge>
+            )}
+            {discount > 0 && (
+              <Badge className="absolute right-3 sm:right-4 top-3 sm:top-4 border-2 border-gray-900 bg-gray-900 text-white shadow-brutal-sm text-xs sm:text-sm px-2 sm:px-3 py-1">
+                -{discount}%
+              </Badge>
             )}
           </div>
 
-          {/* Informaes */}
-          <div>
-            <div className="mb-4 flex items-start justify-between gap-3">
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold uppercase tracking-tight text-gray-900">
-                {product.name}
-              </h1>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={toggleFavorite}
-                className={`flex-shrink-0 h-11 w-11 sm:h-12 sm:w-12 border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none active:scale-95 ${
-                  isFavorite
-                    ? "border-red-600 bg-red-600 text-white hover:bg-red-700"
-                    : "border-gray-900 bg-white hover:bg-gray-50"
-                }`}
-              >
-                <Heart
-                  className={`h-5 w-5 ${isFavorite ? "fill-current" : ""}`}
-                />
-              </Button>
-            </div>
-
-            <div className="mb-5 sm:mb-6 flex items-baseline gap-2 sm:gap-3">
-              <span className="text-2xl sm:text-3xl font-bold text-gray-900">
-                R$ {price > 0 ? price.toFixed(2) : "Preço não disponível"}
-              </span>
-              {oldPrice && oldPrice > 0 && (
-                <span className="text-lg sm:text-xl text-gray-400 line-through">
-                  R$ {oldPrice.toFixed(2)}
-                </span>
-              )}
-            </div>
-
-            <p className="mb-5 sm:mb-6 text-sm sm:text-base text-gray-700">
-              {product.description}
-            </p>
-
-            <div className="mb-5 sm:mb-6">
-              <h3 className="mb-3 text-xs sm:text-sm font-bold uppercase text-gray-900">
-                Selecione o tamanho
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {product.sizes?.map((size: string) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`border-2 px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-bold uppercase transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none active:scale-95 ${
-                      selectedSize === size
-                        ? "border-gray-900 bg-gray-900 text-white"
-                        : "border-gray-900 bg-white text-gray-900"
-                    }`}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="mb-5 sm:mb-6">
-              <p className="text-sm text-gray-600">
-                Estoque: {product.stock} unidades disponíveis
-              </p>
-            </div>
-
-            <Button
-              onClick={handleAddToCart}
-              disabled={!selectedSize || price <= 0}
-              className="w-full border-2 border-gray-900 bg-gray-900 py-5 sm:py-6 text-sm sm:text-base font-bold uppercase tracking-wide text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
-              size="lg"
-            >
-              {!selectedSize
-                ? "Selecione um tamanho"
-                : price <= 0
-                  ? "Produto indisponível"
-                  : "Adicionar ao Carrinho"}
-            </Button>
-
-            <div className="mt-6 sm:mt-8 border-t-2 border-gray-200 pt-6 sm:pt-8">
-              <h3 className="mb-3 sm:mb-4 text-xs sm:text-sm font-bold uppercase text-gray-900">
-                Informações do Produto
-              </h3>
-              <ul className="space-y-2 text-sm text-gray-700">
-                <li>• Envio para todo o Brasil</li>
-                <li>• Envio grátis para Resende e região</li>
-                <li>• 10% OFF no pagamento via PIX</li>
-                <li>• Parcelamento em até 10x sem juros</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* Produtos Relacionados */}
-        {relatedProducts.length > 0 && (
-          <section className="border-t-2 border-gray-900 pt-12 sm:pt-16">
-            <h2 className="mb-6 sm:mb-8 text-2xl sm:text-3xl font-bold uppercase tracking-tight text-gray-900">
-              Produtos Relacionados
-            </h2>
-            <div className="grid gap-4 sm:gap-6 grid-cols-1 xs:grid-cols-2 lg:grid-cols-4">
-              {relatedProducts.map((relatedProduct: Product) => (
-                <ProductCard
-                  key={relatedProduct.id}
-                  id={relatedProduct.id}
-                  name={relatedProduct.name}
-                  price={relatedProduct.price}
-                  oldPrice={relatedProduct.oldPrice}
-                  image={relatedProduct.images?.[0] || "/placeholder.jpg"}
-                  category={relatedProduct.category}
-                  slug={relatedProduct.slug}
-                  isNewDrop={relatedProduct.isNewDrop}
-                  sizes={relatedProduct.sizes}
-                />
+          {product.images && product.images.length > 1 && (
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {product.images.map((img, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedImageIndex(index)}
+                  className={`relative h-16 w-16 flex-shrink-0 overflow-hidden border-2 transition-all ${
+                    selectedImageIndex === index
+                      ? "border-gray-900 shadow-brutal-sm"
+                      : "border-gray-300 opacity-60 hover:opacity-100 hover:border-gray-600"
+                  }`}
+                >
+                  <Image
+                    src={img}
+                    alt={`${product.name} - imagem ${index + 1}`}
+                    fill
+                    className="object-cover"
+                  />
+                </button>
               ))}
             </div>
-          </section>
-        )}
-      </main>
+          )}
+        </div>
 
-      <Footer />
-    </div>
+        <div>
+          <div className="mb-4 flex items-start justify-between gap-3">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold uppercase tracking-tight text-gray-900">
+              {product.name}
+            </h1>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={toggleFavorite}
+              className={`flex-shrink-0 h-11 w-11 sm:h-12 sm:w-12 border-2 shadow-brutal-sm transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none active:scale-95 ${
+                isFavorite
+                  ? "border-red-600 bg-red-600 text-white hover:bg-red-700"
+                  : "border-gray-900 bg-white hover:bg-gray-50"
+              }`}
+            >
+              <Heart
+                className={`h-5 w-5 ${isFavorite ? "fill-current" : ""}`}
+              />
+            </Button>
+          </div>
+
+          <div className="mb-5 sm:mb-6 flex items-baseline gap-2 sm:gap-3">
+            <span className="text-2xl sm:text-3xl font-bold text-gray-900">
+              R$ {price > 0 ? price.toFixed(2) : "Preço não disponível"}
+            </span>
+            {oldPrice && oldPrice > 0 && (
+              <span className="text-lg sm:text-xl text-gray-400 line-through">
+                R$ {oldPrice.toFixed(2)}
+              </span>
+            )}
+          </div>
+
+          <p className="mb-5 sm:mb-6 text-sm sm:text-base text-gray-700">
+            {product.description}
+          </p>
+
+          <div className="mb-5 sm:mb-6">
+            <h3 className="mb-3 text-xs sm:text-sm font-bold uppercase text-gray-900">
+              Selecione o tamanho
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {product.sizes?.map((size: string) => (
+                <button
+                  key={size}
+                  onClick={() => setSelectedSize(size)}
+                  className={`border-2 px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-bold uppercase transition-all shadow-brutal-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none active:scale-95 ${
+                    selectedSize === size
+                      ? "border-gray-900 bg-gray-900 text-white"
+                      : "border-gray-900 bg-white text-gray-900"
+                  }`}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-5 sm:mb-6">
+            <p className="text-sm text-gray-600">
+              Estoque: {product.stock} unidades disponíveis
+            </p>
+          </div>
+
+          <Button
+            onClick={handleAddToCart}
+            disabled={!selectedSize || price <= 0}
+            className="w-full border-2 border-gray-900 bg-gray-900 py-5 sm:py-6 text-sm sm:text-base font-bold uppercase tracking-wide text-white shadow-brutal transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+            size="lg"
+          >
+            {!selectedSize
+              ? "Selecione um tamanho"
+              : price <= 0
+                ? "Produto indisponível"
+                : "Adicionar ao Carrinho"}
+          </Button>
+
+          <div className="mt-6 sm:mt-8 border-t-2 border-gray-200 pt-6 sm:pt-8">
+            <h3 className="mb-3 sm:mb-4 text-xs sm:text-sm font-bold uppercase text-gray-900">
+              Informações do Produto
+            </h3>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>• Envio para todo o Brasil</li>
+              <li>• Envio grátis para Resende e região</li>
+              <li>• 10% OFF no pagamento via PIX</li>
+              <li>• Parcelamento em até 10x sem juros</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {relatedProducts.length > 0 && (
+        <section className="border-t-2 border-gray-900 pt-12 sm:pt-16">
+          <h2 className="mb-6 sm:mb-8 text-2xl sm:text-3xl font-bold uppercase tracking-tight text-gray-900">
+            Produtos Relacionados
+          </h2>
+          <div className="grid gap-4 sm:gap-6 grid-cols-1 xs:grid-cols-2 lg:grid-cols-4">
+            {relatedProducts.map((relatedProduct: Product) => (
+              <ProductCard
+                key={relatedProduct.id}
+                id={relatedProduct.id}
+                name={relatedProduct.name}
+                price={relatedProduct.price}
+                oldPrice={relatedProduct.oldPrice}
+                image={relatedProduct.images?.[0] || "/placeholder.jpg"}
+                category={relatedProduct.category}
+                slug={relatedProduct.slug}
+                isNewDrop={relatedProduct.isNewDrop}
+                sizes={relatedProduct.sizes}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+    </PageLayout>
   );
 }

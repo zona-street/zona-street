@@ -16,6 +16,21 @@ import { Badge } from "@/components/ui/badge";
 import { Package, Loader2, Check, X, ExternalLink, Eye } from "lucide-react";
 import Image from "next/image";
 
+function WhatsAppLink({ phone }: { phone: string }) {
+  const cleanPhone = phone.replace(/\D/g, "");
+  return (
+    <a
+      href={`https://wa.me/55${cleanPhone}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-1 text-sm font-medium text-green-600 hover:text-green-700"
+    >
+      {phone}
+      <ExternalLink className="h-3 w-3" />
+    </a>
+  );
+}
+
 export function AdminOrdersTemplate() {
   const { token } = useAuth();
   const [orders, setOrders] = useState<Order[]>([]);
@@ -108,21 +123,15 @@ export function AdminOrdersTemplate() {
 
     return (
       <Badge
-        className={`border-2 px-3 py-1 text-xs font-bold uppercase tracking-wide shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${styles[status]}`}
+        className={`border-2 px-3 py-1 text-xs font-bold uppercase tracking-wide shadow-brutal-sm ${styles[status]}`}
       >
         {labels[status]}
       </Badge>
     );
   }
 
-  function formatWhatsAppLink(phone: string): string {
-    const cleanPhone = phone.replace(/\D/g, "");
-    return `https://wa.me/55${cleanPhone}`;
-  }
-
   return (
     <div className="space-y-8">
-      {/* Header */}
       <div className="flex items-center justify-between border-b-2 border-gray-900 pb-6">
         <div>
           <h1 className="text-4xl font-black uppercase tracking-tight text-gray-900">
@@ -134,13 +143,12 @@ export function AdminOrdersTemplate() {
         </div>
       </div>
 
-      {/* Tabela de pedidos */}
       {loading ? (
         <div className="flex items-center justify-center py-12">
           <Loader2 className="h-8 w-8 animate-spin text-orange-street" />
         </div>
       ) : orders.length === 0 ? (
-        <div className="border-2 border-gray-200 bg-white p-12 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+        <div className="border-2 border-gray-200 bg-white p-12 text-center shadow-brutal">
           <Package className="mx-auto h-16 w-16 text-gray-400" />
           <h3 className="mt-4 text-lg font-bold uppercase text-gray-900">
             Nenhum pedido encontrado
@@ -151,8 +159,7 @@ export function AdminOrdersTemplate() {
         </div>
       ) : (
         <>
-          {/* Tabela para desktop */}
-          <div className="hidden md:block border-2 border-gray-900 bg-white overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <div className="hidden md:block border-2 border-gray-900 bg-white overflow-hidden shadow-brutal">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="border-b-2 border-gray-900 bg-gray-50">
@@ -202,15 +209,7 @@ export function AdminOrdersTemplate() {
                         )}
                       </td>
                       <td className="px-6 py-4">
-                        <a
-                          href={formatWhatsAppLink(order.customerPhone)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-sm font-medium text-green-600 hover:text-green-700"
-                        >
-                          {order.customerPhone}
-                          <ExternalLink className="h-3 w-3" />
-                        </a>
+                        <WhatsAppLink phone={order.customerPhone} />
                       </td>
                       <td className="px-6 py-4">
                         <p className="text-sm font-bold text-gray-900">
@@ -251,12 +250,11 @@ export function AdminOrdersTemplate() {
             </div>
           </div>
 
-          {/* Cards para mobile */}
           <div className="md:hidden grid gap-4">
             {orders.map((order) => (
               <div
                 key={order.id}
-                className="border-2 border-gray-900 bg-white p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-shadow"
+                className="border-2 border-gray-900 bg-white p-4 shadow-brutal hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-shadow"
               >
                 <div className="flex justify-between items-start mb-3">
                   <div>
@@ -282,15 +280,7 @@ export function AdminOrdersTemplate() {
                         {order.customerEmail}
                       </p>
                     )}
-                    <a
-                      href={formatWhatsAppLink(order.customerPhone)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-sm font-medium text-green-600 hover:text-green-700"
-                    >
-                      {order.customerPhone}
-                      <ExternalLink className="h-3 w-3" />
-                    </a>
+                    <WhatsAppLink phone={order.customerPhone} />
                   </div>
                 </div>
 
@@ -317,9 +307,8 @@ export function AdminOrdersTemplate() {
         </>
       )}
 
-      {/* Dialog de detalhes do pedido */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="w-[95vw] max-w-4xl max-h-[90vh] overflow-y-auto overflow-x-hidden border-2 border-gray-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+        <DialogContent className="w-[95vw] max-w-4xl max-h-[90vh] overflow-y-auto overflow-x-hidden border-2 border-gray-900 shadow-brutal">
           <DialogHeader className="pb-2 sm:pb-6">
             <DialogTitle className="text-lg sm:text-2xl font-black uppercase">
               Detalhes do Pedido
@@ -331,7 +320,6 @@ export function AdminOrdersTemplate() {
 
           {selectedOrder && (
             <div className="space-y-3 sm:space-y-6">
-              {/* Info do pedido */}
               <div className="border-2 border-gray-900 p-3 sm:p-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
@@ -360,17 +348,7 @@ export function AdminOrdersTemplate() {
                     <p className="text-xs font-bold uppercase text-gray-500">
                       WhatsApp
                     </p>
-                    <a
-                      href={formatWhatsAppLink(
-                        selectedOrder.order.customerPhone,
-                      )}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-sm font-medium text-green-600 hover:text-green-700"
-                    >
-                      {selectedOrder.order.customerPhone}
-                      <ExternalLink className="h-3 w-3" />
-                    </a>
+                    <WhatsAppLink phone={selectedOrder.order.customerPhone} />
                   </div>
                 </div>
 
@@ -386,7 +364,6 @@ export function AdminOrdersTemplate() {
                 )}
               </div>
 
-              {/* Itens do pedido */}
               <div>
                 <h3 className="mb-2 sm:mb-3 text-base sm:text-lg font-bold uppercase text-gray-900">
                   Itens do Pedido
@@ -425,7 +402,6 @@ export function AdminOrdersTemplate() {
                   ))}
                 </div>
 
-                {/* Total */}
                 <div className="mt-3 sm:mt-4 border-t-2 border-gray-900 pt-3 sm:pt-4">
                   <div className="flex items-center justify-between">
                     <p className="text-base sm:text-lg font-black uppercase text-gray-900">
@@ -438,13 +414,12 @@ export function AdminOrdersTemplate() {
                 </div>
               </div>
 
-              {/* Ações */}
               {selectedOrder.order.status === "PENDENTE" && (
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2 sm:pt-4">
                   <Button
                     onClick={() => handleValidate(selectedOrder.order.id)}
                     disabled={actionLoading}
-                    className="flex-1 border-2 border-green-600 bg-green-600 font-bold uppercase text-white hover:bg-green-700 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-sm sm:text-base py-2 sm:py-3"
+                    className="flex-1 border-2 border-green-600 bg-green-600 font-bold uppercase text-white hover:bg-green-700 shadow-brutal-sm text-sm sm:text-base py-2 sm:py-3"
                   >
                     {actionLoading ? (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
