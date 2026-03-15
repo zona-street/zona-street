@@ -15,6 +15,7 @@ export function Hero() {
               alt="Wallabee - Identidade Zona Street"
               width={550}
               height={454}
+              priority
               className="h-28 w-auto sm:h-20 md:h-24 lg:h-32 -mb-4 sm:mb-0"
             />
           </div>
@@ -23,6 +24,7 @@ export function Hero() {
             alt="Modelo usando roupas da Zona Street em um cenário urbano"
             width={1109}
             height={768}
+            priority
             className="mx-auto h-auto w-70 sm:w-80 max-w-3xl mb-6 sm:mb-10"
           />
 
